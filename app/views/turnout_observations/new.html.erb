@@ -1,2 +1,4 @@
-
-
+<%= form_for @observation, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+  <%= f.number_field(:count, in: 1..2000, step: 1, required: true, autofocus: true) %>
+  <%= f.submit "Send" %>
+<% end %>
