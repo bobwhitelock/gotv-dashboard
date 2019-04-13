@@ -1,0 +1,14 @@
+
+<%= form_for @work_space do |f| %>
+  <div>
+    <%= f.label :name, 'Name your work space:' %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= label_tag :council, 'Choose your council:' %>
+    <%= select_tag :council, options_for_select(@councils.map {|c, _| [c, c]}) %>
+  </div>
+
+  <%= f.submit 'Create workspace' %>
+<% end %>
