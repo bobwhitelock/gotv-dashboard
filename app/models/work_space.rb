@@ -1,0 +1,2 @@
+class WorkSpace < ApplicationRecord
+end

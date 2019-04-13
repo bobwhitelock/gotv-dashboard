@@ -1,0 +1,2 @@
+class ConfirmedLabourVoterObservation < ApplicationRecord
+end

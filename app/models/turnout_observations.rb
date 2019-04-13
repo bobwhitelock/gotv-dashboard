@@ -1,0 +1,2 @@
+class TurnoutObservation < ApplicationRecord
+end
