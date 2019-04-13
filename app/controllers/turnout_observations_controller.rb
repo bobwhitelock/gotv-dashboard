@@ -1,0 +1,3 @@
+
+class TurnoutObservationsController < ApplicationController
+end
