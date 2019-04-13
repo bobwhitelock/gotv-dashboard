@@ -1,0 +1,14 @@
+
+<p>
+  Work space: <%= @work_space.name %>
+</p>
+
+<p>
+  Polling stations:
+
+  <ul>
+    <% @work_space.polling_stations.each do |ps| %>
+      <li><%= ps.name %></li>
+  <% end %>
+  </ul>
+</p>
