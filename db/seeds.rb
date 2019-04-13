@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+
+workspace = WorkSpace.create!(name: 'York')
+
+
+PollingStation.create!(name: 'York Polling station 1', pre_election_registered_voters: 0, pre_election_labour_promises: 0, work_space: workspace)
+PollingStation.create!(name: 'York Polling station 2', pre_election_registered_voters: 0, pre_election_labour_promises: 0, work_space: workspace)
