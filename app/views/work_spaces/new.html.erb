@@ -7,7 +7,9 @@
 
   <div>
     <%= label_tag :council, 'Choose your council:' %>
-    <%= select_tag :council, options_for_select(@councils.map {|c, _| [c, c]}) %>
+    <%= select_tag :council,
+      options_for_select(@councils.map {|c| [c.name, c.id]})
+    %>
   </div>
 
   <%= f.submit 'Create workspace' %>
