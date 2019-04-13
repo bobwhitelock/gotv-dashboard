@@ -1,0 +1,3 @@
+
+class PollingStationsController < ApplicationController
+end
