@@ -13,13 +13,13 @@
   <div class="container">
     <%= form_for @observation, url: {action: "create"} do |f| %>
       <div class="field">
-        <label class="label">Which polling station are you at?</label>
+        <p class="label">Which polling station are you at?</p>
         <%
           @work_space.polling_stations.each do |station|
         %>
           <div class="control">
             <label class="radio">
-              <%= radio_button_tag(:polling_station, "polling_station", false, required: 'required') %>
+              <%= radio_button_tag(:polling_station, station.id, false, required: 'required') %>
               <%= station.name %>
             </label>
           </div>
@@ -30,7 +30,7 @@
       <div class="field">
         <label class="label">What is the current ballot count there?</label>
         <div class="control">
-          <%= f.number_field(:count, in: 1..2000, step: 1, required: true, autofocus: true, class: "input") %>
+          <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
         </div>
       </div>
       <div class="buttons">

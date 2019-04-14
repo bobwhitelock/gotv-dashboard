@@ -1,16 +1,38 @@
+<section class="hero  is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Setup your workspace for election day</h1>
+      <h2 class="subtitle">
 
-<%= form_for @work_space do |f| %>
-  <div>
-    <%= f.label :name, 'Name your work space:' %>
-    <%= f.text_field :name %>
+      </h2>
+    </div>
   </div>
+</section>
 
-  <div>
-    <%= label_tag :council, 'Choose your council:' %>
-    <%= select_tag :council,
-      options_for_select(@councils.map {|c| [c.name, c.id]})
-    %>
+<section class="section">
+  <div class="container">
+    <%= form_for @work_space do |f| %>
+      <div class="field">
+        <label class="label">Choose a name for your workspace</label>
+        <div class="control">
+          <%= f.text_field :name, class: 'input', placeholder: 'eg York Central 2019 Local Elections' %>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Import polling station list for:</label>
+        <div class="control select">
+          <%= select_tag :council,
+                         options_for_select(@councils.map {|c| [c.name, c.id]})
+          %>
+        </div>
+      </div>
+
+      <div class="buttons">
+        <%= f.submit "Create workspace", class: 'button is-primary' %>
+      </div>
+    <% end %>
+
   </div>
+</section>
 
-  <%= f.submit 'Create workspace' %>
-<% end %>

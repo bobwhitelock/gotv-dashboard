@@ -1,14 +1,51 @@
+<section class="notification is-primary  is-bold">
+  <div class="container">
+    <p class="title">
+      <%= @work_space.name %>
+    </p>
+    <p class="subtitle">
 
-<p>
-  Work space: <%= @work_space.name %>
-</p>
+    </p>
+  </div>
+</section>
 
-<p>
-  Polling stations:
+<section class="section">
+  <div class="content">
+    <p>Share this link so volunteers can record ballot counts</p>
+    <div class="field has-addons">
+      <p class="control is-fullwidth is-block is-flex">
+        <input
+          id="workspace_url"
+          class="input is-block is-flex"
+          readonly
+          type="text"
+          value="<%= new_work_space_turnout_observation_url(@work_space) %>"
+        >
+      </p>
+      <p class="control">
+        <script type="application/javascript">
+          function copyWorkspaceUrl() {
+            var copyText = document.getElementById("workspace_url");
+            copyText.select();
+            document.execCommand("copy");
+          }
+        </script>
+        <a class="button" onclick="copyWorkspaceUrl()">
+          Copy
+        </a>
+      </p>
+    </div>
 
-  <ul>
-    <% @work_space.polling_stations.each do |ps| %>
-      <li><%= ps.name %></li>
-  <% end %>
-  </ul>
-</p>
+    <p>
+      Polling stations:
+    </p>
+
+    <ul>
+      <% @work_space.polling_stations.each do |ps| %>
+        <li><%= ps.name %></li>
+      <% end %>
+    </ul>
+
+  </div>
+</section>
+
