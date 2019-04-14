@@ -1,0 +1,20 @@
+<section class="notification is-primary  is-bold">
+  <div class="container">
+    <p class="title">
+      Thank you.
+    </p>
+    <p class="subtitle">
+      Your committee room received the count for '<%= @observation.polling_station.name %>'.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="content">
+    <p>When you pass a polling station</p>
+    <p class="buttons is-centered">
+      <%= link_to('Send another count', new_work_space_turnout_observation_path(@work_space), class: 'button') %>
+    </p>
+    <p>You can also send counts for the same polling station. It is useful for the committee room to get ballot counts from each polling stations about once an hour.</p>
+  </div>
+</section>

@@ -9,7 +9,13 @@ class TurnoutObservationsController < ApplicationController
   end
 
   def new
+    @work_space = WorkSpace.find(params[:work_space_id])
     @observation = TurnoutObservation.new
+  end
+
+  def show
+    @observation = TurnoutObservation.find(params[:id])
+    @work_space = @observation.polling_station.work_space
   end
 
   private
