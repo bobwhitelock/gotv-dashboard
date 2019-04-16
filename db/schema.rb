@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_13_163859) do
+ActiveRecord::Schema.define(version: 2019_04_19_134415) do
 
   create_table "confirmed_labour_voters_observations", force: :cascade do |t|
     t.integer "count", null: false
@@ -20,14 +20,22 @@ ActiveRecord::Schema.define(version: 2019_04_13_163859) do
     t.index ["polling_station_id"], name: "index_clvo_on_polling_station_id"
   end
 
+  create_table "councils", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+  end
+
   create_table "polling_stations", force: :cascade do |t|
     t.string "name", null: false
     t.integer "pre_election_registered_voters", null: false
     t.integer "pre_election_labour_promises", null: false
-    t.integer "work_space_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["work_space_id"], name: "index_polling_stations_on_work_space_id"
+    t.string "postcode"
+    t.integer "ward_id"
+    t.integer "council_id"
+    t.index ["council_id"], name: "index_polling_stations_on_council_id"
+    t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end
 
   create_table "turnout_observations", force: :cascade do |t|
@@ -35,7 +43,16 @@ ActiveRecord::Schema.define(version: 2019_04_13_163859) do
     t.integer "polling_station_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "work_spaces_id"
     t.index ["polling_station_id"], name: "index_turnout_observations_on_polling_station_id"
+    t.index ["work_spaces_id"], name: "index_turnout_observations_on_work_spaces_id"
+  end
+
+  create_table "wards", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.integer "council_id"
+    t.index ["council_id"], name: "index_wards_on_council_id"
   end
 
   create_table "work_spaces", force: :cascade do |t|

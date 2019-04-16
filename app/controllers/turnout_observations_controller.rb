@@ -2,7 +2,6 @@
 class TurnoutObservationsController < ApplicationController
 
   def create
-    # @observation = TurnoutObservation.create(turnout_params)
     observation = TurnoutObservation.create!(turnout_params)
 
     redirect_to turnout_observation_path(observation)
@@ -20,6 +19,8 @@ class TurnoutObservationsController < ApplicationController
 
   private
   def turnout_params
-    params.require(:turnout_observation).permit(:count)
+    params
+        .require(:turnout_observation)
+        .permit(:count,:polling_station, :work_space_id)
   end
 end
