@@ -7,16 +7,24 @@
   </div>
 </section>
 <section class="section">
-  <div class="content">
-    <p>
-      Polling stations:
-    </p>
+  <div class="columns">
 
-    <ul>
-      <% @work_space.polling_stations.each do |ps| %>
-        <li><%= ps.name %></li>
-      <% end %>
-    </ul>
+    <div class="column  is-narrow">
+      <%= render partial: 'shared/admin_menu',  locals: { work_space_id: @work_space.id }%>
+    </div>
+    <div class="column content">
+      <p>
+        Polling stations:
+      </p>
+
+      <ul>
+        <% @work_space.polling_stations.each do |ps| %>
+          <li><%= ps.name %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
+
+
 </section>
 
