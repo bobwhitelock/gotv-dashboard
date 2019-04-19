@@ -2,7 +2,7 @@
 require 'open-uri'
 require 'json'
 
-Council = Struct.new(:id, :name, :email)
+# Council = Struct.new(:id, :name, :email)
 
 AvailablePollingStation = Struct.new(:station_id, :address)
 
@@ -11,24 +11,21 @@ class WorkSpacesController < ApplicationController
     @work_space = WorkSpace.find(params[:id])
   end
 
+  def start
+    @councils = Council.all.sort_by(&:name)
+  end
+
   def new
-    @work_space = WorkSpace.new
-    @councils = councils
+    council = Council.find(params[:council_id])
+    @wards = council.wards.sort_by { |w| w.name or 'z' }.compact
+    default_name = "#{council.name} #{Time.current.year.to_s} Elections"
+    @work_space = WorkSpace.new({ :name => default_name })
   end
 
   def create
     @work_space = WorkSpace.create!(work_space_params)
-
-    council_polling_stations = council_ids_with_polling_stations[params[:council]]
-    council_polling_stations.each do |ps|
-      PollingStation.create!(
-        work_space: @work_space,
-        name: ps[:address],
-        # XXX Make these use real figures.
-        pre_election_registered_voters: 0,
-        pre_election_labour_promises: 0
-      )
-    end
+    @work_space.polling_stations = PollingStation.where(ward_id: params[:wards])
+    @work_space.save!
 
     redirect_to @work_space
   end

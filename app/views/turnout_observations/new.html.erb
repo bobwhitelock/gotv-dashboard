@@ -15,11 +15,11 @@
       <div class="field">
         <p class="label">Which polling station are you at?</p>
         <%
-          @work_space.polling_stations.each do |station|
+          @polling_stations.each do |station|
         %>
           <div class="control">
             <label class="radio">
-              <%= radio_button_tag(:polling_station_id, station.id, false, required: 'required') %>
+              <%= f.radio_button(:polling_station_id, station.id, required: true) %>
               <%= station.name %>
             </label>
           </div>

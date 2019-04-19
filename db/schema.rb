@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_134415) do
+ActiveRecord::Schema.define(version: 2019_04_19_175543) do
 
   create_table "confirmed_labour_voters_observations", force: :cascade do |t|
     t.integer "count", null: false
@@ -38,14 +38,19 @@ ActiveRecord::Schema.define(version: 2019_04_19_134415) do
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end
 
+  create_table "polling_stations_work_spaces", id: false, force: :cascade do |t|
+    t.integer "work_space_id", null: false
+    t.integer "polling_station_id", null: false
+  end
+
   create_table "turnout_observations", force: :cascade do |t|
     t.integer "count", null: false
     t.integer "polling_station_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "work_spaces_id"
+    t.integer "work_space_id"
     t.index ["polling_station_id"], name: "index_turnout_observations_on_polling_station_id"
-    t.index ["work_spaces_id"], name: "index_turnout_observations_on_work_spaces_id"
+    t.index ["work_space_id"], name: "index_turnout_observations_on_work_space_id"
   end
 
   create_table "wards", force: :cascade do |t|
@@ -59,6 +64,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_134415) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email"
   end
 
 end

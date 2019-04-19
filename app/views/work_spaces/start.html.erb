@@ -1,0 +1,24 @@
+<section class="hero  is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">Get the Vote Out</h1>
+      <h2 class="subtitle">
+        Create a workspace for your committee room
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="field">
+      <label class="label">Choose your council to setup a workspace:</label>
+      <ol class="control ">
+        <% @councils.map do |c|  %>
+          <li><a href="/work_spaces/new?council_id=<%= c.id %>"><%= c.name %></a></li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+</section>
+

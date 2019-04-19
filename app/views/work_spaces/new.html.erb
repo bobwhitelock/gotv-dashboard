@@ -12,27 +12,42 @@
 <section class="section">
   <div class="container">
     <%= form_for @work_space do |f| %>
+      <%= f.hidden_field(:name) %>
       <div class="field">
-        <label class="label">Choose a name for your workspace</label>
+        <p class="label">
+          Which wards are you covering <small class="content is-small">
+          (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
+          <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
+        </small></p>
         <div class="control">
-          <%= f.text_field :name, class: 'input', placeholder: 'eg York Central 2019 Local Elections' %>
+          <% @wards.each_slice(4)  do |row| %>
+            <div class="columns is-marginless">
+              <% row.each do |ward| %>
+                <div class="column is-paddingless">
+                  <label class=" checkbox">
+                    <%= check_box_tag "wards[]", ward.id, false %>
+                    <%= ward.name %>
+                  </label>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
-
       <div class="field">
-        <label class="label">Import polling station list for:</label>
-        <div class="control select">
-          <%= select_tag :council,
-                         options_for_select(@councils.map {|c| [c.name, c.id]})
-          %>
+        <label class="label">Your email address:
+        <div class="control">
+          <%= f.email_field :email, class: 'input', required: true, placeholder: '' %>
         </div>
+        </label>
+        <p class="content is-small"><strong>REQUIRED</strong>: We'll send you an access code to keep your workspace private.</p>
       </div>
 
       <div class="buttons">
         <%= f.submit "Create workspace", class: 'button is-primary' %>
       </div>
-    <% end %>
 
   </div>
+  <% end %>
 </section>
 
