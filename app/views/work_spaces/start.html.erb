@@ -9,15 +9,57 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
+<section class="section level">
+  <div class="container level-item">
     <div class="field">
-      <label class="label">Choose your council to setup a workspace:</label>
-      <ol class="control ">
-        <% @councils.map do |c|  %>
-          <li><a href="/work_spaces/new?council_id=<%= c.id %>"><%= c.name %></a></li>
-        <% end %>
-      </ol>
+      <label class="label is-large ">Choose your council to setup a workspace:</label>
+
+      <div id="council-search" class="control">
+        <input  class="input is-large typeahead" type="text" autofocus placeholder="York">
+      </div>
+
+      <style>
+        .tt-cursor {
+          background: black;
+          color: white;
+        }
+        .tt-cursor .tt-highlight {
+          color: #eee;
+        }
+      </style>
+      <% content_for :head_js do %>
+        <%= javascript_include_tag 'jquery'  %>
+        <%= javascript_include_tag 'jquery_ujs' %>
+        <%= javascript_include_tag 'typeahead.bundle.min.js' %>
+      <% end %>
+
+      <script>
+         (function () {
+          var councils = <%= raw(@councils.to_json) %>;
+          var dataSource = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: councils
+          });
+
+          $('#council-search .typeahead').typeahead({
+              hint: true,
+              highlight: true,
+              minLength: 1,
+              classNames: {
+                menu: 'dropdown-menu dropdown-content',
+                suggestion: 'dropdown-item',
+              },
+            },
+            {
+              display: 'name',
+              name: 'councils',
+              source: dataSource,
+            }).bind('typeahead:select', function(ev, suggestion) {
+            window.location = '/work_spaces/new?council_id='+suggestion.id;
+          });
+        })()
+      </script>
     </div>
   </div>
 </section>
