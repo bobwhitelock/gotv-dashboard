@@ -1,30 +1,28 @@
-<section class="notification is-primary  is-bold level">
-  <div class="level-left ">
-    <h1 class="title "><%= @work_space.name %></h1>
-  </div>
-  <div class="level-right">
-    <%= render 'shared/invite_btn' %>
+<%= render partial: 'shared/admin_menu',  locals: { work_space_id: @work_space.id }%>
+<section class="section has-background-white-ter  is-bold " style="border-bottom: 1px solid #ccc;">
+  <div class="level container">
+    <div class="">
+      <h1 class="title "><%= @work_space.name %></h1>
+      <p class="subtitle">
+        Dashboard
+      </p>
+    </div>
+    <div class="level-right">
+      <%= render 'shared/invite_btn' %>
+    </div>
   </div>
 </section>
-<section class="section">
-  <div class="columns">
+<section class="section ">
+  <div class="container content">
+    <p>
+      Polling stations:
+    </p>
 
-    <div class="column  is-narrow">
-      <%= render partial: 'shared/admin_menu',  locals: { work_space_id: @work_space.id }%>
-    </div>
-    <div class="column content">
-      <p>
-        Polling stations:
-      </p>
-
-      <ul>
-        <% @work_space.polling_stations.each do |ps| %>
-          <li><%= ps.name %></li>
-        <% end %>
-      </ul>
-    </div>
+    <ul>
+      <% @work_space.polling_stations.each do |ps| %>
+        <li><%= ps.name %></li>
+      <% end %>
+    </ul>
   </div>
-
-
 </section>
 
