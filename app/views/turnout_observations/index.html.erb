@@ -1,15 +1,13 @@
 
+<%= render partial: 'shared/admin_menu',  locals: { work_space_id: @work_space.id }%>
 
-<section class="section has-background-primary is-bold ">
-  <div class="container level  ">
+<section class="section has-background-white-ter  is-bold " style="border-bottom: 1px solid #ccc;">
+  <div class="level container">
     <div class="">
-      <p class="title has-text-white ">
-        <%= @work_space.name %>
-      </p>
-      <p class="subtitle has-text-white ">
+      <h1 class="title "><%= @work_space.name %></h1>
+      <p class="subtitle">
         Ballot Count Observations
       </p>
-
     </div>
     <div class="level-right">
       <%= render 'shared/invite_btn' %>
@@ -18,45 +16,36 @@
 </section>
 
 
-<section class="section">
-  <div class="columns">
+<section class="section ">
+  <div class="container content">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Polling Station</th>
+        <th>Time</th>
+        <!--        <th>Name</th>-->
+        <th>Count</th>
+      </tr>
+      </thead>
+      <tbody>
 
-    <div class="column  is-narrow">
-      <%= render partial: 'shared/admin_menu',  locals: { work_space_id: @work_space.id }%>
-    </div>
-    <div class="column content">
-      <section class="section">
-        <div class="content">
-          <table class="table">
-            <thead>
-            <tr>
-              <th>Polling Station</th>
-              <th>Time</th>
-              <!--        <th>Name</th>-->
-              <th>Count</th>
-            </tr>
-            </thead>
-            <tbody>
+      <% @observations.each do |observation| %>
+        <tr>
+          <th>
+            <abbr title="<%= observation.polling_station.name %>"><%= h truncate(observation.polling_station.name, :length => 40) %></abbr>
+          </th>
+          <td>
+            <time datetime="<%= observation.created_at.iso8601 %>">
+              <%= observation.created_at.strftime("%I:%M %p") %></time>
+            <%= "(#{distance_of_time_in_words_to_now(observation.created_at)} ago)" unless observation.created_at.today? %>
+          </td>
+          <!--        <td><%#= volunteerName %></td>-->
+          <td><%= observation.count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
 
-            <% @observations.each do |observation| %>
-              <tr>
-                <th><abbr title="<%= observation.polling_station.name %>"><%=h truncate(observation.polling_station.name, :length => 40) %></abbr></th>
-                <td>
-                  <time datetime="<%= observation.created_at.iso8601 %>">
-                    <%= observation.created_at.strftime("%I:%M %p") %></time>
-                  <%= "(#{distance_of_time_in_words_to_now(observation.created_at)} ago)" unless observation.created_at.today? %>
-                </td>
-                <!--        <td><%#= volunteerName %></td>-->
-                <td><%= observation.count %></td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-
-        </div>
-      </section>
   </div>
-
-
 </section>
 

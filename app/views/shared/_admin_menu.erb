@@ -1,9 +1,35 @@
-<aside class="menu">
-  <p class="menu-label">
-    Workspace
-  </p>
-  <ul class="menu-list">
-      <li><a href="<%= work_space_path(work_space_id) %>">Dashboard</a></li>
-      <li><a href="<%= work_space_path(work_space_id) %>/turnout_observations">Raw Data</a></li>
-  </ul>
-</aside>
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="https://bulma.io">
+    </a>
+
+    <a role="button" class="navbar-burger burger has-background-primary" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu has-background-primary ">
+    <div class="navbar-start">
+      <a class="navbar-item has-text-white" href="<%= work_space_path(work_space_id) %>">Dashboard</a>
+      <a class="navbar-item has-text-white" href="<%= work_space_path(work_space_id) %>/turnout_observations">Raw Data</a>
+
+    <div class="navbar-end">
+
+    </div>
+  </div>
+</nav>
+<script type="application/javascript">
+  (function () {
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+      });
+    });
+  })()
+</script>
