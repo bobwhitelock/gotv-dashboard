@@ -6,3 +6,8 @@ $primary: $labour-pink;
 html {
   font-size: 120%;
 }
+
+abbr {
+  // Remove default underline added by some browsers, which looks odd.
+  text-decoration: none;
+}
