@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_19_175543) do
+ActiveRecord::Schema.define(version: 2019_04_24_153345) do
 
   create_table "confirmed_labour_voters_observations", force: :cascade do |t|
     t.integer "count", null: false
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_04_19_175543) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
+    t.string "identifier", null: false
   end
 
 end

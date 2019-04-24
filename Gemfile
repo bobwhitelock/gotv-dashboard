@@ -35,6 +35,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem "bulma-rails", "~> 0.7.4"
 gem 'postcodes_io'
 gem 'jquery-rails'
+gem 'xkpassword'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -8,7 +8,7 @@ class TurnoutObservationsController < ApplicationController
   end
 
   def new
-    @work_space = WorkSpace.find(params[:work_space_id])
+    @work_space = find_work_space
     @polling_stations = @work_space.polling_stations.sort_by {|station| station.name}
     @observation = TurnoutObservation.new
     @observation.work_space = @work_space
@@ -20,15 +20,25 @@ class TurnoutObservationsController < ApplicationController
   end
 
   def index
-    @work_space = WorkSpace.find(params[:work_space_id])
-
+    @work_space = find_work_space
     @observations = @work_space.turnout_observations
   end
 
   private
+
   def turnout_params
-    request_params = params.permit(:work_space_id, :turnout_observation => [ :count, :polling_station_id])
-    private_params = {:work_space_id => request_params[:work_space_id]} # get this from the session
-    request_params[:turnout_observation].merge(private_params)
+    params.require(:turnout_observation).permit(
+      [:count, :polling_station_id]
+    ).merge(
+      # `work_space_id` is the foreign key but we use the `identifier` for the
+      # WorkSpace in the URL (for secure obfuscation), therefore find the
+      # WorkSpace from the `identifier` and then merge in the `id` for this
+      # instead.
+      work_space_id: find_work_space.id
+    )
+  end
+
+  def find_work_space
+    WorkSpace.find_by_identifier!(params[:work_space_id])
   end
 end

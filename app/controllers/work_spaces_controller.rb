@@ -8,7 +8,7 @@ AvailablePollingStation = Struct.new(:station_id, :address)
 
 class WorkSpacesController < ApplicationController
   def show
-    @work_space = WorkSpace.find(params[:id])
+    @work_space = WorkSpace.find_by_identifier!(params[:id])
   end
 
   def start
