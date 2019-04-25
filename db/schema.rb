@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_25_222847) do
+ActiveRecord::Schema.define(version: 2019_04_25_230736) do
 
   create_table "confirmed_labour_voter_observations", force: :cascade do |t|
     t.integer "count", null: false
