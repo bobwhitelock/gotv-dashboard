@@ -56,7 +56,7 @@
               name: 'councils',
               source: dataSource,
             }).bind('typeahead:select', function(ev, suggestion) {
-            window.location = '/work_spaces/new?council_id='+suggestion.id;
+            window.location = '<%= new_work_space_path %>'+'?council_id='+suggestion.id;
           });
         })()
       </script>
