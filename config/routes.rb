@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  get '/', to: 'work_spaces#start'
-  resources :work_spaces, only: [:new, :create, :show] do
-    resources :turnout_observations, only: [:new, :create, :index]
+  root 'work_spaces#start'
+
+  resources :work_spaces,
+    path: 'space',
+    only: [:new, :create, :show] do
+    # All URLs for a work space should be nested under here, to both indicate
+    # the work space each is for and for security (as the root URL for each
+    # work space is secret).
+
+    resources :turnout_observations,
+      path: 'turnout',
+      only: [:new, :create, :index, :show]
   end
-  resources :turnout_observations, only: [:show]
 end

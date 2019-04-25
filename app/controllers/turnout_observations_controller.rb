@@ -4,7 +4,7 @@ class TurnoutObservationsController < ApplicationController
   def create
     observation = TurnoutObservation.create!(turnout_params)
 
-    redirect_to turnout_observation_path(observation)
+    redirect_to work_space_turnout_observation_path(observation.work_space, observation)
   end
 
   def new
