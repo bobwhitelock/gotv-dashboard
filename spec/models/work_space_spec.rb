@@ -9,9 +9,7 @@ RSpec.describe WorkSpace do
         polling_stations: [polling_station],
       )
     end
-    let :polling_station do
-      create(:polling_station, name: '10 Downing Street')
-    end
+    let (:polling_station) { create(:polling_station) }
 
     it 'gives most recent turnout observation for each polling station' do
       another_observation = create(
