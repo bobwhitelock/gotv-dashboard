@@ -12,17 +12,40 @@
     </div>
   </div>
 </section>
+
 <section class="section ">
   <div class="container content">
-    <p>
-      Polling stations:
-    </p>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Polling Station</th>
+        <th>Turnout</th>
+      </tr>
+      </thead>
+      <tbody>
 
-    <ul>
-      <% @work_space.polling_stations.each do |ps| %>
-        <li><%= ps.name %></li>
+      <% @work_space.latest_observations.each do |o| %>
+        <% polling_station = o.polling_station
+           turnout_observation = o.turnout_observation
+        %>
+        <tr>
+          <td><%= polling_station.name %></td>
+          <td>
+            <%= turnout_observation.count %>
+            <i>
+              <% if turnout_observation.created_at %>
+                at
+                  <time datetime="<%= turnout_observation.created_at.iso8601 %>">
+                    <%= turnout_observation.created_at.strftime("%I:%M %p") %>
+                  </time>
+              <% else %>
+                (not yet observed)
+              <% end %>
+            </i>
+          </td>
+        </tr>
       <% end %>
-    </ul>
+      </tbody>
+    </table>
   </div>
 </section>
-
