@@ -17,7 +17,7 @@ class WorkSpace < ApplicationRecord
         polling_station: ps,
         turnout_observation: most_recent_observation
       )
-    end
+    end.sort_by { |o| o.turnout_observation.turnout_proportion }
   end
 
   private

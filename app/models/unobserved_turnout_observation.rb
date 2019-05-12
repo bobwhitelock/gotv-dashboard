@@ -6,4 +6,8 @@ class UnobservedTurnoutObservation
   def count
     0
   end
+
+  def turnout_proportion
+    0
+  end
 end

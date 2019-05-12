@@ -20,6 +20,7 @@
       <tr>
         <th>Polling Station</th>
         <th>Turnout</th>
+        <th>Proportion of Registered Voters Turned Out</th>
       </tr>
       </thead>
       <tbody>
@@ -29,8 +30,8 @@
            turnout_observation = o.turnout_observation
         %>
         <tr>
-          <td><%= polling_station.name %></td>
-          <td>
+          <td width="40%"><%= polling_station.name %></td>
+          <td width="20%">
             <%= turnout_observation.count %>
             <i>
               <% if turnout_observation.created_at %>
@@ -42,6 +43,16 @@
                 (not yet observed)
               <% end %>
             </i>
+          </td>
+          <td width="50%">
+            <% if polling_station.pre_election_registered_voters > 0 %>
+              <%= number_to_percentage(
+                turnout_observation.turnout_proportion * 100,
+                precision: 1
+              ) %>
+            <% else %>
+              <i>Registered voters unknown</i>
+            <% end %>
           </td>
         </tr>
       <% end %>

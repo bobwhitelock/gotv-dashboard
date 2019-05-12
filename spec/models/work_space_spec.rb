@@ -44,5 +44,36 @@ RSpec.describe WorkSpace do
       expect(first_entry.turnout_observation.count).to eq(0)
       expect(first_entry.turnout_observation.created_at).to be_nil
     end
+
+    # XXX Not sure if this is the best ordering.
+    it 'orders observations from lowest to highest turnout' do
+      high_expected_turnout_ps =
+        create(:polling_station, pre_election_registered_voters: 200, name: 'High')
+      low_expected_turnout_ps =
+        create(:polling_station, pre_election_registered_voters: 100, name: 'Low')
+      medium_expected_turnout_ps =
+        create(:polling_station, pre_election_registered_voters: 100, name: 'Medium')
+      turnout_observations = [
+        create(:turnout_observation, count: 150, polling_station: high_expected_turnout_ps),
+        create(:turnout_observation, count: 20, polling_station: low_expected_turnout_ps),
+        create(:turnout_observation, count: 50, polling_station: medium_expected_turnout_ps),
+      ]
+      work_space = create(
+        :work_space,
+        polling_stations: [
+          high_expected_turnout_ps,
+          low_expected_turnout_ps,
+          medium_expected_turnout_ps,
+        ],
+        turnout_observations: turnout_observations,
+      )
+
+      data = work_space.latest_observations
+      ordered_polling_station_names = data.map { |o| o.polling_station.name }
+
+      expect(ordered_polling_station_names).to eq([
+        'Low', 'Medium', 'High'
+      ])
+    end
   end
 end
