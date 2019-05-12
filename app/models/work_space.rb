@@ -8,9 +8,28 @@ class WorkSpace < ApplicationRecord
     self.identifier
   end
 
+  def latest_observations
+    polling_stations.map do |ps|
+      most_recent_observation = \
+        most_recent_observation_for(ps) || UnobservedTurnoutObservation.new
+
+      OpenStruct.new(
+        polling_station: ps,
+        turnout_observation: most_recent_observation
+      )
+    end.sort_by { |o| o.turnout_observation.turnout_proportion }
+  end
+
   private
 
   def create_identifier
     self.identifier = XKPassword.generate.downcase
+  end
+
+  def most_recent_observation_for(polling_station)
+    self.turnout_observations
+      .where(polling_station: polling_station)
+      .order(created_at: :desc)
+      .limit(1).first
   end
 end
