@@ -32,7 +32,9 @@
         <tr>
           <td width="40%"><%= polling_station.name %></td>
           <td width="20%">
-            <%= turnout_observation.count %>
+            <strong>
+              <%= turnout_observation.count %>
+            </strong>
             <i>
               <% if turnout_observation.created_at %>
                 at
@@ -46,10 +48,12 @@
           </td>
           <td width="50%">
             <% if polling_station.pre_election_registered_voters > 0 %>
-              <%= number_to_percentage(
-                turnout_observation.turnout_proportion * 100,
-                precision: 1
-              ) %>
+              <strong>
+                <%= number_to_percentage(
+                  turnout_observation.turnout_proportion * 100,
+                  precision: 1
+                ) %>
+              </strong>
             <% else %>
               <i>Registered voters unknown</i>
             <% end %>
