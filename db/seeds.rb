@@ -45,9 +45,14 @@ def add_administrative_areas(stations)
 end
 
 
-compact = find_polling_stations("E06000014").compact
-puts compact.length
-stations = add_administrative_areas(compact)
+# XXX Currently just finding polling stations for 1 council (this is
+# Canterbury) - update to find all.
+stations = find_polling_stations('E07000106').compact
+if stations.empty?
+  abort "No polling stations found - check #{__FILE__}"
+end
+puts stations.length
+stations = add_administrative_areas(stations)
 
 
 puts stations
