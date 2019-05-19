@@ -27,11 +27,15 @@ def find_administrative_areas(postcodes)
   pio.lookup(postcodes).each_with_object(Hash.new(no_detail_by_default)) do |result, memo|
     # a couple of postcode don't seem to be found eg YO1 0RL and Y01 9TL (note zero)
     unless result.info.nil?
+      ward_code = result.codes['admin_ward']
+      ward_name = result.admin_ward
+      constituency_code = result.codes['parliamentary_constituency']
+      constituency_name = result.parliamentary_constituency
       memo[result.postcode] = {
-          :ward_code => result.codes['admin_ward'],
-          :ward_name => result.admin_ward,
-          :parliamentary_constituency_code => result.codes['parliamentary_constituency'],
-          :parliamentary_constituency_name => result.parliamentary_constituency,
+        ward_code: ward_code,
+        ward_name: ward_name,
+        parliamentary_constituency_code: constituency_code,
+        parliamentary_constituency_name: constituency_name,
       }
     end
   end
