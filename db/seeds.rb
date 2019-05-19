@@ -41,7 +41,22 @@ end
 def add_administrative_areas(stations)
   good_postcodes = stations.map {|station| station['postcode']}.compact # eg '2nd Haxby & Wigginton Scout HQ, 9 York Road, Haxby', 'Mobile Unit, White Swan car park, York Road, Deighton' or 'Y032 9FY' (note zero instead of O)
   administrative_areas_hash = find_administrative_areas(good_postcodes)
-  stations.map { |station| station.merge( administrative_areas_hash[station['postcode']]) }
+  stations.map do |station|
+    # Can't find the area for some stations (possibly due to postcode issue
+    # above?) so just associate these with a placeholder 'Unknown Ward' - XXX
+    # handle this better
+    area = administrative_areas_hash.fetch(station['postcode'], unknown_ward)
+    station.merge(area)
+  end
+end
+
+def unknown_ward
+  {
+    ward_code: 'unknown',
+    ward_name: 'Unknown Ward',
+    parliamentary_constituency_code: 'unknown',
+    parliamentary_constituency_name: 'Unknown Constituency',
+  }
 end
 
 
