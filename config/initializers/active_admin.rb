@@ -150,7 +150,16 @@ ActiveAdmin.setup do |config|
   # You can add before, after and around filters to all of your
   # Active Admin resources and pages from here.
   #
-  # config.before_action :do_something_awesome
+  config.before_action do
+    # If password is set in environment, that password must be given; if no
+    # password is set, cannot access admin dashboard.
+    authenticate_or_request_with_http_basic do |name, password|
+      dashboard_password = ENV['GOTV_DASHBOARD_PASSWORD']
+      if dashboard_password
+        name == 'admin' && password == dashboard_password
+      end
+    end
+  end
 
   # == Attribute Filters
   #
