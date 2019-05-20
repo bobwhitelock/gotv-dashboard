@@ -1,0 +1,3 @@
+
+ActiveAdmin.register ConfirmedLabourVoterObservation do
+end
