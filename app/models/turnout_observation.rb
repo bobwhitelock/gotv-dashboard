@@ -18,7 +18,7 @@ class TurnoutObservation < ApplicationRecord
   def past_counts
     self.audits
       .map { |a| a.audited_changes['count'] }
-      .select { |c| c.respond_to?(:length) } # Audit involves Account change <=> `count` value will be an array.
+      .select { |c| c.respond_to?(:length) } # Audit involves `count` change <=> `count` value will be an array.
       .map(&:first) # First entry in array is the original `count` value pre-change.
       .reverse
   end
