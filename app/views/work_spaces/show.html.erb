@@ -15,49 +15,70 @@
 
 <section class="section ">
   <div class="container content">
-    <table class="table is-striped">
+    <table class="table is-striped is-narrow is-fullwidth">
       <thead>
       <tr>
-        <th>Ward</th>
         <th>Polling Station</th>
+        <th>Labour promises / Registered voters</th>
         <th>Turnout</th>
-        <th>Proportion of Registered Voters Turned Out</th>
+        <th>Turnout percentage</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody class="is-size-7">
 
       <% @work_space.latest_observations.each do |o| %>
         <% polling_station = o.polling_station
            turnout_observation = o.turnout_observation
         %>
         <tr>
-          <td width="20%"><%= polling_station.ward.name %></td>
-          <td width="30%"><%= polling_station.name %></td>
           <td width="20%">
-            <strong>
+            <p class="is-marginless">
+              <%= polling_station.name %>
+            </p>
+            <p class="is-uppercase has-text-primary">
+              <%= polling_station.ward.name %>
+            </p>
+          </td>
+
+          <td width="20%">
+            <span class="is-size-6">
+              <%= polling_station.pre_election_labour_promises %>
+            </span>
+            promises /
+            <span class="is-size-6">
+              <%= polling_station.pre_election_registered_voters %>
+            </span>
+            voters
+          </td>
+
+          <td width="10%">
+            <span class="is-size-6 has-text-weight-bold">
               <%= turnout_observation.count %>
-            </strong>
-            <i>
+            </span>
+            <span class="is-italic">
               <% if turnout_observation.created_at %>
                 at
-                  <time datetime="<%= turnout_observation.created_at.iso8601 %>">
-                    <%= turnout_observation.created_at.strftime("%I:%M %p") %>
-                  </time>
-              <% else %>
+              <time datetime="<%= turnout_observation.created_at.iso8601 %>">
+                <%= turnout_observation.created_at.strftime("%I:%M %p") %>
+              </time>
+            <% else %>
                 (not yet observed)
-              <% end %>
-            </i>
+            <% end %>
+            </span>
           </td>
-          <td width="30%">
+
+          <td width="10%">
             <% if polling_station.pre_election_registered_voters > 0 %>
-              <strong>
+              <span class="is-size-6 has-text-weight-bold">
                 <%= number_to_percentage(
                   turnout_observation.turnout_proportion * 100,
                   precision: 1
                 ) %>
-              </strong>
+              </span>
             <% else %>
-              <i>Registered voters unknown</i>
+              <span class="is-italic">
+                Registered voters unknown
+              </span>
             <% end %>
           </td>
         </tr>
