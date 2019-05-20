@@ -31,9 +31,7 @@
 
       <% @observations.each do |observation| %>
         <tr>
-          <th>
-            <abbr title="<%= observation.polling_station.name %>"><%= h truncate(observation.polling_station.name, :length => 40) %></abbr>
-          </th>
+          <td><%= observation.polling_station.name %> </td>
           <td>
             <time datetime="<%= observation.created_at.iso8601 %>">
               <%= observation.created_at.strftime("%I:%M %p") %></time>
