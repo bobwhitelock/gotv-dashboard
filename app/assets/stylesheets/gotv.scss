@@ -11,3 +11,13 @@ abbr {
   // Remove default underline added by some browsers, which looks odd.
   text-decoration: none;
 }
+
+.past-counts-list {
+  margin: 0 !important;
+  text-decoration: line-through;
+  opacity: 0.8;
+
+  li {
+    list-style: none;
+  }
+}
