@@ -18,6 +18,7 @@
     <table class="table is-striped">
       <thead>
       <tr>
+        <th>Ward</th>
         <th>Polling Station</th>
         <th>Turnout</th>
         <th>Proportion of Registered Voters Turned Out</th>
@@ -30,7 +31,8 @@
            turnout_observation = o.turnout_observation
         %>
         <tr>
-          <td width="40%"><%= polling_station.name %></td>
+          <td width="20%"><%= polling_station.ward.name %></td>
+          <td width="30%"><%= polling_station.name %></td>
           <td width="20%">
             <strong>
               <%= turnout_observation.count %>
@@ -46,7 +48,7 @@
               <% end %>
             </i>
           </td>
-          <td width="50%">
+          <td width="30%">
             <% if polling_station.pre_election_registered_voters > 0 %>
               <strong>
                 <%= number_to_percentage(

@@ -21,6 +21,7 @@
     <table class="table is-striped">
       <thead>
       <tr>
+        <th>Ward</th>
         <th>Polling Station</th>
         <th>Time</th>
         <!--        <th>Name</th>-->
@@ -31,6 +32,7 @@
 
       <% @observations.each do |observation| %>
         <tr>
+          <td><%= observation.polling_station.ward.name %></td>
           <td><%= observation.polling_station.name %> </td>
           <td>
             <time datetime="<%= observation.created_at.iso8601 %>">
