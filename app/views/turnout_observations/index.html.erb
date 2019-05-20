@@ -40,7 +40,19 @@
             <%= "(#{distance_of_time_in_words_to_now(observation.created_at)} ago)" unless observation.created_at.today? %>
           </td>
           <!--        <td><%#= volunteerName %></td>-->
-          <td><%= observation.count %></td>
+          <td>
+            <%= observation.count %>
+            &nbsp;
+            <%= link_to edit_work_space_turnout_observation_path(@work_space, observation) do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%# Could also display past count time alongside these, in time column %>
+            <ul class="past-counts-list">
+              <% observation.past_counts.each do |count| %>
+                <li><%= count %></li>
+              <% end %>
+            </ul>
+          </td>
         </tr>
       <% end %>
       </tbody>

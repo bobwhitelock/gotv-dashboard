@@ -12,6 +12,6 @@ Rails.application.routes.draw do
 
     resources :turnout_observations,
       path: 'turnout',
-      only: [:new, :create, :index, :show]
+      except: :destroy
   end
 end

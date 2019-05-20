@@ -2,7 +2,7 @@
 class TurnoutObservationsController < ApplicationController
 
   def create
-    observation = TurnoutObservation.create!(turnout_params)
+    observation = TurnoutObservation.create!(create_observation_params)
 
     redirect_to work_space_turnout_observation_path(observation.work_space, observation)
   end
@@ -24,9 +24,23 @@ class TurnoutObservationsController < ApplicationController
     @observations = @work_space.turnout_observations
   end
 
+  def edit
+    @work_space = find_work_space
+    # XXX This (and similar code in `update`) will allow editing observation
+    # for any work space by editing URL - prevent this.
+    @observation = TurnoutObservation.find(params[:id])
+  end
+
+  def update
+    @work_space = find_work_space
+    @observation = TurnoutObservation.find(params[:id])
+    @observation.update!(update_observation_params)
+    redirect_to work_space_turnout_observations_path(@work_space)
+  end
+
   private
 
-  def turnout_params
+  def create_observation_params
     params.require(:turnout_observation).permit(
       [:count, :polling_station_id]
     ).merge(
@@ -36,6 +50,10 @@ class TurnoutObservationsController < ApplicationController
       # instead.
       work_space_id: find_work_space.id
     )
+  end
+
+  def update_observation_params
+    params.require(:turnout_observation).permit(:count)
   end
 
   def find_work_space
