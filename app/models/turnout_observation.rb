@@ -6,6 +6,10 @@ class TurnoutObservation < ApplicationRecord
     :pre_election_labour_promises,
     to: :polling_station
 
+  # NOTE: Make sure all methods here also have trivial versions for null object
+  # (UnobservedTurnoutObservation), if they will be called from main dashboard
+  # page (`app/views/work_spaces/show.html.erb`).
+
   def turnout_proportion
     registered_voters = pre_election_registered_voters
     if registered_voters > 0
