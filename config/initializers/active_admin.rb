@@ -151,6 +151,11 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   config.before_action do
+    # Allow editing everything, rather than needing to whitelist editable
+    # fields (see https://stackoverflow.com/a/18110673/2620402). This is less
+    # secure but fine for our use case for now.
+    params.permit!
+
     # If password is set in environment, that password must be given; if no
     # password is set, cannot access admin dashboard.
     authenticate_or_request_with_http_basic do |name, password|
