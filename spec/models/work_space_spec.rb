@@ -45,25 +45,36 @@ RSpec.describe WorkSpace do
       expect(first_entry.turnout_observation.created_at).to be_nil
     end
 
-    # XXX Not sure if this is the best ordering.
-    it 'orders observations from lowest to highest turnout' do
-      high_expected_turnout_ps =
-        create(:polling_station, pre_election_registered_voters: 200, name: 'High')
-      low_expected_turnout_ps =
-        create(:polling_station, pre_election_registered_voters: 100, name: 'Low')
-      medium_expected_turnout_ps =
-        create(:polling_station, pre_election_registered_voters: 100, name: 'Medium')
+    it 'orders observations by guesstimated Labour voters left' do
+      many_left_ps = create(
+          :polling_station,
+          pre_election_registered_voters: 200,
+          pre_election_labour_promises: 150,
+          name: 'Many'
+      )
+      few_left_ps = create(
+          :polling_station,
+          pre_election_registered_voters: 200,
+          pre_election_labour_promises: 20,
+          name: 'Few'
+      )
+      medium_left_ps = create(
+        :polling_station,
+        pre_election_registered_voters: 200,
+        pre_election_labour_promises: 100,
+        name: 'Medium'
+      )
       turnout_observations = [
-        create(:turnout_observation, count: 150, polling_station: high_expected_turnout_ps),
-        create(:turnout_observation, count: 20, polling_station: low_expected_turnout_ps),
-        create(:turnout_observation, count: 50, polling_station: medium_expected_turnout_ps),
+        create(:turnout_observation, count: 20, polling_station: many_left_ps),
+        create(:turnout_observation, count: 100, polling_station: few_left_ps),
+        create(:turnout_observation, count: 100, polling_station: medium_left_ps),
       ]
       work_space = create(
         :work_space,
         polling_stations: [
-          high_expected_turnout_ps,
-          low_expected_turnout_ps,
-          medium_expected_turnout_ps,
+          many_left_ps,
+          few_left_ps,
+          medium_left_ps,
         ],
         turnout_observations: turnout_observations,
       )
@@ -72,7 +83,36 @@ RSpec.describe WorkSpace do
       ordered_polling_station_names = data.map { |o| o.polling_station.name }
 
       expect(ordered_polling_station_names).to eq([
-        'Low', 'Medium', 'High'
+        'Many', 'Medium', 'Few'
+      ])
+    end
+
+    # Not sure if this is the best way to break ties, but at least gives a
+    # fairly good initial ordering.
+    it 'breaks ties by ordering by Labour promises' do
+      few_promises_ps = create(
+        :polling_station,
+        pre_election_labour_promises: 100,
+        name: 'Few'
+      )
+      many_promises_ps = create(
+        :polling_station,
+        pre_election_labour_promises: 1000,
+        name: 'Many'
+      )
+      work_space = create(
+        :work_space,
+        polling_stations: [
+          few_promises_ps,
+          many_promises_ps,
+        ]
+      )
+
+      data = work_space.latest_observations
+      ordered_polling_station_names = data.map { |o| o.polling_station.name }
+
+      expect(ordered_polling_station_names).to eq([
+        'Many', 'Few'
       ])
     end
   end

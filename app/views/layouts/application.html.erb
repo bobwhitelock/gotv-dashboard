@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GotvDashboard</title>
+    <title>
+      GOTV
+      <%# @work_space is needed on many pages - find it in ApplicationController? %>
+      <% if @work_space %>
+        |
+        <%=  @work_space.name %>
+      <% end %>
+    </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <%= yield :head_js %>
+
+    <%= favicon_link_tag 'favicon-400x400.png' %>
+    <%= favicon_link_tag 'favicon-400x400.png', rel: 'apple-touch-icon', type: 'image/png' %>
+
+    <%= yield :head_js %>
   </head>
 
   <body>

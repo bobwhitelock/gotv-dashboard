@@ -17,7 +17,14 @@ class WorkSpace < ApplicationRecord
         polling_station: ps,
         turnout_observation: most_recent_observation
       )
-    end.sort_by { |o| o.turnout_observation.turnout_proportion }
+    end.sort_by do |o|
+      observation = o.turnout_observation
+      polling_station = o.polling_station
+      [
+        -observation.guesstimated_labour_votes_left,
+        -polling_station.pre_election_labour_promises
+      ]
+    end
   end
 
   private

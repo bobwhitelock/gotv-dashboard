@@ -10,4 +10,8 @@ class UnobservedTurnoutObservation
   def turnout_proportion
     0
   end
+
+  def guesstimated_labour_votes_left
+    0
+  end
 end
