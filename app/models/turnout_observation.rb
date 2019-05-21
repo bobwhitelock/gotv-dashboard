@@ -1,6 +1,8 @@
 class TurnoutObservation < ApplicationRecord
   belongs_to :polling_station
   belongs_to :work_space
+  # XXX Make this required?
+  belongs_to :user, required: false
 
   delegate :pre_election_registered_voters,
     :pre_election_labour_promises,
