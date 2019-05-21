@@ -21,7 +21,7 @@ class TurnoutObservationsController < ApplicationController
 
   def index
     @work_space = find_work_space
-    @observations = @work_space.turnout_observations
+    @observations = @work_space.turnout_observations.order(created_at: :desc)
   end
 
   def edit
