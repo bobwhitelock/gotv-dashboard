@@ -22,6 +22,7 @@
         <th>Labour promises / Registered voters</th>
         <th>Turnout</th>
         <th>Turnout percentage</th>
+        <th>Guesstimated Labour votes / Labour votes left</th>
       </tr>
       </thead>
       <tbody class="is-size-7">
@@ -79,6 +80,20 @@
               <span class="is-italic">
                 Registered voters unknown
               </span>
+            <% end %>
+          </td>
+
+          <td width="15%">
+            <% if turnout_observation.created_at %>
+              <span class="is-size-6 has-text-weight-bold">
+                <%= turnout_observation.guesstimated_labour_votes %>
+              </span>
+              votes
+              /
+              <span class="is-size-6 has-text-weight-bold has-text-primary">
+                <%= turnout_observation.guesstimated_labour_votes_left %>
+              </span>
+              votes left
             <% end %>
           </td>
         </tr>
