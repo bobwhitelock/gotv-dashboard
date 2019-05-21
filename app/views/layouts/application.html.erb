@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GotvDashboard</title>
+    <title>
+      GOTV
+      <%# @work_space is needed on many pages - find it in ApplicationController? %>
+      <% if @work_space %>
+        |
+        <%=  @work_space.name %>
+      <% end %>
+    </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
