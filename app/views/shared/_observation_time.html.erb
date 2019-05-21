@@ -1,0 +1,7 @@
+
+<time datetime="<%= observation.created_at.iso8601 %>">
+  <%= observation.created_at.strftime("%I:%M %p") %>
+</time>
+<% unless observation.created_at.today? %>
+  <%= "(#{distance_of_time_in_words_to_now(observation.created_at)} ago)" %>
+<% end %>

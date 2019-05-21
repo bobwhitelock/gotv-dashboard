@@ -35,9 +35,7 @@
             <%= render 'shared/polling_station_name', polling_station: observation.polling_station %>
           </td>
           <td>
-            <time datetime="<%= observation.created_at.iso8601 %>">
-              <%= observation.created_at.strftime("%I:%M %p") %></time>
-            <%= "(#{distance_of_time_in_words_to_now(observation.created_at)} ago)" unless observation.created_at.today? %>
+            <%= render 'shared/observation_time', observation: observation %>
           </td>
           <!--        <td><%#= volunteerName %></td>-->
           <td>

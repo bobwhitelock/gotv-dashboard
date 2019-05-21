@@ -53,13 +53,11 @@
             </span>
             <span class="is-italic">
               <% if turnout_observation.created_at %>
-                at
-              <time datetime="<%= turnout_observation.created_at.iso8601 %>">
-                <%= turnout_observation.created_at.strftime("%I:%M %p") %>
-              </time>
-            <% else %>
-                (not yet observed)
-            <% end %>
+                  at
+                  <%= render 'shared/observation_time', observation: turnout_observation %>
+              <% else %>
+                  (not yet observed)
+              <% end %>
             </span>
           </td>
 
