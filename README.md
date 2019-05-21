@@ -1,24 +1,17 @@
-# README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# GOTV Dashboard
 
-Things you may want to cover:
+## Guides
 
-* Ruby version
+### To access admin dashboard
 
-* System dependencies
+1. Have `GOTV_DASHBOARD_PASSWORD` environment variable exported in your
+   environment before running the app, e.g. like this:
+     ```bash
+     export GOTV_DASHBOARD_PASSWORD='verysecure123'
+     bin/rails server
+     ```
 
-* Configuration
+2. Visit `${dashboard_url}/admin`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3. Enter username as `admin`, password as the value exported above.
