@@ -33,12 +33,7 @@
         %>
         <tr>
           <td width="20%">
-            <p class="is-marginless">
-              <%= polling_station.name %>
-            </p>
-            <p class="is-uppercase has-text-primary">
-              <%= polling_station.ward.name %>
-            </p>
+            <%= render 'shared/polling_station_name', polling_station: polling_station %>
           </td>
 
           <td width="20%">

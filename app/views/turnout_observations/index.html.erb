@@ -18,22 +18,22 @@
 
 <section class="section ">
   <div class="container content">
-    <table class="table is-striped">
+    <table class="table is-striped is-narrow">
       <thead>
       <tr>
-        <th>Ward</th>
         <th>Polling Station</th>
         <th>Time</th>
         <!--        <th>Name</th>-->
         <th>Count</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody class="is-size-7">
 
       <% @observations.each do |observation| %>
         <tr>
-          <td><%= observation.polling_station.ward.name %></td>
-          <td><%= observation.polling_station.name %> </td>
+          <td>
+            <%= render 'shared/polling_station_name', polling_station: observation.polling_station %>
+          </td>
           <td>
             <time datetime="<%= observation.created_at.iso8601 %>">
               <%= observation.created_at.strftime("%I:%M %p") %></time>
@@ -41,7 +41,9 @@
           </td>
           <!--        <td><%#= volunteerName %></td>-->
           <td>
-            <%= observation.count %>
+            <span class="is-size-6">
+              <%= observation.count %>
+            </span>
             &nbsp;
             <%= link_to edit_work_space_turnout_observation_path(@work_space, observation) do %>
               <i class="fas fa-edit"></i>
