@@ -53,7 +53,6 @@ namespace :gotv do
             name: station['address'],
             postcode: station['postcode'],
             ward: ward,
-            council_id: council_id,
             pre_election_registered_voters: 0,
             pre_election_labour_promises: 0
         )
