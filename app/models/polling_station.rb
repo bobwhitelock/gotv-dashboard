@@ -5,7 +5,7 @@ class PollingStation < ApplicationRecord
   belongs_to :ward
 
   # XXX move to decorator?
-  def name_with_ward
-    "#{name} (#{ward.name})"
+  def fully_specified_name
+    "#{reference}: #{name} (#{ward.name})"
   end
 end
