@@ -1,0 +1,13 @@
+
+<%
+    observation_time = observation.created_at
+    # Assume always UK time.
+    local_observation_time = observation_time.in_time_zone('Europe/London')
+%>
+
+<time datetime="<%= observation_time.iso8601 %>">
+  <%= local_observation_time.strftime("%I:%M %p") %>
+</time>
+<% unless local_observation_time.today? %>
+  <%= "(#{distance_of_time_in_words_to_now(local_observation_time)} ago)" %>
+<% end %>

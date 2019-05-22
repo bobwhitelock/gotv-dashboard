@@ -21,7 +21,7 @@ class TurnoutObservationsController < ApplicationController
 
   def index
     @work_space = find_work_space
-    @observations = @work_space.turnout_observations
+    @observations = @work_space.turnout_observations.order(created_at: :desc)
   end
 
   def edit
@@ -48,7 +48,8 @@ class TurnoutObservationsController < ApplicationController
       # WorkSpace in the URL (for secure obfuscation), therefore find the
       # WorkSpace from the `identifier` and then merge in the `id` for this
       # instead.
-      work_space_id: find_work_space.id
+      work_space_id: find_work_space.id,
+      user: @current_user
     )
   end
 

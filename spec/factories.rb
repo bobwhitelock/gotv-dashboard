@@ -1,5 +1,8 @@
 
 FactoryBot.define do
+  factory :user do
+  end
+
   factory :polling_station do
     ward
     name { 'Some Polling Station' }
