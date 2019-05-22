@@ -28,7 +28,8 @@ namespace :gotv do
           # 'name' => row['Polling Place'],
           'address' => row['Polling Place'],
           'postcode' => row['Polling Place'][POSTCODE_REGEX],
-          # 'district_references' => row['Polling Districts'].delete(' ').split(',')
+          'reference' => row['Reference'],
+          'polling_district' => row['Polling Districts'],
       }
     end
 
@@ -53,6 +54,8 @@ namespace :gotv do
             name: station['address'],
             postcode: station['postcode'],
             ward: ward,
+            reference: station['reference'],
+            polling_district: station['polling_district'],
             pre_election_registered_voters: 0,
             pre_election_labour_promises: 0
         )
