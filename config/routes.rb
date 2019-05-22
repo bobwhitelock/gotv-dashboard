@@ -15,4 +15,6 @@ Rails.application.routes.draw do
       path: 'turnout',
       except: :destroy
   end
+
+  resources :users, only: :update
 end
