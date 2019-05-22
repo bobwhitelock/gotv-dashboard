@@ -48,7 +48,8 @@ class TurnoutObservationsController < ApplicationController
       # WorkSpace in the URL (for secure obfuscation), therefore find the
       # WorkSpace from the `identifier` and then merge in the `id` for this
       # instead.
-      work_space_id: find_work_space.id
+      work_space_id: find_work_space.id,
+      user: @current_user
     )
   end
 
