@@ -20,7 +20,7 @@
           <div class="control">
             <label class="radio">
               <%= f.radio_button(:polling_station_id, station.id, required: true) %>
-              <%= station.name_with_ward %>
+              <%= station.fully_specified_name %>
             </label>
           </div>
         <%

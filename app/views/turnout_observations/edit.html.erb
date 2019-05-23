@@ -20,7 +20,7 @@
     <%= form_for @observation, url: {action: "update"} do |f| %>
       <div class="field">
         <p>
-          Correcting ballot count observation for: <%= @observation.polling_station.name_with_ward %>
+          Correcting ballot count observation for: <%= @observation.polling_station.fully_specified_name %>
         </p>
         <p>
           Current count for this observation: <%= @observation.count %>

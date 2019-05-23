@@ -29,37 +29,40 @@ RSpec.describe WorkSpace do
       ]
       subject.save!
 
-      data = subject.latest_observations
+      districts = subject.latest_observations
 
-      first_entry = data.first
+      first_entry = districts.first.observation_pairs.first
       expect(first_entry.polling_station).to eq(polling_station)
       expect(first_entry.turnout_observation).to eq(most_recent_observation)
     end
 
     it 'gives placeholder empty observation for polling station without observation' do
-      data = subject.latest_observations
+      districts = subject.latest_observations
 
-      first_entry = data.first
+      first_entry = districts.first.observation_pairs.first
       expect(first_entry.polling_station).to eq(polling_station)
       expect(first_entry.turnout_observation.count).to eq(0)
       expect(first_entry.turnout_observation.created_at).to be_nil
     end
 
-    it 'orders observations by guesstimated Labour voters left' do
+    it 'orders districts by guesstimated Labour voters left' do
       many_left_ps = create(
           :polling_station,
+          polling_district: 'A',
           pre_election_registered_voters: 200,
           pre_election_labour_promises: 150,
           name: 'Many'
       )
       few_left_ps = create(
           :polling_station,
+          polling_district: 'B',
           pre_election_registered_voters: 200,
           pre_election_labour_promises: 20,
           name: 'Few'
       )
       medium_left_ps = create(
         :polling_station,
+        polling_district: 'C',
         pre_election_registered_voters: 200,
         pre_election_labour_promises: 100,
         name: 'Medium'
@@ -79,8 +82,10 @@ RSpec.describe WorkSpace do
         turnout_observations: turnout_observations,
       )
 
-      data = work_space.latest_observations
-      ordered_polling_station_names = data.map { |o| o.polling_station.name }
+      districts = work_space.latest_observations
+      ordered_polling_station_names = districts.map do |d|
+        d.polling_stations.first.name
+      end
 
       expect(ordered_polling_station_names).to eq([
         'Many', 'Medium', 'Few'
@@ -92,11 +97,13 @@ RSpec.describe WorkSpace do
     it 'breaks ties by ordering by Labour promises' do
       few_promises_ps = create(
         :polling_station,
+        polling_district: 'A',
         pre_election_labour_promises: 100,
         name: 'Few'
       )
       many_promises_ps = create(
         :polling_station,
+        polling_district: 'B',
         pre_election_labour_promises: 1000,
         name: 'Many'
       )
@@ -108,8 +115,10 @@ RSpec.describe WorkSpace do
         ]
       )
 
-      data = work_space.latest_observations
-      ordered_polling_station_names = data.map { |o| o.polling_station.name }
+      districts = work_space.latest_observations
+      ordered_polling_station_names = districts.map do |d|
+        d.polling_stations.first.name
+      end
 
       expect(ordered_polling_station_names).to eq([
         'Many', 'Few'

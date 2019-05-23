@@ -9,7 +9,7 @@ class TurnoutObservationsController < ApplicationController
 
   def new
     @work_space = find_work_space
-    @polling_stations = @work_space.polling_stations.sort_by(&:name)
+    @polling_stations = @work_space.polling_stations.sort_by(&:reference)
     @observation = TurnoutObservation.new
     @observation.work_space = @work_space
   end
