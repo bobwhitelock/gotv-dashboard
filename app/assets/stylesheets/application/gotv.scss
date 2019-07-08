@@ -2,6 +2,10 @@ $labour-turquoise: #11ad8e;
 $labour-pink: #e33b7f;
 $primary: $labour-pink;
 
+// Always show all navbar links. If ever set this higher again need to re-add
+// navbar hamburger HTML/JS to `app/views/shared/_admin_menu.erb`.
+$navbar-breakpoint: 0;
+
 @import "bulma";
 html {
   font-size: 120%;
