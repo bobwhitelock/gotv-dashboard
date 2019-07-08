@@ -44,14 +44,18 @@
                 rowspan="<%= district_polling_stations.length %>"
                 style="vertical-align : middle;"
               >
-                <span class="is-size-6">
-                  <%= district.pre_election_labour_promises %>
+                <span class="nowrap">
+                  <span class="is-size-6">
+                    <%= district.pre_election_labour_promises %>
+                  </span>
+                  promises /
                 </span>
-                promises /
-                <span class="is-size-6">
-                  <%= district.pre_election_registered_voters %>
+                <span class="nowrap">
+                  <span class="is-size-6">
+                    <%= district.pre_election_registered_voters %>
+                  </span>
+                  voters
                 </span>
-                voters
               </td>
             <% end %>
 
@@ -99,15 +103,19 @@
                 style="vertical-align : middle;"
               >
                 <% if district.guesstimated_labour_votes.positive? %>
-                  <span class="is-size-6 has-text-weight-bold">
-                    <%= district.guesstimated_labour_votes %>
+                  <span class="nowrap">
+                    <span class="is-size-6 has-text-weight-bold">
+                      <%= district.guesstimated_labour_votes %>
+                    </span>
+                    votes
+                    /
                   </span>
-                  votes
-                  /
-                  <span class="is-size-6 has-text-weight-bold has-text-primary">
-                    <%= district.guesstimated_labour_votes_left %>
+                  <span class="nowrap">
+                    <span class="is-size-6 has-text-weight-bold has-text-primary">
+                      <%= district.guesstimated_labour_votes_left %>
+                    </span>
+                    votes left
                   </span>
-                  votes left
                 <% end %>
               </td>
             <% end %>

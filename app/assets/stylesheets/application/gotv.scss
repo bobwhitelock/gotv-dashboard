@@ -2,9 +2,18 @@ $labour-turquoise: #11ad8e;
 $labour-pink: #e33b7f;
 $primary: $labour-pink;
 
+// Always show all navbar links. If ever set this higher again need to re-add
+// navbar hamburger HTML/JS to `app/views/shared/_admin_menu.erb`.
+$navbar-breakpoint: 0;
+
 @import "bulma";
 html {
   font-size: 120%;
+
+  // Ensure rest of page is always at least as big as minimum size main
+  // dashboard table will shrink to, so header will still cover full page width
+  // in this case.
+  min-width: 650px;
 }
 
 abbr {
@@ -20,4 +29,8 @@ abbr {
   li {
     list-style: none;
   }
+}
+
+.nowrap {
+  white-space: nowrap;
 }
