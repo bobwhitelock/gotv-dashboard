@@ -18,11 +18,16 @@ class WorkSpace < ApplicationRecord
         turnout_observation: most_recent_observation
       )
     end.sort_by do |o|
-      observation = o.turnout_observation
       polling_station = o.polling_station
+
+      # Order polling stations consistently by ward name, and then by polling
+      # station reference within each ward (if polling stations do not have
+      # references set then the name will be used instead, but this should not
+      # normally happen).
       [
-        -observation.guesstimated_labour_votes_left,
-        -polling_station.pre_election_labour_promises
+        polling_station.ward.name,
+        polling_station.reference,
+        polling_station.name,
       ]
     end
   end
