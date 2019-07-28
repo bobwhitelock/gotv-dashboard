@@ -28,6 +28,8 @@ namespace :gotv do
           # 'name' => row['Polling Place'],
           'address' => row['Polling Place'],
           'postcode' => row['Polling Place'][POSTCODE_REGEX],
+          # XXX These are not necessarily accurate; polling place could contain
+          # boxes from different areas
           'reference' => row['Reference'],
           'polling_district' => row['Polling Districts'],
       }

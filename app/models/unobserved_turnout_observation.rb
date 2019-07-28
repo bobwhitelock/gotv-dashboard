@@ -7,8 +7,6 @@ class UnobservedTurnoutObservation
     0
   end
 
-  # XXX Need these now?
-
   def turnout_proportion
     0
   end

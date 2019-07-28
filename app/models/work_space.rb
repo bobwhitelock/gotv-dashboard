@@ -17,14 +17,12 @@ class WorkSpace < ApplicationRecord
         polling_station: ps,
         turnout_observation: most_recent_observation
       )
-    end.group_by do |observation_pair|
-      observation_pair.polling_station.polling_district
-    end.map do |_district_code, observation_pairs|
-      PollingDistrict.new(observation_pairs)
-    end.sort_by do |district|
+    end.sort_by do |o|
+      observation = o.turnout_observation
+      polling_station = o.polling_station
       [
-        -district.guesstimated_labour_votes_left,
-        -district.pre_election_labour_promises
+        -observation.guesstimated_labour_votes_left,
+        -polling_station.pre_election_labour_promises
       ]
     end
   end
