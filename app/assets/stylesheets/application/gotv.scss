@@ -3,7 +3,7 @@ $labour-pink: #e33b7f;
 $primary: $labour-pink;
 
 // Always show all navbar links. If ever set this higher again need to re-add
-// navbar hamburger HTML/JS to `app/views/shared/_admin_menu.erb`.
+// navbar hamburger HTML/JS to `app/views/layouts/organiser_dashboard.html.erb`.
 $navbar-breakpoint: 0;
 
 @import "bulma";
