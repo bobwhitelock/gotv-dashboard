@@ -13,6 +13,7 @@ class WorkSpacesController < ApplicationController
 
   def start
     @councils = Council.all.sort_by(&:name)
+    render layout: 'setup'
   end
 
   def new
@@ -20,6 +21,7 @@ class WorkSpacesController < ApplicationController
     @wards = council.wards.sort_by { |w| w.name or 'z' }.compact
     default_name = "#{council.name} #{Time.current.year.to_s} Elections"
     @work_space = WorkSpace.new({ :name => default_name })
+    render layout: 'setup'
   end
 
   def create
