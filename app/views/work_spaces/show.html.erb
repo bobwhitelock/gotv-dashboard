@@ -1,22 +1,11 @@
-<%= render partial: 'shared/admin_menu',  locals: { work_space: @work_space }%>
-<section class="section has-background-white-ter  is-bold " style="border-bottom: 1px solid #ccc;">
-  <div class="level container">
-    <div class="">
-      <h1 class="title "><%= @work_space.name %></h1>
-      <p class="subtitle">
-        Dashboard
-      </p>
-    </div>
-    <div class="level-right">
-      <%= render 'shared/invite_btn' %>
-    </div>
-  </div>
-</section>
 
-<section class="section ">
-  <div class="container content">
-    <table class="table is-striped is-narrow is-fullwidth">
-      <thead>
+<% content_for :subtitle do %>
+  Dashboard
+<% end %>
+
+<% content_for :content do %>
+  <table class="table is-striped is-narrow is-fullwidth">
+    <thead>
       <tr>
         <th>Polling Station</th>
         <th>Labour promises / Registered voters</th>
@@ -24,9 +13,9 @@
         <th>Turnout percentage</th>
         <th>Guesstimated Labour votes / Labour votes left</th>
       </tr>
-      </thead>
-      <tbody class="is-size-7">
+    </thead>
 
+    <tbody class="is-size-7">
       <% @work_space.latest_observations.each do |o| %>
         <% polling_station = o.polling_station
            turnout_observation = o.turnout_observation
@@ -57,14 +46,14 @@
             </span>
             <span class="is-italic">
               <% if turnout_observation.created_at %>
-                  at
-                  <%= render 'shared/observation_time', observation: turnout_observation %>
-                  <% if turnout_observation.user %>
-                    <br>
-                    by <%= turnout_observation.user.info %>
-                  <% end %>
+                at
+                <%= render 'shared/observation_time', observation: turnout_observation %>
+                <% if turnout_observation.user %>
+                  <br>
+                  by <%= turnout_observation.user.info %>
+                <% end %>
               <% else %>
-                  (not yet observed)
+                (not yet observed)
               <% end %>
             </span>
           </td>
@@ -103,7 +92,6 @@
           </td>
         </tr>
       <% end %>
-      </tbody>
-    </table>
-  </div>
-</section>
+    </tbody>
+  </table>
+<% end %>

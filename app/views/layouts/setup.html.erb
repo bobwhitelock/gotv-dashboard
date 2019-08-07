@@ -1,0 +1,21 @@
+
+<% content_for :layout do %>
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Get the Vote Out</h1>
+        <h2 class="subtitle">
+          <%= yield :subtitle %>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <%= yield :content %>
+    </div>
+  </section>
+<% end %>
+
+<%= render template: 'layouts/application' %>

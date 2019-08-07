@@ -1,72 +1,60 @@
-<section class="notification is-primary">
-  <div class="container">
-    <p class="title">
-      Thank you.
-    </p>
-    <p class="subtitle">
-      Your committee room received the count for '<%= @observation.polling_station.fully_specified_name %>'.
-    </p>
-  </div>
-</section>
 
-<%#
-    XXX Should probably handle flash messages (and layout generally for that
-    matter) better than in this ad-hoc way.
-%>
-<% if notice %>
-  <article class="message is-success">
-    <div class="message-header">
-      <p><%= notice %></p>
-    </div>
-  </article>
+<% content_for :title do %>
+  Thank you.
 <% end %>
 
-<section class="section">
-  <div class="content">
-    <p>When you pass a polling station</p>
-    <p class="buttons is-centered">
-      <%= link_to('Send another count', new_work_space_turnout_observation_path(@work_space), class: 'button') %>
-    </p>
-    <p>
-      You can also send additional counts for the same polling station. It is
-      useful for the committee room to get ballot counts from each polling
-      station regularly.
-    </p>
-  </div>
-</section>
+<% content_for :subtitle do %>
+  Your committee room received the count for '<%= @observation.polling_station.fully_specified_name %>'.
+<% end %>
 
-<% unless @current_user.name %>
-  <section class="notification is-primary">
-    <div class="content">
-      <p class="has-text-weight-bold">
-        Please also enter your details to record these along with your
-        observations.
+<% content_for :content do %>
+  <section class="section">
+    <div class="container">
+      <p>When you pass a polling station</p>
+      <p class="buttons is-centered">
+        <%= link_to('Send another count', new_work_space_turnout_observation_path(@work_space), class: 'button') %>
       </p>
-
       <p>
-        This helps the committee room know who made each observation, and helps
-        them contact you if they have any questions.
+        You can also send additional counts for the same polling station. It is
+        useful for the committee room to get ballot counts from each polling
+        station regularly.
       </p>
-
-      <%= form_for @current_user do |f| %>
-        <div class="field">
-          <label class="label">Your name</label>
-          <div class="control">
-            <%= f.text_field(:name, required: true, class: "input") %>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Your phone number</label>
-          <div class="control">
-            <%= f.telephone_field(:phone_number, required: true, class: "input") %>
-          </div>
-        </div>
-
-        <div class="buttons">
-          <%= f.submit "Save details", class: 'button' %>
-        </div>
-      <% end %>
     </div>
   </section>
+
+  <% unless @current_user.name %>
+    <section class="notification is-primary">
+      <div class="content">
+        <p class="has-text-weight-bold">
+          Please also enter your details to record these along with your
+          observations.
+        </p>
+
+        <p>
+          This helps the committee room know who made each observation, and helps
+          them contact you if they have any questions.
+        </p>
+
+        <%= form_for @current_user do |f| %>
+          <div class="field">
+            <label class="label">Your name</label>
+            <div class="control">
+              <%= f.text_field(:name, required: true, class: "input") %>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Your phone number</label>
+            <div class="control">
+              <%= f.telephone_field(:phone_number, required: true, class: "input") %>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <%= f.submit "Save details", class: 'button' %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
 <% end %>

@@ -1,5 +1,6 @@
 
 class TurnoutObservationsController < ApplicationController
+  layout 'roaming'
 
   def create
     observation = TurnoutObservation.create!(create_observation_params)
@@ -22,6 +23,7 @@ class TurnoutObservationsController < ApplicationController
   def index
     @work_space = find_work_space
     @observations = @work_space.turnout_observations.order(created_at: :desc)
+    render layout: 'organiser_dashboard'
   end
 
   def edit
@@ -29,6 +31,7 @@ class TurnoutObservationsController < ApplicationController
     # XXX This (and similar code in `update`) will allow editing observation
     # for any work space by editing URL - prevent this.
     @observation = TurnoutObservation.find(params[:id])
+    render layout: 'organiser_dashboard'
   end
 
   def update

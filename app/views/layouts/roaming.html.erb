@@ -1,0 +1,26 @@
+
+<% content_for :layout do %>
+  <section class="notification is-primary">
+    <div class="container">
+      <p class="title">
+        <%= yield :title %>
+      </p>
+      <p class="subtitle">
+        <%= yield :subtitle %>
+      </p>
+    </div>
+  </section>
+
+  <%# XXX Pull up to application layout? %>
+  <% if notice %>
+    <article class="message is-success">
+      <div class="message-header">
+        <p><%= notice %></p>
+      </div>
+    </article>
+  <% end %>
+
+  <%= yield :content %>
+<% end %>
+
+<%= render template: 'layouts/application' %>

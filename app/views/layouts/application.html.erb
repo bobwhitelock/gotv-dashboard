@@ -3,7 +3,7 @@
   <head>
     <title>
       GOTV
-      <%# @work_space is needed on many pages - find it in ApplicationController? %>
+      <%# XXX @work_space is needed on many pages - find it in ApplicationController? %>
       <% if @work_space %>
         |
         <%=  @work_space.name %>
@@ -25,7 +25,7 @@
   </head>
 
   <body>
-      <%= yield %>
+    <%= yield :layout %>
   </body>
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </html>

@@ -1,41 +1,41 @@
-<section class="hero  is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title"><%= @work_space.name %></h1>
-      <h2 class="subtitle">
-        Send ballot counts to help your committee room
-      </h2>
-    </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container">
-    <%= form_for @observation, url: {action: "create"} do |f| %>
-      <div class="field">
-        <p class="label">Which polling station are you at?</p>
-        <%
-          @polling_stations.each do |station|
-        %>
-          <div class="control">
-            <label class="radio">
-              <%= f.radio_button(:polling_station_id, station.id, required: true) %>
-              <%= station.fully_specified_name %>
-            </label>
-          </div>
-        <%
-          end
-        %>
-      </div>
-      <div class="field">
-        <label class="label">What is the current ballot count there?</label>
-        <div class="control">
-          <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
+<% content_for :title do %>
+  <%= @work_space.name %>
+<% end %>
+
+<% content_for :subtitle do %>
+  Send ballot counts to help your committee room
+<% end %>
+
+<% content_for :content do %>
+  <section class="section">
+    <div class="container">
+      <%= form_for @observation, url: {action: "create"} do |f| %>
+        <div class="field">
+          <p class="label">Which polling station are you at?</p>
+          <%
+            @polling_stations.each do |station|
+          %>
+            <div class="control">
+              <label class="radio">
+                <%= f.radio_button(:polling_station_id, station.id, required: true) %>
+                <%= station.fully_specified_name %>
+              </label>
+            </div>
+          <%
+            end
+          %>
         </div>
-      </div>
-      <div class="buttons">
-        <%= f.submit "Send", class: 'button is-primary' %>
-      </div>
-    <% end %>
-  </div>
-</section>
+        <div class="field">
+          <label class="label">What is the current ballot count there?</label>
+          <div class="control">
+            <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
+          </div>
+        </div>
+        <div class="buttons">
+          <%= f.submit "Send", class: 'button is-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>
