@@ -7,6 +7,8 @@ require 'json'
 AvailablePollingStation = Struct.new(:station_id, :address)
 
 class WorkSpacesController < ApplicationController
+  layout 'organiser_dashboard'
+
   def show
     @work_space = WorkSpace.find_by_identifier!(params[:id])
   end

@@ -1,41 +1,28 @@
 
-<%= render partial: 'shared/admin_menu',  locals: { work_space: @work_space }%>
+<% content_for :subtitle do %>
+  Edit Ballot Count Observation
+<% end %>
 
-<section class="section has-background-white-ter is-bold " style="border-bottom: 1px solid #ccc;">
-  <div class="level container">
-    <div class="">
-      <h1 class="title"><%= @work_space.name %></h1>
-      <p class="subtitle">
-        Edit Ballot Count Observation
+<% content_for :content do %>
+  <%= form_for @observation, url: {action: "update"} do |f| %>
+    <div class="field">
+      <p>
+        Correcting ballot count observation for: <%= @observation.polling_station.fully_specified_name %>
       </p>
-    </div>
-    <div class="level-right">
-      <%= render 'shared/invite_btn' %>
-    </div>
-  </div>
-</section>
+      <p>
+        Current count for this observation: <%= @observation.count %>
+      </p>
 
-<section class="section">
-  <div class="container">
-    <%= form_for @observation, url: {action: "update"} do |f| %>
       <div class="field">
-        <p>
-          Correcting ballot count observation for: <%= @observation.polling_station.fully_specified_name %>
-        </p>
-        <p>
-          Current count for this observation: <%= @observation.count %>
-        </p>
-
-        <div class="field">
-          <label class="label">What is the correct ballot count?</label>
-          <div class="control">
-            <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
-          </div>
+        <label class="label">What is the correct ballot count?</label>
+        <div class="control">
+          <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
         </div>
+      </div>
 
-        <div class="buttons">
-          <%= f.submit "Amend count", class: 'button is-primary' %>
-        </div>
-    <% end %>
-  </div>
-</section>
+      <div class="buttons">
+        <%= f.submit "Amend count", class: 'button is-primary' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

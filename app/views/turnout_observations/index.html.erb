@@ -1,66 +1,50 @@
 
-<%= render partial: 'shared/admin_menu',  locals: { work_space: @work_space }%>
+<% content_for :subtitle do %>
+  Ballot Count Observations
+<% end %>
 
-<section class="section has-background-white-ter  is-bold " style="border-bottom: 1px solid #ccc;">
-  <div class="level container">
-    <div class="">
-      <h1 class="title "><%= @work_space.name %></h1>
-      <p class="subtitle">
-        Ballot Count Observations
-      </p>
-    </div>
-    <div class="level-right">
-      <%= render 'shared/invite_btn' %>
-    </div>
-  </div>
-</section>
+<% content_for :content do %>
+  <table class="table is-striped is-narrow">
+    <thead>
+    <tr>
+      <th>Polling Station</th>
+      <th>Time</th>
+      <th>Volunteer</th>
+      <th>Count</th>
+    </tr>
+    </thead>
+    <tbody class="is-size-7">
 
-
-<section class="section">
-  <div class="container content">
-    <table class="table is-striped is-narrow">
-      <thead>
+    <% @observations.each do |observation| %>
       <tr>
-        <th>Polling Station</th>
-        <th>Time</th>
-        <th>Volunteer</th>
-        <th>Count</th>
+        <td>
+          <%= render 'shared/polling_station_name', polling_station: observation.polling_station %>
+        </td>
+        <td>
+          <%= render 'shared/observation_time', observation: observation %>
+        </td>
+        <td>
+          <% if observation.user %>
+            <%= observation.user.info %>
+          <% end %>
+        </td>
+        <td>
+          <span class="is-size-6">
+            <%= observation.count %>
+          </span>
+          &nbsp;
+          <%= link_to edit_work_space_turnout_observation_path(@work_space, observation) do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+          <%# Could also display past count time alongside these, in time column %>
+          <ul class="past-counts-list">
+            <% observation.past_counts.each do |count| %>
+              <li><%= count %></li>
+            <% end %>
+          </ul>
+        </td>
       </tr>
-      </thead>
-      <tbody class="is-size-7">
-
-      <% @observations.each do |observation| %>
-        <tr>
-          <td>
-            <%= render 'shared/polling_station_name', polling_station: observation.polling_station %>
-          </td>
-          <td>
-            <%= render 'shared/observation_time', observation: observation %>
-          </td>
-          <td>
-            <% if observation.user %>
-              <%= observation.user.info %>
-            <% end %>
-          </td>
-          <td>
-            <span class="is-size-6">
-              <%= observation.count %>
-            </span>
-            &nbsp;
-            <%= link_to edit_work_space_turnout_observation_path(@work_space, observation) do %>
-              <i class="fas fa-edit"></i>
-            <% end %>
-            <%# Could also display past count time alongside these, in time column %>
-            <ul class="past-counts-list">
-              <% observation.past_counts.each do |count| %>
-                <li><%= count %></li>
-              <% end %>
-            </ul>
-          </td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-
-  </div>
-</section>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

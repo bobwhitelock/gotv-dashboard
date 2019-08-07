@@ -1,0 +1,26 @@
+
+<% content_for :layout do %>
+  <%= render partial: 'shared/admin_menu',  locals: { work_space: @work_space } %>
+
+  <section class="section has-background-white-ter is-bold" style="border-bottom: 1px solid #ccc;">
+    <div class="level container">
+      <div class="">
+        <h1 class="title "><%= @work_space.name %></h1>
+        <p class="subtitle">
+          <%= yield :subtitle %>
+        </p>
+      </div>
+      <div class="level-right">
+        <%= render 'shared/invite_btn' %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container content">
+      <%= yield :content %>
+    </div>
+  </section>
+<% end %>
+
+<%= render template: 'layouts/application' %>
