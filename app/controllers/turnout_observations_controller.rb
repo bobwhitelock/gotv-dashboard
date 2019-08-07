@@ -1,5 +1,6 @@
 
 class TurnoutObservationsController < ApplicationController
+  layout 'roaming'
 
   def create
     observation = TurnoutObservation.create!(create_observation_params)
