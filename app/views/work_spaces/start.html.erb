@@ -1,16 +1,16 @@
-<section class="hero is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">Get the Vote Out</h1>
-      <h2 class="subtitle">
-        Create a workspace for your committee room
-      </h2>
-    </div>
-  </div>
-</section>
 
-<section class="section level">
-  <div class="container level-item">
+<% content_for :head_js do %>
+  <%= javascript_include_tag 'jquery'  %>
+  <%= javascript_include_tag 'jquery_ujs' %>
+  <%= javascript_include_tag 'typeahead.bundle.min.js' %>
+<% end %>
+
+<% content_for :subtitle do %>
+  Create a workspace for your committee room
+<% end %>
+
+<% content_for :content do %>
+  <div class="level-item">
     <div class="field">
       <label class="label is-large ">Choose your council to setup a workspace:</label>
 
@@ -27,12 +27,8 @@
           color: #eee;
         }
       </style>
-      <% content_for :head_js do %>
-        <%= javascript_include_tag 'jquery'  %>
-        <%= javascript_include_tag 'jquery_ujs' %>
-        <%= javascript_include_tag 'typeahead.bundle.min.js' %>
-      <% end %>
 
+      <%# XXX Move to own script and head, may need defer tag to have load after content %>
       <script>
          (function () {
           var councils = <%= raw(@councils.to_json) %>;
@@ -62,4 +58,4 @@
       </script>
     </div>
   </div>
-</section>
+<% end %>

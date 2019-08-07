@@ -1,43 +1,37 @@
-<section class="hero is-primary">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">Setup your workspace for election day</h1>
-      <h2 class="subtitle">
 
-      </h2>
+<% content_for :subtitle do %>
+  Setup your workspace for election day
+<% end %>
+
+<% content_for :content do %>
+  <%= form_for @work_space do |f| %>
+    <%= f.hidden_field(:name) %>
+    <div class="field">
+      <p class="label">
+        Which wards are you covering
+          <small class="content is-small">
+            (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
+            <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
+          </small>
+      </p>
+      <div class="control">
+        <% @wards.each_slice(4)  do |row| %>
+          <div class="columns is-marginless">
+            <% row.each do |ward| %>
+              <div class="column is-paddingless">
+                <label class=" checkbox">
+                  <%= check_box_tag "wards[]", ward.id, false %>
+                  <%= ward.name %>
+                </label>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container">
-    <%= form_for @work_space do |f| %>
-      <%= f.hidden_field(:name) %>
-      <div class="field">
-        <p class="label">
-          Which wards are you covering <small class="content is-small">
-          (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
-          <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
-        </small></p>
-        <div class="control">
-          <% @wards.each_slice(4)  do |row| %>
-            <div class="columns is-marginless">
-              <% row.each do |ward| %>
-                <div class="column is-paddingless">
-                  <label class=" checkbox">
-                    <%= check_box_tag "wards[]", ward.id, false %>
-                    <%= ward.name %>
-                  </label>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="buttons">
-        <%= f.submit "Create workspace", class: 'button is-primary' %>
-      </div>
-  </div>
+    <div class="buttons">
+      <%= f.submit "Create workspace", class: 'button is-primary' %>
+    </div>
   <% end %>
-</section>
+<% end %>

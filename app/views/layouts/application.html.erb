@@ -25,7 +25,7 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= content_for?(:layout_content) ? yield(:layout_content) : yield %>
   </body>
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </html>
