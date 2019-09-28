@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_223329) do
+ActiveRecord::Schema.define(version: 2019_09_28_143018) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 2019_05_22_223329) do
   end
 
   create_table "councils", force: :cascade do |t|
-    t.string "name"
-    t.string "code"
+    t.string "name", null: false
+    t.string "code", null: false
   end
 
   create_table "polling_stations", force: :cascade do |t|
@@ -68,8 +68,8 @@ ActiveRecord::Schema.define(version: 2019_05_22_223329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "postcode"
-    t.integer "ward_id"
-    t.string "reference"
+    t.integer "ward_id", null: false
+    t.string "reference", null: false
     t.string "polling_district"
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 2019_05_22_223329) do
   end
 
   create_table "wards", force: :cascade do |t|
-    t.string "name"
-    t.string "code"
+    t.string "name", null: false
+    t.string "code", null: false
     t.integer "council_id"
     t.index ["council_id"], name: "index_wards_on_council_id"
   end

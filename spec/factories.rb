@@ -6,17 +6,20 @@ FactoryBot.define do
   factory :polling_station do
     ward
     name { 'Some Polling Station' }
+    reference { 'SPS-1' }
     pre_election_registered_voters { 0 }
     pre_election_labour_promises { 0 }
   end
 
   factory :ward do
     council
-    # XXX Nothing else required for ward yet.
+    name { 'Some Ward' }
+    code { 'E1234' }
   end
 
   factory :council do
-    # XXX Nothing required for council yet.
+    name { 'Some Council' }
+    code { 'S1234' }
   end
 
   factory :work_space do
