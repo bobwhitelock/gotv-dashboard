@@ -49,7 +49,3 @@ stations.each do |station|
       pre_election_labour_promises: 0
   )
 end
-
-
-
-
