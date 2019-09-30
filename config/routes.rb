@@ -9,7 +9,11 @@ Rails.application.routes.draw do
     # the work space each is for and for security (as the root URL for each
     # work space is secret).
 
-    resources :turnout_observations, path: 'turnout', except: :destroy
+    resources :turnout_observations, path: 'turnout', except: :destroy do
+      collection do
+        get :start
+      end
+    end
   end
 
   resources :users, only: :update

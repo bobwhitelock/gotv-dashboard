@@ -11,27 +11,15 @@
   <section class="section">
     <div class="container">
       <%= form_for @observation, url: {action: "create"} do |f| %>
-        <div class="field">
-          <p class="label">Which polling station are you at?</p>
-          <%
-            @polling_stations.each do |station|
-          %>
-            <div class="control">
-              <label class="radio">
-                <%= f.radio_button(:polling_station_id, station.id, required: true) %>
-                <%= station.fully_specified_name %>
-              </label>
-            </div>
-          <%
-            end
-          %>
-        </div>
+        <%= f.hidden_field(:polling_station_id) %>
+
         <div class="field">
           <label class="label">What is the current ballot count there?</label>
           <div class="control">
             <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
           </div>
         </div>
+
         <div class="buttons">
           <%= f.submit "Send", class: 'button is-primary' %>
         </div>
