@@ -22,10 +22,18 @@
    cd gotv-dashboard
    gem install bundler
    bundle install gotv-dashboard
+   rake db:setup
    rails server
    ```
 
 3. Possibly other steps - to be continued...
+
+4. To import useful data for development:
+
+   ```bash
+   rake gotv:import_councils
+   rake gotv:import_redbridge
+   ```
 
 ### To access admin dashboard
 

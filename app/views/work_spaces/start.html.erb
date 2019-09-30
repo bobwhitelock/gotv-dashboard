@@ -1,7 +1,5 @@
 
 <% content_for :head_js do %>
-  <%= javascript_include_tag 'jquery'  %>
-  <%= javascript_include_tag 'jquery_ujs' %>
   <%= javascript_include_tag 'typeahead.bundle.min.js' %>
 <% end %>
 
@@ -15,18 +13,8 @@
       <label class="label is-large ">Choose your council to setup a workspace:</label>
 
       <div id="council-search" class="control">
-        <input class="input is-large typeahead" type="text" autofocus placeholder="Canterbury">
+        <input class="input is-large typeahead" type="text" autofocus placeholder="Redbridge">
       </div>
-
-      <style>
-        .tt-cursor {
-          background: black;
-          color: white;
-        }
-        .tt-cursor .tt-highlight {
-          color: #eee;
-        }
-      </style>
 
       <%# XXX Move to own script and head, may need defer tag to have load after content %>
       <script>

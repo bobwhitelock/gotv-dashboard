@@ -43,6 +43,7 @@ class WorkSpacesController < ApplicationController
   # XXX Load and cache this and `council_ids_with_polling_stations`, rather
   # than on every request and risk things breaking if API is temporarily
   # unavailable.
+  # XXX None of this is used any more - remove or adapt.
   def councils
     data = wheredoivote_data 'councils'
     data.map do |council_data|
