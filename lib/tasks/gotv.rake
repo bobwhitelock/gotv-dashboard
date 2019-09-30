@@ -1,19 +1,30 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-require './lib/imports.rb'
 
+require './lib/imports.rb'
+require 'open-uri'
+
+def wheredoivote_data(endpoint)
+  endpoint_url = "https://wheredoivote.co.uk/api/beta/#{endpoint}.json"
+  data = open(endpoint_url).read
+  return JSON.parse(data)
+end
 
 namespace :gotv do
   desc "import councils"
   task import_councils: :environment do
-    councils = JSON.parse(open("https://wheredoivote.co.uk/api/beta/councils.json").read)
-                   .map {|council| {:code => council['council_id'], :name => council['name']}}
-    councils.each {|council| Council.create!(council)}
+    # Some items returned from this URL lack names for some reason; ignore
+    # these.
+    councils = wheredoivote_data('councils')
+      .reject {|c| c['name'].empty?}
+      .map do |council|
+      {
+        code: council['council_id'],
+        name: council['name']
+      }
+    end
+
+    councils.each { |council| Council.create!(council) }
   end
 
 
