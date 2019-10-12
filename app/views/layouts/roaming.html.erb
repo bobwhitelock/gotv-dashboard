@@ -4,9 +4,11 @@
 <% content_for :layout do %>
   <section class="notification is-primary">
     <div class="container">
-      <p class="title">
-        <%= yield :title %>
-      </p>
+      <%# XXX Have the title only be hidden when phone in landscape, when there %>
+      <%# isn't room for it %>
+      <%# <p class="title"> %>
+      <%#   <%= yield :title %1> %>
+      <%# </p> %>
       <p class="subtitle">
         <%= yield :subtitle %>
       </p>
