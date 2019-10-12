@@ -4,7 +4,9 @@
 <% end %>
 
 <% content_for :subtitle do %>
-  Your committee room received the count for '<%= @observation.polling_station.fully_specified_name %>'.
+  Your committee room received the count of
+  <em><%= @observation.count %></em>
+  for <em><%= @observation.polling_station.fully_specified_name %></em>.
 <% end %>
 
 <% content_for :content do %>
