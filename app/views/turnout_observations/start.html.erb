@@ -25,6 +25,8 @@
         <%# XXX Move to own script and head, may need defer tag to have load after content %>
         <%# XXX Adapted from and very similar to code in
         `app/views/work_spaces/start.html.erb` - should DRY up %>
+        <%# XXX Possibly just using `to_json` here is a bad idea - will include too %>
+        <%# much data, which is both potentially insecure and bulky %>
         <script>
            (function () {
             var pollingStations = <%= raw(@polling_stations.to_json) %>;
