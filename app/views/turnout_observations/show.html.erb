@@ -7,10 +7,24 @@
   Your committee room received the count of
   <em><%= @observation.count %></em>
   for <em><%= @observation.polling_station.fully_specified_name %></em>.
+
+      <p>
+        <span class="has-text-grey-lighter is-size-7">
+          Made a mistake?
+          <%= link_to(
+            'Click here to enter a corrected count',
+            new_work_space_turnout_observation_path(
+              @work_space,
+              polling_station: @observation.polling_station
+            ),
+            class: 'has-text-white-ter'
+          ) %>.
+        </span>
+      </p>
 <% end %>
 
 <% content_for :content do %>
-  <section class="section" style="padding-bottom: 3rem;">
+  <section class="section" style="padding-bottom: 1.5rem;">
     <div class="container">
       <p class="buttons is-centered">
         <%= link_to(
