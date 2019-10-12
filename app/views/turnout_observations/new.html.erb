@@ -10,6 +10,26 @@
 <% content_for :content do %>
   <section class="section">
     <div class="container">
+      <p>
+        Recording ballot count for
+        <em><%= @observation.polling_station.fully_specified_name %></em>.
+      </p>
+
+      <p>
+        <span class="has-text-grey is-size-7">
+          Not here?
+          <%= link_to(
+            'Click here to select again',
+            start_work_space_turnout_observations_path(@work_space),
+            class: 'has-text-grey-light'
+          ) %>.
+        </span>
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
       <%= form_for @observation, url: {action: "create"} do |f| %>
         <%= f.hidden_field(:polling_station_id) %>
 
