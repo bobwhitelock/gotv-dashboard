@@ -16,12 +16,20 @@
         <div class="field">
           <label class="label">What is the current ballot count there?</label>
           <div class="control">
-            <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
+            <%= f.number_field(
+              :count,
+              in: 1..2000,
+              step: 1,
+              required: true,
+              class: "input is-large",
+              autofocus: true,
+              placeholder: 'Enter ballot count...'
+            ) %>
           </div>
         </div>
 
         <div class="buttons">
-          <%= f.submit "Send", class: 'button is-primary' %>
+          <%= f.submit "Send ballot count", class: 'button is-primary' %>
         </div>
       <% end %>
     </div>
