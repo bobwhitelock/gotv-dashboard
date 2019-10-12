@@ -16,3 +16,7 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( jquery.js )
 Rails.application.config.assets.precompile += %w( jquery_ujs )
 Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js )
+
+# Layout-specific stylesheets.
+Rails.application.config.assets.precompile += %w( organiser_dashboard.css )
+Rails.application.config.assets.precompile += %w( roaming.css )

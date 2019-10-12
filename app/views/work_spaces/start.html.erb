@@ -1,8 +1,4 @@
 
-<% content_for :head_js do %>
-  <%= javascript_include_tag 'typeahead.bundle.min.js' %>
-<% end %>
-
 <% content_for :subtitle do %>
   Create a workspace for your committee room
 <% end %>
@@ -17,6 +13,8 @@
       </div>
 
       <%# XXX Move to own script and head, may need defer tag to have load after content %>
+      <%# XXX Possibly just using `to_json` here is a bad idea - will include too %>
+      <%# much data, which is both potentially insecure and bulky %>
       <script>
          (function () {
           var councils = <%= raw(@councils.to_json) %>;

@@ -11,13 +11,13 @@ class UsersController < ApplicationController
     user.update!(user_params)
     flash.notice = 'Your details have been saved. Thanks!'
 
-    # Figure out fallback path as new observation path for work space of one of
-    # User's past observations. This will probably break at some point.
-    new_observation_path = new_work_space_turnout_observation_path(
+    # Figure out fallback path as observation start path for work space of one
+    # of User's past observations. This will probably break at some point.
+    start_observation_path = start_work_space_turnout_observations_path(
       user.turnout_observations.first.work_space
     )
 
-    redirect_back fallback_location: new_observation_path
+    redirect_back fallback_location: start_observation_path
   end
 
   private

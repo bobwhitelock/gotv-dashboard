@@ -2,17 +2,24 @@
 class TurnoutObservationsController < ApplicationController
   layout 'roaming'
 
-  def create
-    observation = TurnoutObservation.create!(create_observation_params)
-
-    redirect_to work_space_turnout_observation_path(observation.work_space, observation)
+  def start
+    @work_space = find_work_space
+    @polling_stations = @work_space.polling_stations.sort_by(&:reference)
   end
 
   def new
     @work_space = find_work_space
-    @polling_stations = @work_space.polling_stations.sort_by(&:reference)
-    @observation = TurnoutObservation.new
-    @observation.work_space = @work_space
+    polling_station = @work_space.polling_stations.find(params[:polling_station])
+    @observation = TurnoutObservation.new(
+      work_space: @work_space,
+      polling_station: polling_station
+    )
+  end
+
+  def create
+    observation = TurnoutObservation.create!(create_observation_params)
+
+    redirect_to work_space_turnout_observation_path(observation.work_space, observation)
   end
 
   def show

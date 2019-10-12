@@ -1,13 +1,17 @@
 
+<% content_for :layout_name, 'roaming' %>
+
 <% content_for :layout do %>
   <section class="notification is-primary">
     <div class="container">
-      <p class="title">
-        <%= yield :title %>
-      </p>
-      <p class="subtitle">
+      <%# XXX Have the title only be hidden when phone in landscape, when there %>
+      <%# isn't room for it %>
+      <%# <div class="title"> %>
+      <%#   <%= yield :title %1> %>
+      <%# </div> %>
+      <div class="subtitle">
         <%= yield :subtitle %>
-      </p>
+      </div>
     </div>
   </section>
 

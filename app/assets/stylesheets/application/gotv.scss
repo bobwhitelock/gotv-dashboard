@@ -7,28 +7,10 @@ $primary: $labour-pink;
 $navbar-breakpoint: 0;
 
 @import "bulma";
-html {
-  font-size: 120%;
-
-  // Ensure rest of page is always at least as big as minimum size main
-  // dashboard table will shrink to, so header will still cover full page width
-  // in this case.
-  min-width: 650px;
-}
 
 abbr {
   // Remove default underline added by some browsers, which looks odd.
   text-decoration: none;
-}
-
-.past-counts-list {
-  margin: 0 !important;
-  text-decoration: line-through;
-  opacity: 0.8;
-
-  li {
-    list-style: none;
-  }
 }
 
 .nowrap {
@@ -43,4 +25,8 @@ abbr {
   .tt-highlight {
     color: #eee;
   }
+}
+
+.twitter-typeahead {
+  width: 100%;
 }

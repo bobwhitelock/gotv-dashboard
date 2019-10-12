@@ -1,0 +1,60 @@
+
+<% content_for :title do %>
+  <%= @work_space.name %>
+<% end %>
+
+<% content_for :subtitle do %>
+  Send ballot counts to help your committee room
+<% end %>
+
+<% content_for :content do %>
+  <section class="section">
+    <div class="container">
+      <div class="field">
+        <p class="label">Which polling station are you at?</p>
+
+        <div id="polling-station-search" class="control">
+          <input
+            class="input is-large typeahead"
+            type="text"
+            placeholder="Start typing..."
+            autofocus
+          >
+        </div>
+
+        <%# XXX Move to own script and head, may need defer tag to have load after content %>
+        <%# XXX Adapted from and very similar to code in
+        `app/views/work_spaces/start.html.erb` - should DRY up %>
+        <%# XXX Possibly just using `to_json` here is a bad idea - will include too %>
+        <%# much data, which is both potentially insecure and bulky %>
+        <script>
+           (function () {
+            var pollingStations = <%= raw(@polling_stations.to_json) %>;
+            var dataSource = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.obj.whitespace('fully_specified_name'),
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              local: pollingStations
+            });
+
+            $('#polling-station-search .typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1,
+                classNames: {
+                  menu: 'dropdown-menu dropdown-content',
+                  suggestion: 'dropdown-item',
+                },
+              },
+              {
+                display: 'fully_specified_name',
+                name: 'pollingStations',
+                source: dataSource,
+              }).bind('typeahead:select', function(ev, suggestion) {
+              window.location = '<%= new_work_space_turnout_observation_url %>'+'?polling_station='+suggestion.id;
+            });
+          })()
+        </script>
+      </div>
+    </div>
+  </section>
+<% end %>
