@@ -28,11 +28,12 @@
 
 3. Possibly other steps - to be continued...
 
-4. To import useful data for development:
+4. To import/generate useful data for development:
 
    ```bash
    rake gotv:import_councils
    rake gotv:import_redbridge
+   rake gotv:randomize_figures
    ```
 
 ### To access admin dashboard
