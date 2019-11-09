@@ -9,8 +9,4 @@ class PollingStation < ApplicationRecord
   def fully_specified_name
     "#{reference}: #{name} (#{ward.name})"
   end
-
-  def as_json(options = {})
-    super(options).merge(fully_specified_name: fully_specified_name)
-  end
 end

@@ -27,9 +27,19 @@ class WorkSpacesController < ApplicationController
   end
 
   def create
-    @work_space = WorkSpace.create!(work_space_params)
-    @work_space.polling_stations = PollingStation.where(ward_id: params[:wards])
-    @work_space.save!
+    ActiveRecord::Base.transaction do
+      @work_space = WorkSpace.create!(work_space_params)
+
+      wards = params[:wards]
+      polling_stations = PollingStation.where(ward_id: wards)
+      polling_stations.each do |ps|
+        @work_space.work_space_polling_stations.create!(
+          polling_station: ps,
+          pre_election_labour_promises: 0,
+          pre_election_registered_voters: 0
+        )
+      end
+    end
 
     redirect_to @work_space
   end

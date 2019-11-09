@@ -6,7 +6,7 @@
 <% content_for :subtitle do %>
   Your committee room received the count of
   <em><%= @observation.count %></em>
-  for <em><%= @observation.polling_station.fully_specified_name %></em>.
+  for <em><%= @observation.work_space_polling_station.fully_specified_name %></em>.
 
       <p>
         <span class="has-text-grey-lighter is-size-7">
@@ -15,7 +15,7 @@
             'Click here to enter a corrected count',
             new_work_space_turnout_observation_path(
               @work_space,
-              polling_station: @observation.polling_station
+              work_space_polling_station: @observation.work_space_polling_station
             ),
             class: 'has-text-white-ter'
           ) %>.

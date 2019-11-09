@@ -12,7 +12,7 @@
     <div class="container">
       <p>
         Recording ballot count for
-        <em><%= @observation.polling_station.fully_specified_name %></em>.
+        <em><%= @observation.work_space_polling_station.fully_specified_name %></em>.
       </p>
 
       <p>
@@ -31,7 +31,7 @@
   <section class="section">
     <div class="container">
       <%= form_for @observation, url: {action: "create"} do |f| %>
-        <%= f.hidden_field(:polling_station_id) %>
+        <%= f.hidden_field(:work_space_polling_station_id) %>
 
         <div class="field">
           <label class="label">What is the current ballot count there?</label>
