@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_28_143018) do
+ActiveRecord::Schema.define(version: 2019_11_09_140840) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -46,14 +46,6 @@ ActiveRecord::Schema.define(version: 2019_09_28_143018) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
-  end
-
-  create_table "confirmed_labour_voter_observations", force: :cascade do |t|
-    t.integer "count", null: false
-    t.integer "polling_station_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["polling_station_id"], name: "index_clvo_on_polling_station_id"
   end
 
   create_table "councils", force: :cascade do |t|
