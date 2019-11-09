@@ -21,14 +21,13 @@
    git clone git@github.com:CampaignLab/gotv-dashboard.git
    cd gotv-dashboard
    gem install bundler
-   bundle install gotv-dashboard
+   gem update --system
+   bundle install --without production
    rake db:setup
    rails server
    ```
 
-3. Possibly other steps - to be continued...
-
-4. To import/generate useful data for development:
+3. To import/generate useful data for development:
 
    ```bash
    rake gotv:import_councils
@@ -45,6 +44,7 @@
      bin/rails server
      ```
 
-2. Visit `${dashboard_url}/admin`
+2. Visit `$dashboard_url/admin` - where `$dashboard_url` is the URL you are
+   accessing the GOTV dashboard at, e.g. `http://localhost:3000` by default.
 
 3. Enter username as `admin`, password as the value exported above.
