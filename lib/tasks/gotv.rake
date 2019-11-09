@@ -11,7 +11,7 @@ def wheredoivote_data(endpoint)
 end
 
 namespace :gotv do
-  desc "import councils"
+  desc 'Import all councils from wheredoivote.co.uk'
   task import_councils: :environment do
     # Some items returned from this URL lack names for some reason; ignore
     # these.
@@ -28,7 +28,7 @@ namespace :gotv do
   end
 
 
-  desc "Import Redbridge stations"
+  desc 'Import Redbridge wards and polling stations from local CSV file'
   task import_redbridge: :environment do
     require 'csv'
     redbridge_council_code = 'E09000026'
