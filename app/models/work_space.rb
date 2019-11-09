@@ -1,6 +1,6 @@
 class WorkSpace < ApplicationRecord
-  has_and_belongs_to_many :polling_stations
-  has_many :turnout_observations
+  has_many :work_space_polling_stations
+  has_many :turnout_observations, through: :work_space_polling_stations
 
   before_validation :create_identifier, on: :create
 
@@ -9,7 +9,7 @@ class WorkSpace < ApplicationRecord
   end
 
   def latest_observations
-    polling_stations.map do |ps|
+    work_space_polling_stations.map do |ps|
       most_recent_observation = \
         most_recent_observation_for(ps) || UnobservedTurnoutObservation.new
 
@@ -38,9 +38,8 @@ class WorkSpace < ApplicationRecord
     self.identifier = XKPassword.generate.downcase
   end
 
-  def most_recent_observation_for(polling_station)
-    self.turnout_observations
-      .where(polling_station: polling_station)
+  def most_recent_observation_for(work_space_polling_station)
+    work_space_polling_station.turnout_observations
       .order(created_at: :desc)
       .limit(1).first
   end

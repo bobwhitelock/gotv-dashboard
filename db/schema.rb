@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_09_140840) do
+ActiveRecord::Schema.define(version: 2019_11_09_140841) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -55,8 +55,6 @@ ActiveRecord::Schema.define(version: 2019_11_09_140840) do
 
   create_table "polling_stations", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "pre_election_registered_voters", null: false
-    t.integer "pre_election_labour_promises", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "postcode"
@@ -66,21 +64,14 @@ ActiveRecord::Schema.define(version: 2019_11_09_140840) do
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end
 
-  create_table "polling_stations_work_spaces", id: false, force: :cascade do |t|
-    t.integer "work_space_id", null: false
-    t.integer "polling_station_id", null: false
-  end
-
   create_table "turnout_observations", force: :cascade do |t|
     t.integer "count", null: false
-    t.integer "polling_station_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "work_space_id"
     t.integer "user_id"
-    t.index ["polling_station_id"], name: "index_turnout_observations_on_polling_station_id"
+    t.integer "work_space_polling_station_id", default: 0, null: false
     t.index ["user_id"], name: "index_turnout_observations_on_user_id"
-    t.index ["work_space_id"], name: "index_turnout_observations_on_work_space_id"
+    t.index ["work_space_polling_station_id"], name: "index_turnout_observations_on_work_space_polling_station_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -95,6 +86,17 @@ ActiveRecord::Schema.define(version: 2019_11_09_140840) do
     t.string "code", null: false
     t.integer "council_id"
     t.index ["council_id"], name: "index_wards_on_council_id"
+  end
+
+  create_table "work_space_polling_stations", force: :cascade do |t|
+    t.integer "polling_station_id", null: false
+    t.integer "work_space_id", null: false
+    t.integer "pre_election_registered_voters", null: false
+    t.integer "pre_election_labour_promises", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["polling_station_id"], name: "index_work_space_polling_stations_on_polling_station_id"
+    t.index ["work_space_id"], name: "index_work_space_polling_stations_on_work_space_id"
   end
 
   create_table "work_spaces", force: :cascade do |t|

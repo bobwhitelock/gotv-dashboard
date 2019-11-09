@@ -1,6 +1,6 @@
 class PollingStation < ApplicationRecord
-  has_many :turnout_observations
   belongs_to :ward
+  has_many :work_space_polling_stations
 
   # XXX Possibly more polling station fields should be non-nullable?
   validates_presence_of :reference
