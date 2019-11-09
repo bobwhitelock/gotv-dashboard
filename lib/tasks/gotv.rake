@@ -11,7 +11,7 @@ def wheredoivote_data(endpoint)
 end
 
 namespace :gotv do
-  desc "import councils"
+  desc 'Import all councils from wheredoivote.co.uk'
   task import_councils: :environment do
     # Some items returned from this URL lack names for some reason; ignore
     # these.
@@ -28,7 +28,7 @@ namespace :gotv do
   end
 
 
-  desc "Import Redbridge stations"
+  desc 'Import Redbridge wards and polling stations from local CSV file'
   task import_redbridge: :environment do
     require 'csv'
     redbridge_council_code = 'E09000026'
@@ -69,8 +69,6 @@ namespace :gotv do
             ward: ward,
             reference: station['reference'],
             polling_district: station['polling_district'],
-            pre_election_registered_voters: 0,
-            pre_election_labour_promises: 0
         )
       else
         puts "Couldn't find ward for " + station['address']
@@ -79,9 +77,9 @@ namespace :gotv do
 
   end
 
-  desc 'Generate plausible random Labour promises and registered voters for all polling stations'
+  desc 'Generate plausible random Labour promises and registered voters for all work space polling stations'
   task randomize_figures: :environment do
-    PollingStation.all.each do |ps|
+    WorkSpacePollingStation.all.each do |ps|
       registered_voters = rand(500..3000)
       ps.pre_election_registered_voters = registered_voters
 

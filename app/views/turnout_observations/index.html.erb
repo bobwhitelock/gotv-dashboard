@@ -18,7 +18,7 @@
     <% @observations.each do |observation| %>
       <tr>
         <td>
-          <%= render 'shared/polling_station_name', polling_station: observation.polling_station %>
+          <%= render 'shared/polling_station_name', polling_station: observation.work_space_polling_station %>
         </td>
         <td>
           <%= render 'shared/observation_time', observation: observation %>

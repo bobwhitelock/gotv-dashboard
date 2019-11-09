@@ -32,6 +32,11 @@
    ```bash
    rake gotv:import_councils
    rake gotv:import_redbridge
+
+   # Access the app and create a work space to use for development (at
+   # `http://localhost:3000`)
+
+   # Set up this work space with some random figures.
    rake gotv:randomize_figures
    ```
 

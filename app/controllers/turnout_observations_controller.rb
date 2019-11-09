@@ -4,20 +4,26 @@ class TurnoutObservationsController < ApplicationController
 
   def start
     @work_space = find_work_space
-    @polling_stations = @work_space.polling_stations.sort_by(&:reference)
+    @polling_stations = @work_space.work_space_polling_stations.sort_by(&:reference)
   end
 
   def new
     @work_space = find_work_space
-    polling_station = @work_space.polling_stations.find(params[:polling_station])
+    polling_station = @work_space.work_space_polling_stations.find(
+      params[:polling_station]
+    )
     @observation = TurnoutObservation.new(
-      work_space: @work_space,
-      polling_station: polling_station
+      work_space_polling_station: polling_station
     )
   end
 
   def create
-    observation = TurnoutObservation.create!(create_observation_params)
+    work_space = find_work_space
+
+    observation = TurnoutObservation.new(create_observation_params)
+    # XXX Ad-hoc checking to prevent creating observations for other WorkSpaces
+    # - make this better and happen for all actions.
+    observation.save! if observation.work_space == work_space
 
     redirect_to work_space_turnout_observation_path(observation.work_space, observation)
   end
@@ -52,13 +58,8 @@ class TurnoutObservationsController < ApplicationController
 
   def create_observation_params
     params.require(:turnout_observation).permit(
-      [:count, :polling_station_id]
+      [:count, :work_space_polling_station_id]
     ).merge(
-      # `work_space_id` is the foreign key but we use the `identifier` for the
-      # WorkSpace in the URL (for secure obfuscation), therefore find the
-      # WorkSpace from the `identifier` and then merge in the `id` for this
-      # instead.
-      work_space_id: find_work_space.id,
       user: @current_user
     )
   end

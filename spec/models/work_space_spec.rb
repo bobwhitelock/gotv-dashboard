@@ -6,28 +6,23 @@ RSpec.describe WorkSpace do
     subject do
       create(
         :work_space,
-        polling_stations: [polling_station],
+        work_space_polling_stations: [polling_station],
       )
     end
-    let (:polling_station) { create(:polling_station) }
+    let (:polling_station) { create(:work_space_polling_station) }
 
     it 'gives most recent turnout observation for each polling station' do
       another_observation = create(
         :turnout_observation,
-        polling_station: polling_station,
+        work_space_polling_station: polling_station,
         count: 11,
         created_at: 2.hours.ago)
       most_recent_observation = create(
         :turnout_observation,
-        polling_station: polling_station,
+        work_space_polling_station: polling_station,
         count: 22,
         created_at: 1.hour.ago
       )
-      subject.turnout_observations = [
-        most_recent_observation,
-        another_observation,
-      ]
-      subject.save!
 
       data = subject.latest_observations
 
