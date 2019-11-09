@@ -15,4 +15,9 @@ class PollingStation < ApplicationRecord
   def as_json(options = {})
     super(options).merge(fully_specified_name: fully_specified_name)
   end
+
+  def colocated_polling_stations
+    # Try to merge equivalent postcodes, and reject the polling station we are looking at.
+    PollingStation.all.select{ |ps| ps.id != id and ps.postcode.upcase.gsub(/\s+/, "") == postcode.upcase.gsub(/\s+/, "") }
+  end
 end

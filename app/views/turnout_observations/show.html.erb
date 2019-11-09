@@ -24,6 +24,30 @@
 <% end %>
 
 <% content_for :content do %>
+  <% if @observation.polling_station.colocated_polling_stations.any? %>
+    <section class="section">
+      <div>
+        <p>
+          This polling station is co-located with the following others. Don't forget to update those as well.
+        </p>
+        <ul>
+          <% @observation.polling_station.colocated_polling_stations.each do |colocated_station| %>
+            <li>
+                <%= colocated_station.fully_specified_name %>
+                <%# [last updated at XXXXX] %>
+                <%= link_to(
+                  'Click here to enter a count',
+                  new_work_space_turnout_observation_path(
+                    @work_space,
+                    polling_station: colocated_station
+                  )
+                ) %></li>
+          <% end %>
+        </ul>
+      </div>
+    </section>
+  <% end %>
+
   <section class="section" style="padding-bottom: 1.5rem;">
     <div class="container">
       <p class="buttons is-centered">
