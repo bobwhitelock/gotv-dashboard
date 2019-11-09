@@ -183,7 +183,7 @@ ActiveAdmin.setup do |config|
 
   # == Setting a Favicon
   #
-  config.favicon = 'favicon-400x400.png'
+  config.favicon = '/favicon/favicon-32x32.png'
 
   # == Meta Tags
   #
