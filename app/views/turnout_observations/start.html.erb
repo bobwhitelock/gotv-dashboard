@@ -36,6 +36,9 @@
               local: pollingStations
             });
 
+            // store suggestion after autocomplete
+            var acSuggestion = null;
+
             $('#polling-station-search .typeahead').typeahead({
                 hint: true,
                 highlight: true,
@@ -49,9 +52,22 @@
                 display: 'fully_specified_name',
                 name: 'pollingStations',
                 source: dataSource,
-              }).bind('typeahead:select', function(ev, suggestion) {
-              window.location = '<%= new_work_space_turnout_observation_url %>'+'?polling_station='+suggestion.id;
-            });
+              }).on('typeahead:select', function(ev, suggestion) {
+                window.location = '<%= new_work_space_turnout_observation_url %>'+'?polling_station='+suggestion.id;
+              }).on('typeahead:autocomplete', function(ev, suggestion) {
+                acSuggestion = suggestion;
+              });
+
+              /*
+               * A little hack to allow submission of form with Enter key
+               * after autocomplete
+               */
+              $('#polling-station-search input.tt-input').keyup(function(event) {
+                var inputVal = $('#polling-station-search input.tt-input').val().trim();
+                if (event.keyCode == 13 && acSuggestion && inputVal == acSuggestion.fully_specified_name) {
+                    window.location = '<%= new_work_space_turnout_observation_url %>'+'?polling_station='+acSuggestion.id;
+                }
+              });
           })()
         </script>
       </div>

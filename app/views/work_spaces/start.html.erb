@@ -23,6 +23,9 @@
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             local: councils
           });
+             
+          // store suggestion after autocomplete
+          var acSuggestion = null;
 
           $('#council-search .typeahead').typeahead({
               hint: true,
@@ -37,9 +40,22 @@
               display: 'name',
               name: 'councils',
               source: dataSource,
-            }).bind('typeahead:select', function(ev, suggestion) {
-            window.location = '<%= new_work_space_path %>'+'?council_id='+suggestion.id;
-          });
+            }).on('typeahead:select', function(ev, suggestion) {
+                window.location = '<%= new_work_space_path %>'+'?council_id='+suggestion.id;
+            }).on('typeahead:autocomplete', function(ev, suggestion) {
+                acSuggestion = suggestion;
+            });
+
+             /*
+              * A little hack to allow submission of form with Enter key
+              * after autocomplete
+              */
+             $('#council-search input.tt-input').keyup(function(event) {
+                var inputVal = $('#council-search input.tt-input').val().trim();
+                if (event.keyCode == 13 && inputVal == acSuggestion.name) {
+                    window.location = '<%= new_work_space_path %>'+'?council_id='+acSuggestion.id;
+                }
+             });
         })()
       </script>
     </div>
