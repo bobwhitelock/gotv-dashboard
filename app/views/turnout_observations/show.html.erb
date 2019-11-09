@@ -28,13 +28,21 @@
     <section class="section">
       <div>
         <p>
-          This polling station is co-located with the following others. Don't forget to update those as well.
+          Please also update these co-located polling stations:
         </p>
         <ul>
           <% @observation.polling_station.colocated_polling_stations.each do |colocated_station| %>
             <li>
                 <%= colocated_station.fully_specified_name %>
-                <%# [last updated at XXXXX] %>
+                <% if colocated_station.last_observation %>
+                  <em>
+                    <% if colocated_station.last_observation.user.name %>
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %> by <%= colocated_station.last_observation.user.name %>]
+                    <% else %>
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %>]
+                    <% end %>
+                  </em>
+                <% end %>
                 <%= link_to(
                   'Click here to enter a count',
                   new_work_space_turnout_observation_path(
