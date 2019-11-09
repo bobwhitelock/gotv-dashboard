@@ -11,16 +11,19 @@
   <section class="section">
     <div class="container">
       <div class="field">
-        <p class="label">Which polling station are you at?</p>
+        <%# XXX Why doesn't clicking this label focus the input? %>
+        <label class="label">
+          Which polling station are you at?
 
-        <div id="polling-station-search" class="control">
-          <input
-            class="input is-large typeahead"
-            type="text"
-            placeholder="Start typing..."
-            autofocus
-          >
-        </div>
+          <div id="polling-station-search" class="control">
+            <input
+              class="input is-large typeahead"
+              type="text"
+              placeholder="Start typing..."
+              autofocus
+            >
+          </div>
+        </label>
 
         <%# XXX Move to own script and head, may need defer tag to have load after content %>
         <%# XXX Adapted from and very similar to code in

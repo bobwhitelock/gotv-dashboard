@@ -6,11 +6,14 @@
 <% content_for :content do %>
   <div class="level-item">
     <div class="field">
-      <label class="label is-large ">Choose your council to setup a workspace:</label>
+      <%# XXX Why doesn't clicking this label focus the input? %>
+      <label class="label is-large">
+        Choose your council to setup a workspace:
 
-      <div id="council-search" class="control">
-        <input class="input is-large typeahead" type="text" autofocus placeholder="Redbridge">
-      </div>
+        <div id="council-search" class="control">
+          <input class="input is-large typeahead" type="text" autofocus placeholder="Redbridge">
+        </div>
+      </label>
 
       <%# XXX Move to own script and head, may need defer tag to have load after content %>
       <%# XXX Possibly just using `to_json` here is a bad idea - will include too %>

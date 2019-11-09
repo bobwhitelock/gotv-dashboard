@@ -8,6 +8,13 @@ $navbar-breakpoint: 0;
 
 @import "bulma";
 
+// Equivalent to Bulma's label margin but for when input inside label.
+label {
+  input {
+    margin-top: 0.5em;
+  }
+}
+
 abbr {
   // Remove default underline added by some browsers, which looks odd.
   text-decoration: none;
