@@ -19,7 +19,14 @@
           What is the correct ballot count?
 
           <div class="control">
-            <%= f.number_field(:count, in: 1..2000, step: 1, required: true, class: "input") %>
+            <%= f.number_field(
+              :count,
+              in: 1..2000,
+              step: 1,
+              required: true,
+              class: "input",
+              autofocus: true
+            ) %>
           </div>
         </label>
       </div>
