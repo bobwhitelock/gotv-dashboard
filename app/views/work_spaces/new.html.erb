@@ -5,14 +5,28 @@
 
 <% content_for :content do %>
   <%= form_for @work_space do |f| %>
-    <%= f.hidden_field(:name) %>
+    <div class="field">
+      <label class="label">
+        Name your GOTV campaign
+
+        <div class="control">
+          <%= f.text_field(
+            :name,
+            required: true,
+            class: "input",
+            autofocus: true
+          ) %>
+        </div>
+      </label>
+    </div>
+
     <div class="field">
       <p class="label">
-        Which wards are you covering
-          <small class="content is-small">
-            (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
-            <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
-          </small>
+        Which wards are you covering?
+        <small class="content is-small">
+          (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
+          <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
+        </small>
       </p>
       <div class="control">
         <% @wards.each_slice(4)  do |row| %>

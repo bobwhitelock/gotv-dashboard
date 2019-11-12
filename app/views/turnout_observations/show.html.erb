@@ -89,17 +89,23 @@
 
         <%= form_for @current_user do |f| %>
           <div class="field">
-            <label class="label">Your name</label>
-            <div class="control">
-              <%= f.text_field(:name, required: true, class: "input") %>
-            </div>
+            <label class="label">
+              Your name
+
+              <div class="control">
+                <%= f.text_field(:name, required: true, class: "input") %>
+              </div>
+            </label>
           </div>
 
           <div class="field">
-            <label class="label">Your phone number</label>
-            <div class="control">
-              <%= f.telephone_field(:phone_number, required: true, class: "input") %>
-            </div>
+            <label class="label">
+              Your phone number
+
+              <div class="control">
+                <%= f.telephone_field(:phone_number, required: true, class: "input") %>
+              </div>
+            </label>
           </div>
 
           <div class="buttons">

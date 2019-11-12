@@ -34,18 +34,21 @@
         <%= f.hidden_field(:work_space_polling_station_id) %>
 
         <div class="field">
-          <label class="label">What is the current ballot count there?</label>
-          <div class="control">
-            <%= f.number_field(
-              :count,
-              in: 1..2000,
-              step: 1,
-              required: true,
-              class: "input is-large",
-              autofocus: true,
-              placeholder: 'Enter ballot count...'
-            ) %>
-          </div>
+          <label class="label">
+            What is the current ballot count there?
+
+            <div class="control">
+              <%= f.number_field(
+                :count,
+                in: 1..2000,
+                step: 1,
+                required: true,
+                class: "input is-large",
+                autofocus: true,
+                placeholder: 'Enter ballot count...'
+              ) %>
+            </div>
+          </label>
         </div>
 
         <div class="buttons">
