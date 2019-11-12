@@ -1,5 +1,6 @@
 class WorkSpace < ApplicationRecord
   has_many :work_space_polling_stations
+  has_many :committee_rooms
   has_many :turnout_observations, through: :work_space_polling_stations
 
   before_validation :create_identifier, on: :create

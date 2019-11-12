@@ -1,6 +1,7 @@
 class WorkSpacePollingStation < ApplicationRecord
   belongs_to :work_space
   belongs_to :polling_station
+  belongs_to :committee_room, required: false
   has_one :ward, through: :polling_station
   has_many :turnout_observations
 
