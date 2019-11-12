@@ -18,9 +18,9 @@ class WorkSpacesController < ApplicationController
 
   def new
     council = Council.find(params[:council_id])
-    @wards = council.wards.sort_by { |w| w.name or 'z' }.compact
-    default_name = "#{council.name} #{Time.current.year.to_s} Elections"
-    @work_space = WorkSpace.new({ :name => default_name })
+    @wards = council.wards.sort_by { |w| w.name || 'z' }.compact
+    default_name = "#{council.name} #{Time.current.year} Elections"
+    @work_space = WorkSpace.new(name: default_name)
     render layout: 'setup'
   end
 
