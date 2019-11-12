@@ -2,8 +2,6 @@
 require 'open-uri'
 require 'json'
 
-# Council = Struct.new(:id, :name, :email)
-
 AvailablePollingStation = Struct.new(:station_id, :address)
 
 class WorkSpacesController < ApplicationController
