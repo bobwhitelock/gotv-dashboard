@@ -14,6 +14,8 @@ Rails.application.routes.draw do
         get :start
       end
     end
+
+    resources :committee_rooms, path: 'committee-room', except: :index
   end
 
   resources :users, only: :update

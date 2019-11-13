@@ -39,7 +39,7 @@ class WorkSpacesController < ApplicationController
       end
     end
 
-    redirect_to @work_space
+    redirect_to new_work_space_committee_room_path(@work_space)
   end
 
   private
