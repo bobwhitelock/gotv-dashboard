@@ -15,14 +15,7 @@
     </div>
   </section>
 
-  <%# XXX Pull up to application layout? %>
-  <% if notice %>
-    <article class="message is-success">
-      <div class="message-header">
-        <p><%= notice %></p>
-      </div>
-    </article>
-  <% end %>
+  <%= render 'shared/success_flash', message: notice %>
 
   <%= yield :content %>
 <% end %>

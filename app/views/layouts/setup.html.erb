@@ -11,13 +11,7 @@
     </div>
   </section>
 
-  <% if notice %>
-    <article class="message is-success">
-      <div class="message-header">
-        <p><%= notice %></p>
-      </div>
-    </article>
-  <% end %>
+  <%= render 'shared/success_flash', message: notice %>
 
   <section class="section">
     <div class="container">
