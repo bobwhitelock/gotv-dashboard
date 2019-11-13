@@ -2,14 +2,20 @@
 require 'rails_helper'
 
 RSpec.describe WorkSpace do
-  describe '#latest_observations' do
+  describe '#latest_observations_by_committee_room' do
     subject do
       create(
         :work_space,
         work_space_polling_stations: [polling_station]
       )
     end
-    let (:polling_station) { create(:work_space_polling_station) }
+
+    let :polling_station do
+      create(
+        :work_space_polling_station,
+        committee_room: create(:committee_room)
+      )
+    end
 
     it 'gives most recent turnout observation for each polling station' do
       _another_observation = create(
@@ -25,20 +31,29 @@ RSpec.describe WorkSpace do
         created_at: 1.hour.ago
       )
 
-      data = subject.latest_observations
+      data = subject.latest_observations_by_committee_room
 
-      first_entry = data.first
+      _, first_group = data.first
+      first_entry = first_group.first
       expect(first_entry.polling_station).to eq(polling_station)
       expect(first_entry.turnout_observation).to eq(most_recent_observation)
     end
 
     it 'gives placeholder empty observation for polling station without observation' do
-      data = subject.latest_observations
+      data = subject.latest_observations_by_committee_room
 
-      first_entry = data.first
+      _, first_group = data.first
+      first_entry = first_group.first
       expect(first_entry.polling_station).to eq(polling_station)
       expect(first_entry.turnout_observation.count).to eq(0)
       expect(first_entry.turnout_observation.created_at).to be_nil
+    end
+
+    it 'groups polling stations/observations by committee room' do
+      data = subject.latest_observations_by_committee_room
+
+      committee_room, = data.first
+      expect(committee_room).to eq(polling_station.committee_room)
     end
   end
 
