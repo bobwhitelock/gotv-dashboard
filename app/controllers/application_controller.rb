@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
     @current_user = User.find_or_create_by(id: current_user_id)
     session[CURRENT_USER_ID_KEY] = @current_user.id
   end
+
+  def find_work_space
+    WorkSpace.find_by_identifier!(params[:work_space_id])
+  end
 end

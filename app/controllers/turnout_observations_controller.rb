@@ -67,8 +67,4 @@ class TurnoutObservationsController < ApplicationController
   def update_observation_params
     params.require(:turnout_observation).permit(:count)
   end
-
-  def find_work_space
-    WorkSpace.find_by_identifier!(params[:work_space_id])
-  end
 end
