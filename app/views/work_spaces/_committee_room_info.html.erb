@@ -1,0 +1,19 @@
+
+<td width="20%" rowspan="<%= rowspan %>">
+
+  <% if committee_room %>
+    <p class="is-marginless is-size-6">
+      <%= committee_room.address %>
+    </p>
+
+    <p class="has-text-weight-bold">
+      <%= committee_room.organiser_name %>
+    </p>
+
+  <% else %>
+
+    <p class="is-size-6 is-italic">
+      No committee room
+    </p>
+  <% end %>
+</td>

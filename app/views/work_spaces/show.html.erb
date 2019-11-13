@@ -27,95 +27,16 @@
 
           <tr>
             <% if first_for_committee_room %>
-              <td width="20%" rowspan="<%= observations.length %>">
-
-                <% if committee_room %>
-                  <p class="is-marginless is-size-6">
-                    <%= committee_room.address %>
-                  </p>
-
-                  <p class="has-text-weight-bold">
-                    <%= committee_room.organiser_name %>
-                  </p>
-
-                <% else %>
-
-                  <p class="is-size-6 is-italic">
-                    No committee room
-                  </p>
-                <% end %>
-              </td>
+              <%= render 'committee_room_info',
+                committee_room: committee_room,
+                rowspan: observations.length
+              %>
             <% end %>
 
-            <td width="20%">
-              <%= render 'shared/polling_station_name', polling_station: polling_station %>
-            </td>
-
-            <td width="20%">
-              <span class="nowrap">
-                <span class="is-size-6">
-                  <%= polling_station.pre_election_labour_promises %>
-                </span>
-                promises /
-              </span>
-              <span class="nowrap">
-                <span class="is-size-6">
-                  <%= polling_station.pre_election_registered_voters %>
-                </span>
-                voters
-              </span>
-            </td>
-
-            <td width="15%">
-              <span class="is-size-6 has-text-weight-bold">
-                <%= turnout_observation.count %>
-              </span>
-              <span class="is-italic">
-                <% if turnout_observation.created_at %>
-                  at
-                  <%= render 'shared/observation_time', observation: turnout_observation %>
-                  <% if turnout_observation.user %>
-                    <br>
-                    by <%= turnout_observation.user.info %>
-                  <% end %>
-                <% else %>
-                  (not yet observed)
-                <% end %>
-              </span>
-            </td>
-
-            <td width="10%">
-              <% if polling_station.pre_election_registered_voters > 0 %>
-                <span class="is-size-6 has-text-weight-bold">
-                  <%= number_to_percentage(
-                    turnout_observation.turnout_proportion * 100,
-                    precision: 1
-                  ) %>
-                </span>
-              <% else %>
-                <span class="is-italic">
-                  Registered voters unknown
-                </span>
-              <% end %>
-            </td>
-
-            <td width="15%">
-              <% if turnout_observation.created_at %>
-                <span class="nowrap">
-                  <span class="is-size-6 has-text-weight-bold">
-                    <%= turnout_observation.guesstimated_labour_votes %>
-                  </span>
-                  votes
-                  /
-                </span>
-                <span class="nowrap">
-                  <span class="is-size-6 has-text-weight-bold has-text-primary">
-                    <%= turnout_observation.guesstimated_labour_votes_left %>
-                  </span>
-                  votes left
-                </span>
-              <% end %>
-            </td>
+            <%= render 'polling_station_info',
+              polling_station: polling_station,
+              turnout_observation: turnout_observation
+            %>
           </tr>
         <% end %>
       <% end %>
