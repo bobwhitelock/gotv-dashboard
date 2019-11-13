@@ -7,6 +7,7 @@ $primary: $labour-pink;
 $navbar-breakpoint: 0;
 
 @import "bulma";
+@import "fake_button";
 
 // Equivalent to Bulma's label margin but for when input inside label.
 label {
