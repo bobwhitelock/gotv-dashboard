@@ -13,10 +13,36 @@
     <% wards.each_slice(4)  do |row| %>
       <div class="columns is-marginless">
         <% row.each do |ward| %>
+          <%#
+            XXX Below CommitteeRoom-specific behaviour happens wherever this
+            partial is used, but only actually relevant when creating new
+            CommitteeRooms - could cause issues if Wards will already have
+            CommitteeRooms when this is used in other places in future, e.g. in
+            particular if we later support changing Wards for a WorkSpace after
+            initial creation.
+
+            XXX Possibly more warning/better indication of Ward already being
+            covered by CommitteeRoom would be useful - use `confirm`?
+          %>
+          <% committee_room = ward.committee_room_in_work_space(work_space)%>
+
           <div class="column is-paddingless">
-            <label class="checkbox">
+            <label
+              class="checkbox <%= 'has-text-grey' if committee_room %>"
+
+              <% if committee_room %>
+                title="This ward is already covered by a committee room; selecting it will remove it from the existing committee room."
+              <% end %>
+            >
+
               <%= check_box_tag "wards[]", ward.id, false %>
               <%= ward.name %>
+
+              <% if committee_room %>
+                <span class="is-size-7">
+                  [covered by <span class="is-italic"><%= committee_room.organiser_name %></span>]
+                </span>
+              <% end %>
             </label>
           </div>
         <% end %>
