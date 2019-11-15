@@ -1,12 +1,11 @@
 class CommitteeRoomsController < ApplicationController
-  # XXX Have layout toggle depending on whether initially setting up dashboard
-  # or configuring later on?
   layout 'setup'
 
   def new
     @committee_room = CommitteeRoom.new
     @work_space = find_work_space
     @wards = @work_space.wards
+    render layout: 'organiser_dashboard' if params['reconfigure']
   end
 
   def create

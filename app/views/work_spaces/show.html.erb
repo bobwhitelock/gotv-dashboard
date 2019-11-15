@@ -13,7 +13,13 @@
     %>
     <thead>
       <tr>
-        <th>Committee Room</th>
+        <th>
+          Committee Room
+          <%= link_to new_work_space_committee_room_path(@work_space, reconfigure: true),
+            title: 'Create new committee room' do %>
+            <i class="fas fa-plus"></i>
+          <% end %>
+        </th>
         <th>Polling Station</th>
         <th>Labour promises / Registered voters</th>
         <th>Turnout</th>
