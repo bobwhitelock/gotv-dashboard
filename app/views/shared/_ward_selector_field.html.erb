@@ -14,7 +14,7 @@
       <div class="columns is-marginless">
         <% row.each do |ward| %>
           <div class="column is-paddingless">
-            <label class=" checkbox">
+            <label class="checkbox">
               <%= check_box_tag "wards[]", ward.id, false %>
               <%= ward.name %>
             </label>
