@@ -5,6 +5,12 @@
 
 <% content_for :content do %>
   <table class="table is-striped is-narrow is-fullwidth">
+    <%#
+      XXX Might be nice to make head sticky too (as well as each
+      CommitteeRoom's info), but this seems tricky with table markup (maybe
+      impossible with just CSS?) - see
+      https://stackoverflow.com/questions/54689034/pure-css-multiple-stacked-position-sticky.
+    %>
     <thead>
       <tr>
         <th>Committee Room</th>

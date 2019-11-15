@@ -25,6 +25,11 @@ abbr {
   white-space: nowrap;
 }
 
+.is-sticky {
+  position: sticky;
+  top: 50px;
+}
+
 // For Typeahead autocompletes.
 .tt-cursor {
   background: black;

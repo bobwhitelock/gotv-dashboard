@@ -1,21 +1,22 @@
 
 <td width="20%" rowspan="<%= rowspan %>">
+  <div class="is-sticky">
+    <% if committee_room %>
+      <p class="is-marginless is-size-6">
+        <%= committee_room.address %>
+      </p>
 
-  <% if committee_room %>
-    <p class="is-marginless is-size-6">
-      <%= committee_room.address %>
-    </p>
+      <p class="has-text-weight-bold">
+        <%= committee_room.organiser_name %>
+      </p>
 
-    <p class="has-text-weight-bold">
-      <%= committee_room.organiser_name %>
-    </p>
+      <%= render 'volunteer_control_panel', text: 'Canvassers: 30' %>
+      <%= render 'volunteer_control_panel', text: 'Cars: 2' %>
+    <% else %>
 
-    <%= render 'volunteer_control_panel', text: 'Canvassers: 30' %>
-    <%= render 'volunteer_control_panel', text: 'Cars: 2' %>
-  <% else %>
-
-    <p class="is-size-6 is-italic">
-      No committee room
-    </p>
-  <% end %>
+      <p class="is-size-6 is-italic">
+        No committee room
+      </p>
+    <% end %>
+  </div>
 </td>
