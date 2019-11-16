@@ -15,7 +15,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :committee_rooms, path: 'committee-room', except: :index
+    resources :committee_rooms, path: 'committee-room', except: :index do
+      post :canvassers
+      post :cars
+    end
   end
 
   resources :users, only: :update

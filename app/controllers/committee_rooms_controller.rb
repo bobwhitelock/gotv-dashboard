@@ -30,7 +30,27 @@ class CommitteeRoomsController < ApplicationController
     redirect_to new_work_space_committee_room_path(work_space)
   end
 
+  def canvassers
+    volunteers_observation_action(CanvassersObservation)
+  end
+
+  def cars
+    volunteers_observation_action(CarsObservation)
+  end
+
   private
+
+  def volunteers_observation_action(observation_class)
+    committee_room = CommitteeRoom.find(params[:committee_room_id])
+    # XXX More ad-hoc authorization, should improve.
+    return if committee_room.work_space != find_work_space
+
+    observation_class.create!(
+      committee_room: committee_room,
+      count: params[:count],
+      user: @current_user
+    )
+  end
 
   def committee_room_params
     params.require(:committee_room).permit(:address, :organiser_name)

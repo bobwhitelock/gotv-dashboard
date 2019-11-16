@@ -10,8 +10,23 @@
         <%= committee_room.organiser_name %>
       </p>
 
-      <%= render 'volunteer_control_panel', text: 'Canvassers: 30' %>
-      <%= render 'volunteer_control_panel', text: 'Cars: 2' %>
+      <%= render 'volunteer_control_panel',
+        identifier: "canvassers-#{committee_room.id}",
+        text: 'Canvassers',
+        count: committee_room.last_canvassers_observation.count,
+        update_count_url: work_space_committee_room_canvassers_path(
+          committee_room.work_space, committee_room
+        )
+      %>
+
+      <%= render 'volunteer_control_panel',
+        identifier: "cars-#{committee_room.id}",
+        text: 'Cars',
+        count: committee_room.last_cars_observation.count,
+        update_count_url: work_space_committee_room_cars_path(
+          committee_room.work_space, committee_room
+        )
+      %>
     <% else %>
 
       <p class="is-size-6 is-italic">

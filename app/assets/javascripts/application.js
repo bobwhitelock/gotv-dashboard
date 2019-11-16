@@ -13,5 +13,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require lodash
 //= require_tree .
 //= require cookies_eu
