@@ -5,8 +5,21 @@
 
 <% content_for :content do %>
   <table class="table is-striped is-narrow is-fullwidth">
+    <%#
+      XXX Might be nice to make head sticky too (as well as each
+      CommitteeRoom's info), but this seems tricky with table markup (maybe
+      impossible with just CSS?) - see
+      https://stackoverflow.com/questions/54689034/pure-css-multiple-stacked-position-sticky.
+    %>
     <thead>
       <tr>
+        <th>
+          Committee Room
+          <%= link_to new_work_space_committee_room_path(@work_space, reconfigure: true),
+            title: 'Create new committee room' do %>
+            <i class="fas fa-plus"></i>
+          <% end %>
+        </th>
         <th>Polling Station</th>
         <th>Labour promises / Registered voters</th>
         <th>Turnout</th>
@@ -16,81 +29,28 @@
     </thead>
 
     <tbody class="is-size-7">
-      <% @work_space.latest_observations.each do |o| %>
-        <% polling_station = o.polling_station
-           turnout_observation = o.turnout_observation
+      <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
+        first_observation = observations.first
+        observations.each do |o|
+          first_for_committee_room = o == first_observation
+          polling_station = o.polling_station
+          turnout_observation = o.turnout_observation
         %>
-        <tr>
-          <td width="20%">
-            <%= render 'shared/polling_station_name', polling_station: polling_station %>
-          </td>
 
-          <td width="20%">
-            <span class="nowrap">
-              <span class="is-size-6">
-                <%= polling_station.pre_election_labour_promises %>
-              </span>
-              promises /
-            </span>
-            <span class="nowrap">
-              <span class="is-size-6">
-                <%= polling_station.pre_election_registered_voters %>
-              </span>
-              voters
-            </span>
-          </td>
-
-          <td width="15%">
-            <span class="is-size-6 has-text-weight-bold">
-              <%= turnout_observation.count %>
-            </span>
-            <span class="is-italic">
-              <% if turnout_observation.created_at %>
-                at
-                <%= render 'shared/observation_time', observation: turnout_observation %>
-                <% if turnout_observation.user %>
-                  <br>
-                  by <%= turnout_observation.user.info %>
-                <% end %>
-              <% else %>
-                (not yet observed)
-              <% end %>
-            </span>
-          </td>
-
-          <td width="10%">
-            <% if polling_station.pre_election_registered_voters > 0 %>
-              <span class="is-size-6 has-text-weight-bold">
-                <%= number_to_percentage(
-                  turnout_observation.turnout_proportion * 100,
-                  precision: 1
-                ) %>
-              </span>
-            <% else %>
-              <span class="is-italic">
-                Registered voters unknown
-              </span>
+          <tr>
+            <% if first_for_committee_room %>
+              <%= render 'committee_room_info',
+                committee_room: committee_room,
+                rowspan: observations.length
+              %>
             <% end %>
-          </td>
 
-          <td width="15%">
-            <% if turnout_observation.created_at %>
-              <span class="nowrap">
-                <span class="is-size-6 has-text-weight-bold">
-                  <%= turnout_observation.guesstimated_labour_votes %>
-                </span>
-                votes
-                /
-              </span>
-              <span class="nowrap">
-                <span class="is-size-6 has-text-weight-bold has-text-primary">
-                  <%= turnout_observation.guesstimated_labour_votes_left %>
-                </span>
-                votes left
-              </span>
-            <% end %>
-          </td>
-        </tr>
+            <%= render 'polling_station_info',
+              polling_station: polling_station,
+              turnout_observation: turnout_observation
+            %>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

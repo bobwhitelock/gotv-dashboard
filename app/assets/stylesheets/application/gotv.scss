@@ -7,6 +7,7 @@ $primary: $labour-pink;
 $navbar-breakpoint: 0;
 
 @import "bulma";
+@import "fake_button";
 
 // Equivalent to Bulma's label margin but for when input inside label.
 label {
@@ -22,6 +23,11 @@ abbr {
 
 .nowrap {
   white-space: nowrap;
+}
+
+.is-sticky {
+  position: sticky;
+  top: 50px;
 }
 
 // For Typeahead autocompletes.

@@ -1,0 +1,48 @@
+
+<% content_for :subtitle do %>
+  Setup your committee rooms for election day
+<% end %>
+
+<% content_for :content do %>
+  <%= form_for @committee_room, url: {action: 'create'} do |f| %>
+    <div class="field">
+      <label class="label">
+        Address of this committee room
+
+        <div class="control">
+          <%= f.text_field(
+            :address, required: true, class: "input", autofocus: true
+          ) %>
+        </div>
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        Name of lead organiser for this committee room
+
+        <div class="control">
+          <%= f.text_field(:organiser_name, required: true, class: "input") %>
+        </div>
+      </label>
+    </div>
+
+    <%= render 'shared/ward_selector_field',
+      label_text: 'Which wards is this committee room responsible for?',
+      wards: @wards,
+      work_space: @work_space
+    %>
+
+    <div class="buttons">
+      <%= f.submit 'Create committee room',
+        class: 'button is-primary'
+      %>
+
+      <%= link_to(
+        'Continue without creating',
+        work_space_path(@work_space),
+        class: 'button'
+      ) %>
+    </div>
+  <% end %>
+<% end %>

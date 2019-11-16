@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_09_140841) do
+ActiveRecord::Schema.define(version: 2019_11_12_002626) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -46,6 +46,35 @@ ActiveRecord::Schema.define(version: 2019_11_09_140841) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "canvassers_observations", force: :cascade do |t|
+    t.integer "count", null: false
+    t.integer "committee_room_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["committee_room_id"], name: "index_canvassers_observations_on_committee_room_id"
+    t.index ["user_id"], name: "index_canvassers_observations_on_user_id"
+  end
+
+  create_table "cars_observations", force: :cascade do |t|
+    t.integer "count", null: false
+    t.integer "committee_room_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["committee_room_id"], name: "index_cars_observations_on_committee_room_id"
+    t.index ["user_id"], name: "index_cars_observations_on_user_id"
+  end
+
+  create_table "committee_rooms", force: :cascade do |t|
+    t.text "address", null: false
+    t.text "organiser_name", null: false
+    t.integer "work_space_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["work_space_id"], name: "index_committee_rooms_on_work_space_id"
   end
 
   create_table "councils", force: :cascade do |t|
@@ -95,6 +124,8 @@ ActiveRecord::Schema.define(version: 2019_11_09_140841) do
     t.integer "pre_election_labour_promises", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "committee_room_id"
+    t.index ["committee_room_id"], name: "index_work_space_polling_stations_on_committee_room_id"
     t.index ["polling_station_id"], name: "index_work_space_polling_stations_on_polling_station_id"
     t.index ["work_space_id"], name: "index_work_space_polling_stations_on_work_space_id"
   end

@@ -20,29 +20,11 @@
       </label>
     </div>
 
-    <div class="field">
-      <p class="label">
-        Which wards are you covering?
-        <small class="content is-small">
-          (<a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = true)">All</a> /
-          <a class="is-small" onclick="document.querySelectorAll('[name=\'wards[]\']').forEach(element => element.checked = false)">Clear</a>)
-        </small>
-      </p>
-      <div class="control">
-        <% @wards.each_slice(4)  do |row| %>
-          <div class="columns is-marginless">
-            <% row.each do |ward| %>
-              <div class="column is-paddingless">
-                <label class=" checkbox">
-                  <%= check_box_tag "wards[]", ward.id, false %>
-                  <%= ward.name %>
-                </label>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'shared/ward_selector_field',
+      label_text: 'Which wards are you covering?',
+      wards: @wards,
+      work_space: @work_space
+    %>
 
     <div class="buttons">
       <%= f.submit "Create workspace", class: 'button is-primary' %>

@@ -24,6 +24,12 @@ FactoryBot.define do
     name { 'My Work Space' }
   end
 
+  factory :committee_room do
+    work_space
+    address { '5 Organiser Street, GE1 5LA' }
+    organiser_name { 'Some Organiser' }
+  end
+
   factory :work_space_polling_station do
     polling_station
     work_space

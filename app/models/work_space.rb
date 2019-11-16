@@ -1,6 +1,9 @@
 class WorkSpace < ApplicationRecord
   has_many :work_space_polling_stations
+  has_many :committee_rooms
   has_many :turnout_observations, through: :work_space_polling_stations
+  has_many :polling_stations, through: :work_space_polling_stations
+  has_many :wards, -> { distinct }, through: :polling_stations
 
   before_validation :create_identifier, on: :create
 
@@ -8,7 +11,7 @@ class WorkSpace < ApplicationRecord
     self.identifier
   end
 
-  def latest_observations
+  def latest_observations_by_committee_room
     work_space_polling_stations.map do |ps|
       most_recent_observation = \
         most_recent_observation_for(ps) || UnobservedTurnoutObservation.new
@@ -29,6 +32,8 @@ class WorkSpace < ApplicationRecord
         polling_station.reference,
         polling_station.name,
       ]
+    end.group_by do |o|
+      o.polling_station.committee_room
     end
   end
 

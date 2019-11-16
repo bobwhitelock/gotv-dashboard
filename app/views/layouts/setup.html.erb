@@ -11,6 +11,8 @@
     </div>
   </section>
 
+  <%= render 'shared/success_flash', message: notice %>
+
   <section class="section">
     <div class="container">
       <%= yield :content %>

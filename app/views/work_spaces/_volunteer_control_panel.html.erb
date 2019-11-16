@@ -1,0 +1,31 @@
+
+<div class="field has-addons is-marginless">
+  <p class="control">
+    <button class="button" onclick="decreaseVolunteersControl('<%= identifier %>', '<%= update_count_url %>')">
+      <span class="icon">
+        <i class="fa fa-minus"></i>
+      </span>
+    </button>
+  </p>
+
+  <p class="control">
+    <div class="fake-button is-fullwidth">
+      <span id="<%= identifier %>-saving" class="is-invisible">
+        <span class="fa fa-spinner fa-spin"></span>
+      </span>
+      &nbsp;
+      <span><%= text %>:
+        <%# XXX Make count also editable directly, if needed %>
+        <span id="<%= identifier %>-value"><%= count %></span>
+      </span>
+    </div>
+  </p>
+
+  <p class="control">
+    <button class="button" onclick="increaseVolunteersControl('<%= identifier %>', '<%= update_count_url %>')">
+      <span class="icon">
+        <i class="fa fa-plus"></i>
+      </span>
+    </button>
+  </p>
+</div>
