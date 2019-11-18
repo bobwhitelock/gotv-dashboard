@@ -42,7 +42,7 @@ class TurnoutObservationsController < ApplicationController
   def edit
     @work_space = find_work_space
     # XXX This (and similar code in `update`) will allow editing observation
-    # for any work space by editing URL - prevent this.
+    # for any workspace by editing URL - prevent this.
     @observation = TurnoutObservation.find(params[:id])
     render layout: 'organiser_dashboard'
   end

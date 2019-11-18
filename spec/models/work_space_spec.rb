@@ -58,7 +58,7 @@ RSpec.describe WorkSpace do
   end
 
   describe '#wards' do
-    it "returns all wards for given work space's polling stations" do
+    it "returns all wards for given workspace's polling stations" do
       ward_1 = create(:ward, name: 'Ward 1')
       ward_1_polling_station = create(:polling_station, ward: ward_1)
       ward_2 = create(:ward, name: 'Ward 2')
