@@ -4,7 +4,6 @@ class CommitteeRoomsController < ApplicationController
   def new
     @committee_room = CommitteeRoom.new
     @work_space = find_work_space
-    @wards = @work_space.wards
     render layout: 'organiser_dashboard' if params['reconfigure']
   end
 
