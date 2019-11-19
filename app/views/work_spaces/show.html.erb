@@ -41,7 +41,8 @@
             <% if first_for_committee_room %>
               <%= render 'committee_room_info',
                 committee_room: committee_room,
-                rowspan: observations.length
+                rowspan: observations.length,
+                render_controls: true
               %>
             <% end %>
 
