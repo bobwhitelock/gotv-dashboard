@@ -21,7 +21,13 @@
           <% end %>
         </th>
         <th>Polling Station</th>
-        <th>Labour promises / Registered voters</th>
+        <th>
+          Labour promises / Registered voters
+          <%= link_to work_space_configuration_path(@work_space),
+            title: 'Configure workspace figures' do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+        </th>
         <th>Turnout</th>
         <th>Turnout percentage</th>
         <th>Guesstimated Labour votes / Labour votes left</th>
@@ -39,9 +45,10 @@
 
           <tr>
             <% if first_for_committee_room %>
-              <%= render 'committee_room_info',
+              <%= render 'shared/committee_room_info',
                 committee_room: committee_room,
-                rowspan: observations.length
+                rowspan: observations.length,
+                render_controls: true
               %>
             <% end %>
 

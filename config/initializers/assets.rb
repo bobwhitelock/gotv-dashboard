@@ -18,5 +18,5 @@ Rails.application.config.assets.precompile += %w( jquery_ujs )
 Rails.application.config.assets.precompile += %w( typeahead.bundle.min.js )
 
 # Layout-specific stylesheets.
-Rails.application.config.assets.precompile += %w( organiser_dashboard.css )
-Rails.application.config.assets.precompile += %w( roaming.css )
+Rails.application.config.assets.precompile += %w( layout/organiser_dashboard.css )
+Rails.application.config.assets.precompile += %w( layout/roaming.css )

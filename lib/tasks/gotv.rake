@@ -77,7 +77,7 @@ namespace :gotv do
 
   end
 
-  desc 'Generate plausible random Labour promises and registered voters for all work space polling stations'
+  desc 'Generate plausible random Labour promises and registered voters for all workspace polling stations'
   task randomize_figures: :environment do
     WorkSpacePollingStation.all.each do |ps|
       registered_voters = rand(500..3000)

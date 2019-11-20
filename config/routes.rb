@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   root 'work_spaces#start'
 
   resources :work_spaces, path: 'space', only: [:new, :create, :show] do
-    # All URLs for a work space should be nested under here, to both indicate
-    # the work space each is for and for security (as the root URL for each
-    # work space is secret).
+    # All URLs for a workspace should be nested under here, to both indicate
+    # the workspace each is for and for security (as the root URL for each
+    # workspace is secret).
+
+    resource :configuration, only: [:show, :update]
 
     resources :turnout_observations, path: 'turnout', except: :destroy do
       collection do

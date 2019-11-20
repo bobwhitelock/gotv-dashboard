@@ -3,7 +3,7 @@
 
 <% content_for :layout do %>
   <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-    <div class="navbar-menu has-background-primary ">
+    <div class="navbar-menu has-background-primary">
       <div class="navbar-start">
         <a class="navbar-item has-text-white" href="<%= work_space_path(@work_space) %>">Dashboard</a>
         <a class="navbar-item has-text-white" href="<%= work_space_turnout_observations_path(@work_space) %>">Raw Data</a>
@@ -13,8 +13,8 @@
 
   <section class="section has-background-white-ter is-bold" style="border-bottom: 1px solid #ccc;">
     <div class="level container">
-      <div class="">
-        <h1 class="title "><%= @work_space.name %></h1>
+      <div>
+        <h1 class="title"><%= @work_space.name %></h1>
         <p class="subtitle">
           <%= yield :subtitle %>
         </p>
@@ -24,6 +24,8 @@
       </div>
     </div>
   </section>
+
+  <%= render 'shared/success_flash', message: notice %>
 
   <section class="section">
     <div class="container content">

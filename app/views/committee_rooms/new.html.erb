@@ -4,7 +4,7 @@
 <% end %>
 
 <% content_for :content do %>
-  <%= form_for @committee_room, url: {action: 'create'} do |f| %>
+  <%= form_for @committee_room, url: {action: 'create', reconfigure: @reconfiguring} do |f| %>
     <div class="field">
       <label class="label">
         Address of this committee room
@@ -29,7 +29,7 @@
 
     <%= render 'shared/ward_selector_field',
       label_text: 'Which wards is this committee room responsible for?',
-      wards: @wards,
+      wards: @work_space.wards,
       work_space: @work_space
     %>
 
@@ -40,7 +40,7 @@
 
       <%= link_to(
         'Continue without creating',
-        work_space_path(@work_space),
+        @skip_creation_url,
         class: 'button'
       ) %>
     </div>
