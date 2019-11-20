@@ -21,7 +21,13 @@
           <% end %>
         </th>
         <th>Polling Station</th>
-        <th>Labour promises / Registered voters</th>
+        <th>
+          Labour promises / Registered voters
+          <%= link_to work_space_configuration_path(@work_space),
+            title: 'Configure workspace figures' do %>
+            <i class="fas fa-edit"></i>
+          <% end %>
+        </th>
         <th>Turnout</th>
         <th>Turnout percentage</th>
         <th>Guesstimated Labour votes / Labour votes left</th>
