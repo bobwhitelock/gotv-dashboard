@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     # the workspace each is for and for security (as the root URL for each
     # workspace is secret).
 
+    resource :configuration, only: [:show, :update]
+
     resources :turnout_observations, path: 'turnout', except: :destroy do
       collection do
         get :start

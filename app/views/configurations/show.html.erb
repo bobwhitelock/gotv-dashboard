@@ -1,0 +1,77 @@
+
+<% content_for :subtitle do %>
+  Input figures for your workspace for election day
+<% end %>
+
+<% content_for :content do %>
+  <%# XXX Some similarities between this and
+    `app/views/work_spaces/show.html.erb` - de-dupe/share more? %>
+
+  <%= form_with(model: @work_space, url: {action: :update}, method: 'patch')  do |f| %>
+
+    <table class="table is-striped is-narrow is-fullwidth">
+      <thead>
+        <tr>
+          <th>Committee Room</th>
+          <th>Polling Station</th>
+          <th>Labour promises</th>
+          <th>Registered voters</th>
+        </tr>
+      </thead>
+
+      <tbody class="is-size-7">
+        <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
+          first_observation = observations.first %>
+
+          <% observations.each do |o|
+             first_for_committee_room = o == first_observation
+             polling_station = o.polling_station
+          %>
+
+            <tr>
+              <% if first_for_committee_room %>
+                <%= render 'shared/committee_room_info',
+                  committee_room: committee_room,
+                  rowspan: observations.length,
+                  render_controls: false
+                %>
+              <% end %>
+
+              <td>
+                <%= render 'shared/polling_station_name', polling_station: polling_station %>
+              </td>
+
+              <%= f.fields_for :work_space_polling_stations, [polling_station] do |wsps_form| %>
+
+                <td>
+                  <%= wsps_form.number_field(
+                    :pre_election_labour_promises,
+                    min: 0,
+                    required: true,
+                    class: "input"
+                  ) %>
+                </td>
+
+                <td>
+                  <%= wsps_form.number_field(
+                    :pre_election_registered_voters,
+                    min: 0,
+                    required: true,
+                    class: "input"
+                  ) %>
+                </td>
+
+              <% end %>
+
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= f.submit 'Save workspace figures',
+      class: 'button is-primary is-fullwidth'
+    %>
+
+  <% end %>
+<% end %>
