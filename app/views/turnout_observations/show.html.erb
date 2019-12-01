@@ -24,39 +24,42 @@
 <% end %>
 
 <% content_for :content do %>
-  <% if @observation.work_space_polling_station.colocated_polling_stations.any? %>
-    <section class="section">
-      <div>
+  <section class="section" style="padding-bottom: 1.5rem;">
+    <% if @observation.work_space_polling_station.colocated_polling_stations.any? %>
+      <div class="container">
         <p>
-          Please also update these co-located polling stations:
-        </p>
-        <ul>
-          <% @observation.work_space_polling_station.colocated_polling_stations.each do |colocated_station| %>
-            <li>
-                <%= colocated_station.fully_specified_name %>
+          We think these ballot boxes are in the same building, make sure to
+          record these as well:
+
+          <ul class="has-bullet">
+            <% @observation.work_space_polling_station.colocated_polling_stations.each do |colocated_station| %>
+              <li>
+                <em><%= colocated_station.fully_specified_name %></em>
+
                 <% if colocated_station.last_observation %>
-                  <em>
+                  <strong>
                     <% if colocated_station.last_observation.user.name %>
                       [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %> by <%= colocated_station.last_observation.user.name %>]
                     <% else %>
                       [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %>]
                     <% end %>
-                  </em>
+                  </strong>
                 <% end %>
+
                 <%= link_to(
-                  'Click here to enter a count',
+                  'Click here to enter a new count',
                   new_work_space_turnout_observation_path(
                     @work_space,
                     polling_station: colocated_station
                   )
-                ) %></li>
-          <% end %>
-        </ul>
+                ) %>
+              </li>
+            <% end %>
+          </ul>
+        </p>
       </div>
-    </section>
-  <% end %>
+    <% end %>
 
-  <section class="section" style="padding-bottom: 1.5rem;">
     <div class="container">
       <p class="buttons is-centered">
         <%= link_to(
