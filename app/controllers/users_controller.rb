@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
     # Rudimentary authorization.
     if user != @current_user
+      # XXX Should this change now marketing site exists?
       redirect_back fallback_location: root_path
       return
     end
