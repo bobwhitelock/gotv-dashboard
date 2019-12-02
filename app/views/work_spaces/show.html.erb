@@ -4,6 +4,12 @@
 <% end %>
 
 <% content_for :content do %>
+  <article class="message is-small">
+    <div class="message-body">
+      * Note: Postal votes not included, these figures are likely underestimates.
+    </div>
+  </article>
+
   <table class="table is-striped is-narrow is-fullwidth">
     <%#
       XXX Might be nice to make head sticky too (as well as each
@@ -28,9 +34,9 @@
             <i class="fas fa-edit"></i>
           <% end %>
         </th>
-        <th>Turnout</th>
-        <th>Turnout percentage</th>
-        <th>Guesstimated Labour votes / Labour votes left</th>
+        <th>Turnout&nbsp;*</th>
+        <th>Turnout percentage&nbsp;*</th>
+        <th>Guesstimated Labour votes / Labour votes left&nbsp;*</th>
       </tr>
     </thead>
 
