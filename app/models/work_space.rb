@@ -36,6 +36,13 @@ class WorkSpace < ApplicationRecord
       ]
     end.group_by do |o|
       o.polling_station.committee_room
+    end.sort_by do |committee_room, _|
+      if committee_room
+        committee_room.organiser_name
+      else
+        # Ensure 'No committee room' section always last.
+        'zzz'
+      end
     end
   end
 
