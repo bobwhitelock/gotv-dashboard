@@ -1,4 +1,8 @@
 
+<%
+    items_per_row = 4
+%>
+
 <div class="field">
   <p class="label">
     <%= label_text %>
@@ -10,7 +14,7 @@
   </p>
 
   <div class="control">
-    <% wards.each_slice(4)  do |row| %>
+    <% wards.each_slice(items_per_row)  do |row| %>
       <div class="columns is-marginless">
         <% row.each do |ward| %>
           <%#
@@ -44,6 +48,13 @@
                 </span>
               <% end %>
             </label>
+          </div>
+        <% end %>
+
+        <%# Ensure still same number of columns on final row, so items line up %>
+        <%# correctly. %>
+        <% (items_per_row - row.length).times do %>
+          <div class="column is-paddingless">
           </div>
         <% end %>
       </div>

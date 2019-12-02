@@ -36,13 +36,24 @@ class WorkSpace < ApplicationRecord
       ]
     end.group_by do |o|
       o.polling_station.committee_room
+    end.sort_by do |committee_room, _|
+      if committee_room
+        committee_room.organiser_name
+      else
+        # Ensure 'No committee room' section always last.
+        'zzz'
+      end
     end
+  end
+
+  def self.identifier_generator
+    @identifier_generator ||= XKPassword::Generator.new
   end
 
   private
 
   def create_identifier
-    self.identifier = XKPassword.generate.downcase
+    self.identifier = self.class.identifier_generator.generate.downcase
   end
 
   def most_recent_observation_for(work_space_polling_station)

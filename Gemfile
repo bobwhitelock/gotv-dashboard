@@ -36,7 +36,7 @@ gem "bulma-rails", "~> 0.7.4"
 gem 'lodash-rails'
 gem 'postcodes_io'
 gem 'jquery-rails'
-gem 'xkpassword'
+gem 'xkpassword', git: 'https://github.com/bobwhitelock/xkpassword'
 gem "audited", "~> 4.7"
 gem 'activeadmin'
 gem 'cookies_eu'

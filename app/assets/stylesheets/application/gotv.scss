@@ -30,6 +30,10 @@ abbr {
   top: 50px;
 }
 
+.has-bullet {
+  list-style: inside;
+}
+
 // For Typeahead autocompletes.
 .tt-cursor {
   background: black;
