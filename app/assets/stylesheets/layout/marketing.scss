@@ -1,0 +1,22 @@
+
+.info-column {
+  text-align: justify;
+
+  .image {
+    border-bottom: 1px solid lightgrey;
+  }
+
+  img {
+    opacity: 0.9;
+    height: 274px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.notification {
+  p {
+    margin-bottom: 1rem;
+  }
+}

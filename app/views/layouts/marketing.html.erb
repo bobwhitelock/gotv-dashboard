@@ -1,11 +1,8 @@
 
-<%# XXX Just use all organiser dashboard styles in setup pages for now, for
-    consistency, maybe later split off separate styles if needed (in particular
-    want same font/page sizing) %>
-<% content_for :layout_name, 'organiser_dashboard' %>
+<% content_for :layout_name, 'marketing' %>
 
 <% content_for :layout do %>
-  <section class="hero is-primary">
+  <section class="hero is-primary is-bold is-medium">
     <div class="hero-body">
       <div class="container">
         <h1 class="title">Get Out the Vote</h1>
@@ -15,8 +12,6 @@
       </div>
     </div>
   </section>
-
-  <%= render 'shared/success_flash', message: notice %>
 
   <section class="section">
     <div class="container">

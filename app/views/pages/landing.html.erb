@@ -1,0 +1,58 @@
+
+<% content_for :subtitle do %>
+  A
+  <a href="https://www.campaignlab.london/" target="_blank" class="is-italic">
+    Campaign Lab
+  </a>
+  project
+<% end %>
+
+<% content_for :content do %>
+  <div class="columns">
+    <%= render 'info_column',
+      title: 'Better Organise Your GOTV Operation',
+      image: 'organiser_dashboard.png' do %>
+        Replace scraps of paper, unnecessary phone calls, and lost information
+        with a single dashboard that <strong>provides an overview of the
+        election day campaign</strong> for your constituency.
+    <% end %>
+
+    <%= render 'info_column',
+      title: 'Receive Live Turnout Figures',
+      image: 'polling_agent_view.jpg' do
+    %>
+      Your polling agents can input turnout figures directly into the
+      dashboard, giving you <strong>insight into turnout across the
+      constituency</strong> throughout the day, allowing you to <strong>better
+      target your resources</strong>.
+    <% end %>
+
+    <%= render 'info_column',
+      title: 'Track and Manage Volunteers',
+      image: 'volunteer_tracking.png' do
+    %>
+      Each committee room in the constituency can track the canvassers they
+      have throughout the day, allowing you to <strong>redirect volunteers to
+      where they can be most effective</strong>.
+    <% end %>
+  </div>
+
+  <div class="notification is-warning is-size-5">
+    <p>Looks interesting?</p>
+
+    <p>
+      Just <strong>send us an email</strong> at
+      <a href="mailto:gotv.campaignlab@gmail.com">gotv.campaignlab@gmail.com</a> with
+      your <strong>name</strong>, <strong>CLP</strong>, and
+      <strong>position</strong> in this CLP (e.g. CLP secretary), and we'll get
+      back to you ASAP about arranging a demo and setting up your constituency
+      for election day.
+    </p>
+
+    <p>
+      You can also <strong>try it out for yourself</strong> right now &mdash;
+      just go <%= link_to 'here', start_path %> and use the <em>Redbridge</em>
+      data set.
+    </p>
+  </div>
+<% end %>
