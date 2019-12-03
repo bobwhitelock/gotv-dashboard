@@ -35,6 +35,19 @@
     <%= render 'cookies_eu/consent_banner' %>
 
     <%= yield :layout %>
+
+    <footer class="footer">
+      <%# XXX Maybe include license info here too %>
+      <div class="content has-text-centered is-size-7">
+        <p>
+          <strong>GetOutTheVote.uk</strong> &#169; <%= Time.zone.now.year %>,
+          by
+          <a href="https://twitter.com/bobwhitelock">Bob Whitelock</a>
+          and
+          <a href="https://www.campaignlab.london/">Campaign Lab</a>.
+        </p>
+      </div>
+    </footer>
   </body>
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </html>
