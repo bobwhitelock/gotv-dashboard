@@ -1,0 +1,20 @@
+
+<div class="column info-column">
+  <div class="card">
+    <div class="card-image">
+      <figure class="image">
+        <%= image_tag(image) %>
+      </figure>
+    </div>
+
+    <header class="card-header">
+      <p class="card-header-title is-size-5">
+        <%= title %>
+      </p>
+    </header>
+
+    <div class="card-content">
+      <%= yield %>
+    </div>
+  </div>
+</div>
