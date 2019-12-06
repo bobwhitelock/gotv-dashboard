@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_06_002255) do
+ActiveRecord::Schema.define(version: 2019_12_06_020332) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -121,8 +121,8 @@ ActiveRecord::Schema.define(version: 2019_12_06_002255) do
   create_table "work_space_polling_stations", force: :cascade do |t|
     t.integer "polling_station_id", null: false
     t.integer "work_space_id", null: false
-    t.integer "pre_election_registered_voters", null: false
-    t.integer "pre_election_labour_promises", null: false
+    t.integer "box_electors", null: false
+    t.integer "box_labour_promises", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "committee_room_id"

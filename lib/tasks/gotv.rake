@@ -99,12 +99,12 @@ namespace :gotv do
   desc 'Generate plausible random Labour promises and registered voters for all workspace polling stations'
   task randomize_figures: :environment do
     WorkSpacePollingStation.all.each do |ps|
-      registered_voters = rand(500..3000)
-      ps.pre_election_registered_voters = registered_voters
+      box_electors = rand(500..3000)
+      ps.box_electors = box_electors
 
-      minimum_promises = registered_voters / 3
-      maximum_promises = registered_voters * 2/3
-      ps.pre_election_labour_promises = rand(minimum_promises..maximum_promises)
+      minimum_promises = box_electors / 3
+      maximum_promises = box_electors * 2/3
+      ps.box_labour_promises = rand(minimum_promises..maximum_promises)
 
       ps.save!
     end

@@ -18,8 +18,8 @@ class ConfigurationsController < ApplicationController
     params.require(:work_space).permit(
       work_space_polling_stations_attributes: [
         :id,
-        :pre_election_labour_promises,
-        :pre_election_registered_voters
+        :box_labour_promises,
+        :box_electors
       ]
     )
   end

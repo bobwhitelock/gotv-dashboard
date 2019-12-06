@@ -6,13 +6,13 @@
 <td width="20%">
   <span class="nowrap">
     <span class="is-size-6">
-      <%= polling_station.pre_election_labour_promises %>
+      <%= polling_station.box_labour_promises %>
     </span>
     promises /
   </span>
   <span class="nowrap">
     <span class="is-size-6">
-      <%= polling_station.pre_election_registered_voters %>
+      <%= polling_station.box_electors %>
     </span>
     voters
   </span>
@@ -37,7 +37,7 @@
 </td>
 
 <td width="10%">
-  <% if polling_station.pre_election_registered_voters > 0 %>
+  <% if polling_station.box_electors > 0 %>
     <span class="is-size-6 has-text-weight-bold">
       <%= number_to_percentage(
         turnout_observation.turnout_proportion * 100,

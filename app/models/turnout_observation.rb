@@ -4,8 +4,8 @@ class TurnoutObservation < ApplicationRecord
   belongs_to :user, required: false
   has_one :work_space, through: :work_space_polling_station
 
-  delegate :pre_election_registered_voters,
-    :pre_election_labour_promises,
+  delegate :box_electors,
+    :box_labour_promises,
     to: :work_space_polling_station
 
   # NOTE: Make sure all methods here also have trivial versions for null object
@@ -13,11 +13,11 @@ class TurnoutObservation < ApplicationRecord
   # page (`app/views/work_spaces/show.html.erb`).
 
   def turnout_proportion
-    registered_voters = pre_election_registered_voters
+    registered_voters = box_electors
     if registered_voters > 0
       self.count.to_f / registered_voters
     else
-      # Return 0 when registered voters is the default, i.e. unknown, to avoid
+      # Return 0 when `box_electors` is the default, i.e. unknown, to avoid
       # dividing by 0 and returning Infinity - XXX may be better to have this
       # column be nullable (less confusing), then check and return 1 here so
       # these observations will appear last?
@@ -36,13 +36,13 @@ class TurnoutObservation < ApplicationRecord
   # inaccurate, though I guess it should be inaccurate by same proportion for
   # every polling station) etc.
   def guesstimated_labour_votes
-    (turnout_proportion * pre_election_labour_promises).to_i
+    (turnout_proportion * box_labour_promises).to_i
   end
 
   # Same caveats as above, this is just the inverse to get a guesstimate of how
   # many Labour promises haven't voted yet.
   def guesstimated_labour_votes_left
-    pre_election_labour_promises - guesstimated_labour_votes
+    box_labour_promises - guesstimated_labour_votes
   end
 
   def past_counts

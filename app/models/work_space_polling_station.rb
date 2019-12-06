@@ -11,8 +11,8 @@ class WorkSpacePollingStation < ApplicationRecord
     :fully_specified_name,
     to: :polling_station
 
-  validates_presence_of :pre_election_labour_promises
-  validates_presence_of :pre_election_registered_voters
+  validates_presence_of :box_labour_promises
+  validates_presence_of :box_electors
 
   def as_json(options = {})
     super(options).merge(fully_specified_name: fully_specified_name)

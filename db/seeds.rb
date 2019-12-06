@@ -45,7 +45,7 @@ stations.each do |station|
       name: station['address'],
       postcode: station['postcode'],
       ward: Ward.find_by(code: station[:ward_code]),
-      pre_election_registered_voters: 0,
-      pre_election_labour_promises: 0
+      box_electors: 0,
+      box_labour_promises: 0
   )
 end

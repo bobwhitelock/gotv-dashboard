@@ -70,9 +70,9 @@ ContactCreatorImporter = Struct.new(
     wsps = WorkSpacePollingStation.create!(
       work_space: work_space,
       polling_station: polling_station,
-      pre_election_registered_voters: station_row['count_of_box_electors'],
+      box_electors: station_row['count_of_box_electors'],
       # XXX Change this to import real value
-      pre_election_labour_promises: 0
+      box_labour_promises: 0
     )
     debug "Created WorkSpacePollingStation: #{wsps.name} - box: #{wsps.reference}"
   end
