@@ -32,7 +32,6 @@ class WorkSpace < ApplicationRecord
       [
         polling_station.ward.name,
         polling_station.reference,
-        polling_station.name,
       ]
     end.group_by do |o|
       o.polling_station.committee_room
