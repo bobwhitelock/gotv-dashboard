@@ -4,18 +4,35 @@
 </td>
 
 <td width="20%">
-  <span class="nowrap">
-    <span class="is-size-6">
-      <%= polling_station.box_labour_promises %>
+  <div>
+    <span class="nowrap">
+      <span class="is-size-6">
+        <%= polling_station.box_labour_promises %>
+      </span>
+      promises /
     </span>
-    promises /
-  </span>
-  <span class="nowrap">
-    <span class="is-size-6">
-      <%= polling_station.box_electors %>
+    <span class="nowrap">
+      <span class="is-size-6">
+        <%= polling_station.box_electors %>
+      </span>
+      box voters
     </span>
-    voters
-  </span>
+  </div>
+
+  <div class="has-text-grey">
+    <span class="nowrap">
+      <span class="is-size-6">
+        <%= polling_station.postal_labour_promises %>
+      </span>
+      promises /
+    </span>
+    <span class="nowrap">
+      <span class="is-size-6">
+        <%= polling_station.postal_electors %>
+      </span>
+      postal voters
+    </span>
+  </div>
 </td>
 
 <td width="15%">
