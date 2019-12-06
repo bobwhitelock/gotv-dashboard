@@ -25,12 +25,11 @@ class WorkSpace < ApplicationRecord
     end.sort_by do |o|
       polling_station = o.polling_station
 
-      # Order polling stations consistently by ward name, and then by polling
-      # station reference within each ward (if polling stations do not have
-      # references set then the name will be used instead, but this should not
-      # normally happen).
+      # Order polling stations so show within hierarchy order within dashboard
+      # - Ward > Polling District > Polling Station/Ballot Box.
       [
         polling_station.ward.name,
+        polling_station.polling_district,
         polling_station.reference,
       ]
     end.group_by do |o|

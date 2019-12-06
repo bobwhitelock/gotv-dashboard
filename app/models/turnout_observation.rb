@@ -12,6 +12,8 @@ class TurnoutObservation < ApplicationRecord
   # (UnobservedTurnoutObservation), if they will be called from main dashboard
   # page (`app/views/work_spaces/show.html.erb`).
 
+  # XXX Update this and methods below to account for all Polling District
+  # values, not just this Polling Station.
   def turnout_proportion
     if box_electors > 0
       self.count.to_f / box_electors

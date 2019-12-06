@@ -8,6 +8,15 @@ html {
   min-width: 900px;
 }
 
+// Override Bulma style so all cells are vertically centred by default; in
+// particular so multi-rowspan cells have their value shown centred rather than
+// appearing to be associated with a specific cell either side (e.g. an overall
+// polling district figure shown alongside polling stations should appear to
+// relate to all of them).
+.content .table td {
+  vertical-align: middle;
+}
+
 .past-counts-list {
   margin: 0 !important;
   text-decoration: line-through;

@@ -49,10 +49,19 @@
 
     <tbody class="is-size-7">
       <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
+        # XXX A lot of hacks in here to do with Polling Districts not being
+        # a first class concept.
+
         first_observation = observations.first
         observations.each do |o|
           first_for_committee_room = o == first_observation
+
           polling_station = o.polling_station
+          polling_district_stations = polling_station.polling_district_stations
+          first_district_station = polling_district_stations.first
+          first_for_polling_district = \
+            polling_station == first_district_station
+
           turnout_observation = o.turnout_observation
         %>
 
@@ -67,7 +76,9 @@
 
             <%= render 'polling_station_info',
               polling_station: polling_station,
-              turnout_observation: turnout_observation
+              turnout_observation: turnout_observation,
+              first_for_polling_district: first_for_polling_district,
+              rowspan: polling_district_stations.length
             %>
           </tr>
         <% end %>

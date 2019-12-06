@@ -38,6 +38,10 @@ abbr {
   list-style: inside;
 }
 
+.vertical-align-top {
+  vertical-align: top !important;
+}
+
 // For Typeahead autocompletes.
 .tt-cursor {
   background: black;
