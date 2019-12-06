@@ -13,9 +13,8 @@ class TurnoutObservation < ApplicationRecord
   # page (`app/views/work_spaces/show.html.erb`).
 
   def turnout_proportion
-    registered_voters = box_electors
-    if registered_voters > 0
-      self.count.to_f / registered_voters
+    if box_electors > 0
+      self.count.to_f / box_electors
     else
       # Return 0 when `box_electors` is the default, i.e. unknown, to avoid
       # dividing by 0 and returning Infinity - XXX may be better to have this
