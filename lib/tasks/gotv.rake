@@ -88,11 +88,11 @@ namespace :gotv do
   desc 'Import data exported from Contact Creator and create WorkSpace'
   task import_contact_creator: :environment do
     work_space_name = env_param('name')
-    polling_stations_path = env_param('polling_stations')
+    polling_stations_url = env_param('polling_stations')
 
     ContactCreatorImporter.import(
       work_space_name: work_space_name,
-      polling_stations_path: polling_stations_path
+      polling_stations_url: polling_stations_url
     )
   end
 

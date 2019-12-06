@@ -1,9 +1,11 @@
+require 'open-uri'
+
 ContactCreatorImporter = Struct.new(
   :work_space_name,
-  :polling_stations_path
+  :polling_stations_url
 ) do
-  def self.import(work_space_name:, polling_stations_path:)
-    new(work_space_name, polling_stations_path).import
+  def self.import(work_space_name:, polling_stations_url:)
+    new(work_space_name, polling_stations_url).import
   end
 
   def import
@@ -11,7 +13,9 @@ ContactCreatorImporter = Struct.new(
       work_space = WorkSpace.create!(name: work_space_name)
       transient_council = create_council
 
-      CSV.foreach(polling_stations_path, headers: true) do |station_row|
+      polling_stations_csv = open(polling_stations_url).read
+
+      CSV.parse(polling_stations_csv, headers: true) do |station_row|
         ward = maybe_create_ward(transient_council, station_row)
         polling_station = create_polling_station(ward, station_row)
         create_work_space_polling_station(work_space, polling_station, station_row)
