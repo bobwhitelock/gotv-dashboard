@@ -3,9 +3,15 @@
   <%= polling_station.name %>
 </p>
 <p class="is-uppercase has-text-primary">
-  <%= polling_station.ward.name %>
+  <span title="Ward">
+    <%= polling_station.ward.name %>
+  </span>
   |
-  <span class="has-text-weight-bold" title="Polling station reference code">
+  <span class="has-text-weight-bold" title="Polling District">
+    <%= polling_station.polling_district %>
+  </span>
+  |
+  <span title="Ballot Box">
     <%= polling_station.reference %>
   </span>
 </p>

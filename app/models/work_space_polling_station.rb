@@ -9,6 +9,7 @@ class WorkSpacePollingStation < ApplicationRecord
     :name,
     :postcode,
     :fully_specified_name,
+    :polling_district,
     to: :polling_station
 
   validates_presence_of :box_labour_promises

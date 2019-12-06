@@ -60,8 +60,6 @@ ContactCreatorImporter = Struct.new(
       name: polling_station_name,
       postcode: postcode,
       reference: station_row.fetch('ballot_box_number'),
-      # Not actually used for anything at the moment but might as well extract
-      # since it's here.
       polling_district: station_row.fetch('polling_district'),
       ward: ward
     )
