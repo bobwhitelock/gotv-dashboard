@@ -14,6 +14,7 @@ ContactCreatorImporter = Struct.new(
       CSV.foreach(polling_stations_path, headers: true) do |station_row|
         ward = maybe_create_ward(transient_council, station_row)
         polling_station = create_polling_station(ward, station_row)
+        create_work_space_polling_station(work_space, polling_station, station_row)
       end
 
       work_space_url = url_helpers.work_space_url(work_space.identifier)
@@ -62,6 +63,18 @@ ContactCreatorImporter = Struct.new(
     )
     debug "Created PollingStation: #{polling_station.name} - box: #{polling_station.reference}"
     polling_station
+  end
+
+  def create_work_space_polling_station(work_space, polling_station, station_row)
+    # XXX Also associate postal voters with this
+    wsps = WorkSpacePollingStation.create!(
+      work_space: work_space,
+      polling_station: polling_station,
+      pre_election_registered_voters: station_row['count_of_box_electors'],
+      # XXX Change this to import real value
+      pre_election_labour_promises: 0
+    )
+    debug "Created WorkSpacePollingStation: #{wsps.name} - box: #{wsps.reference}"
   end
 
   def debug(*args)
