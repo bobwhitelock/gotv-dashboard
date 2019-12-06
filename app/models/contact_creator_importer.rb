@@ -66,13 +66,14 @@ ContactCreatorImporter = Struct.new(
   end
 
   def create_work_space_polling_station(work_space, polling_station, station_row)
-    # XXX Also associate postal voters with this
     wsps = WorkSpacePollingStation.create!(
       work_space: work_space,
       polling_station: polling_station,
       box_electors: station_row['count_of_box_electors'],
-      # XXX Change this to import real value
-      box_labour_promises: 0
+      postal_electors: station_row['count_of_postal_electors'],
+      # XXX Change these to import real values
+      box_labour_promises: 0,
+      postal_labour_promises: 0
     )
     debug "Created WorkSpacePollingStation: #{wsps.name} - box: #{wsps.reference}"
   end

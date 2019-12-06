@@ -13,6 +13,8 @@ class WorkSpacePollingStation < ApplicationRecord
 
   validates_presence_of :box_labour_promises
   validates_presence_of :box_electors
+  validates_presence_of :postal_labour_promises
+  validates_presence_of :postal_electors
 
   def as_json(options = {})
     super(options).merge(fully_specified_name: fully_specified_name)
