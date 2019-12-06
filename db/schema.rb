@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_002626) do
+ActiveRecord::Schema.define(version: 2019_12_06_002255) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_11_12_002626) do
   create_table "councils", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", null: false
+    t.boolean "transient", default: false, null: false
   end
 
   create_table "polling_stations", force: :cascade do |t|
