@@ -2,6 +2,7 @@ class WorkSpacePollingStation < ApplicationRecord
   belongs_to :work_space
   belongs_to :polling_station
   belongs_to :committee_room, required: false
+  has_one :polling_district, through: :polling_station
   has_one :ward, through: :polling_station
   has_many :turnout_observations
 
@@ -9,7 +10,6 @@ class WorkSpacePollingStation < ApplicationRecord
     :name,
     :postcode,
     :fully_specified_name,
-    :polling_district,
     to: :polling_station
 
   validates_presence_of :box_labour_promises
