@@ -54,6 +54,7 @@ class WorkSpace < ApplicationRecord
     self.identifier = self.class.identifier_generator.generate.downcase
   end
 
+  # XXX Make this a method on WorkSpacePollingStation?
   def most_recent_observation_for(work_space_polling_station)
     work_space_polling_station.turnout_observations
       .order(created_at: :desc)
