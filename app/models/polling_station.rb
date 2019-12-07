@@ -20,6 +20,6 @@ class PollingStation < ApplicationRecord
 
   # XXX move to decorator?
   def fully_specified_name
-    "#{reference}: #{name} (#{ward.name})"
+    "#{polling_district.reference} #{reference}: #{name} (#{ward.name})"
   end
 end

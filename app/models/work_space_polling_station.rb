@@ -32,14 +32,4 @@ class WorkSpacePollingStation < ApplicationRecord
   def last_observation
     turnout_observations.max_by(&:created_at)
   end
-
-  # XXX This method should disappear once we introduce PollingDistrict model.
-  def polling_district_stations
-    WorkSpacePollingStation.joins(
-      :polling_station
-    ).where(
-      work_space: work_space,
-      polling_stations: { polling_district: polling_district }
-    ).order(:reference)
-  end
 end
