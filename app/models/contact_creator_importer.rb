@@ -17,7 +17,8 @@ ContactCreatorImporter = Struct.new(
 
       CSV.parse(polling_stations_csv, headers: true) do |station_row|
         ward = maybe_create_ward(transient_council, station_row)
-        polling_station = create_polling_station(ward, station_row)
+        polling_district = maybe_create_polling_district(ward, station_row)
+        polling_station = create_polling_station(polling_district, station_row)
         create_work_space_polling_station(work_space, polling_station, station_row)
       end
 
@@ -47,7 +48,16 @@ ContactCreatorImporter = Struct.new(
     end
   end
 
-  def create_polling_station(ward, station_row)
+  def maybe_create_polling_district(ward, station_row)
+    polling_district = PollingDistrict.find_or_create_by!(
+      ward: ward,
+      reference: station_row.fetch('polling_district')
+    )
+    debug "Created PollingDistrict: #{polling_district.reference}"
+    polling_district
+  end
+
+  def create_polling_station(polling_district, station_row)
     postcode = station_row.fetch('polling_place_postcode')
 
     polling_station_name = [
@@ -60,8 +70,7 @@ ContactCreatorImporter = Struct.new(
       name: polling_station_name,
       postcode: postcode,
       reference: station_row.fetch('ballot_box_number'),
-      polling_district: station_row.fetch('polling_district'),
-      ward: ward
+      polling_district: polling_district
     )
     debug "Created PollingStation: #{polling_station.name} - box: #{polling_station.reference}"
     polling_station
