@@ -4,9 +4,14 @@ FactoryBot.define do
   end
 
   factory :polling_station do
-    ward
+    polling_district
     name { 'Some Polling Station' }
     reference { 'SPS-1' }
+  end
+
+  factory :polling_district do
+    ward
+    reference { 'SPS' }
   end
 
   factory :ward do

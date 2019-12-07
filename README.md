@@ -31,6 +31,7 @@
 
    ```bash
    rake gotv:import_councils
+   # XXX This will be broken following addition of PollingDistricts.
    rake gotv:import_redbridge
 
    # Access the app and create a workspace to use for development (at
