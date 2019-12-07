@@ -6,17 +6,24 @@ class TurnoutObservation < ApplicationRecord
 
   delegate :box_electors,
     :box_labour_promises,
+    :work_space_polling_district_stations,
     to: :work_space_polling_station
 
   # NOTE: Make sure all methods here also have trivial versions for null object
   # (UnobservedTurnoutObservation), if they will be called from main dashboard
   # page (`app/views/work_spaces/show.html.erb`).
 
-  # XXX Update this and methods below to account for all Polling District
-  # values, not just this Polling Station.
+  # XXX This also uses hacks and is a proxy for a non-existent
+  # WorkSpacePollingDistrict method (see
+  # https://github.com/bobwhitelock/gotv-dashboard/issues/100).
   def turnout_proportion
+    total_district_count = \
+      work_space_polling_district_stations.map do |wsps|
+      (wsps.last_observation&.count || 0)
+    end.sum
+
     if box_electors > 0
-      self.count.to_f / box_electors
+      total_district_count.to_f / box_electors
     else
       # Return 0 when `box_electors` is the default, i.e. unknown, to avoid
       # dividing by 0 and returning Infinity - XXX may be better to have this
