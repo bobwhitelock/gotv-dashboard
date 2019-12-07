@@ -14,10 +14,12 @@ class CommitteeRoomsController < ApplicationController
 
     wards = params[:wards]
     work_space_polling_stations = WorkSpacePollingStation.joins(
-      :polling_station
+      polling_station: [:polling_district]
     ).where(
       work_space: work_space,
-      polling_stations: { ward: wards }
+      polling_stations: {
+        polling_districts: { ward: wards }
+      }
     )
 
     ActiveRecord::Base.transaction do
