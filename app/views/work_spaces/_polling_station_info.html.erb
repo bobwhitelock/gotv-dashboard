@@ -1,9 +1,11 @@
 
+<% is_polling_district_proxy = polling_station.work_space_polling_district_proxy? %>
+
 <td width="20%">
   <%= render 'shared/polling_station_name', polling_station: polling_station %>
 </td>
 
-<% if first_for_polling_district %>
+<% if is_polling_district_proxy %>
   <td width="20%" rowspan="<%= rowspan %>">
     <div>
       <span class="nowrap">
@@ -55,7 +57,7 @@
   </span>
 </td>
 
-<% if first_for_polling_district %>
+<% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
     <% if polling_station.box_electors > 0 %>
       <span class="is-size-6 has-text-weight-bold">
@@ -72,7 +74,7 @@
   </td>
 <% end %>
 
-<% if first_for_polling_district %>
+<% if is_polling_district_proxy %>
   <td width="15%" rowspan="<%= rowspan %>">
     <% if turnout_observation.created_at %>
       <span class="nowrap">

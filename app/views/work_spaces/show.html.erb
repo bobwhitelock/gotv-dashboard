@@ -57,9 +57,6 @@
           ws_polling_station = o.polling_station
           polling_district_stations = \
             ws_polling_station.polling_district.polling_stations.order(:reference)
-          first_district_station = polling_district_stations.first
-          first_for_polling_district = \
-            ws_polling_station.polling_station == first_district_station
 
           turnout_observation = o.turnout_observation
         %>
@@ -76,7 +73,6 @@
             <%= render 'polling_station_info',
               polling_station: ws_polling_station,
               turnout_observation: turnout_observation,
-              first_for_polling_district: first_for_polling_district,
               rowspan: polling_district_stations.length
             %>
           </tr>

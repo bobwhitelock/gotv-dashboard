@@ -32,4 +32,21 @@ class WorkSpacePollingStation < ApplicationRecord
   def last_observation
     turnout_observations.max_by(&:created_at)
   end
+
+  # XXX Existence of this method and all usage is a total hack - we use first
+  # WorkSpacePollingStation for PollingDistrict as a proxy for a
+  # 'WorkSpacePollingDistrict', to work around this not existing and being
+  # involved to add. Should fix at some point post-election -
+  # https://github.com/bobwhitelock/gotv-dashboard/issues/100.
+  def work_space_polling_district_proxy?
+    polling_district_work_space_stations = \
+      WorkSpacePollingStation.joins(
+        :polling_station
+    ).where(
+      polling_stations: { polling_district: polling_district },
+      work_space: work_space
+    ).order(:reference)
+
+    polling_district_work_space_stations.first == self
+  end
 end
