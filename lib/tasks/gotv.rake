@@ -89,10 +89,12 @@ namespace :gotv do
   task import_contact_creator: :environment do
     work_space_name = env_param('name')
     polling_stations_url = env_param('polling_stations')
+    campaign_stats_url = env_param('campaign_stats')
 
     ContactCreatorImporter.import(
       work_space_name: work_space_name,
-      polling_stations_url: polling_stations_url
+      polling_stations_url: polling_stations_url,
+      campaign_stats_url: campaign_stats_url
     )
   end
 
