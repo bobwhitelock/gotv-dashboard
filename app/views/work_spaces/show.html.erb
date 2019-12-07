@@ -56,7 +56,7 @@
 
           ws_polling_station = o.polling_station
           polling_district_stations = \
-            ws_polling_station.polling_district.polling_stations.order(:reference)
+            ws_polling_station.work_space_polling_district_stations
 
           turnout_observation = o.turnout_observation
         %>
