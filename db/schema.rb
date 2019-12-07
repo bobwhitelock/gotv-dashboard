@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_002626) do
+ActiveRecord::Schema.define(version: 2019_12_07_151342) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -80,6 +80,18 @@ ActiveRecord::Schema.define(version: 2019_11_12_002626) do
   create_table "councils", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", null: false
+    t.boolean "transient", default: false, null: false
+  end
+
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "polling_districts", force: :cascade do |t|
+    t.integer "ward_id", null: false
+    t.string "reference", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ward_id"], name: "index_polling_districts_on_ward_id"
   end
 
   create_table "polling_stations", force: :cascade do |t|
@@ -87,9 +99,11 @@ ActiveRecord::Schema.define(version: 2019_11_12_002626) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "postcode"
-    t.integer "ward_id", null: false
+    t.integer "ward_id"
     t.string "reference", null: false
     t.string "polling_district"
+    t.integer "polling_district_id", null: false
+    t.index ["polling_district_id"], name: "index_polling_stations_on_polling_district_id"
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end
 
@@ -120,11 +134,13 @@ ActiveRecord::Schema.define(version: 2019_11_12_002626) do
   create_table "work_space_polling_stations", force: :cascade do |t|
     t.integer "polling_station_id", null: false
     t.integer "work_space_id", null: false
-    t.integer "pre_election_registered_voters", null: false
-    t.integer "pre_election_labour_promises", null: false
+    t.integer "box_electors", null: false
+    t.integer "box_labour_promises", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "committee_room_id"
+    t.integer "postal_labour_promises", default: 0, null: false
+    t.integer "postal_electors", default: 0, null: false
     t.index ["committee_room_id"], name: "index_work_space_polling_stations_on_committee_room_id"
     t.index ["polling_station_id"], name: "index_work_space_polling_stations_on_polling_station_id"
     t.index ["work_space_id"], name: "index_work_space_polling_stations_on_work_space_id"

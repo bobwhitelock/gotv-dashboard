@@ -4,9 +4,14 @@ FactoryBot.define do
   end
 
   factory :polling_station do
-    ward
+    polling_district
     name { 'Some Polling Station' }
     reference { 'SPS-1' }
+  end
+
+  factory :polling_district do
+    ward
+    reference { 'SPS' }
   end
 
   factory :ward do
@@ -33,8 +38,8 @@ FactoryBot.define do
   factory :work_space_polling_station do
     polling_station
     work_space
-    pre_election_registered_voters { 0 }
-    pre_election_labour_promises { 0 }
+    box_electors { 0 }
+    box_labour_promises { 0 }
   end
 
   factory :turnout_observation do

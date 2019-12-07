@@ -10,6 +10,14 @@ def wheredoivote_data(endpoint)
   return JSON.parse(data)
 end
 
+def env_param(param_name)
+  param = ENV[param_name]
+  unless param
+    abort "ERROR: Expected `#{param_name}=VALUE` to be passed"
+  end
+  param
+end
+
 namespace :gotv do
   desc 'Import all councils from wheredoivote.co.uk'
   task import_councils: :environment do
@@ -77,15 +85,28 @@ namespace :gotv do
 
   end
 
+  desc 'Import data exported from Contact Creator and create WorkSpace'
+  task import_contact_creator: :environment do
+    work_space_name = env_param('name')
+    polling_stations_url = env_param('polling_stations')
+    campaign_stats_url = env_param('campaign_stats')
+
+    ContactCreatorImporter.import(
+      work_space_name: work_space_name,
+      polling_stations_url: polling_stations_url,
+      campaign_stats_url: campaign_stats_url
+    )
+  end
+
   desc 'Generate plausible random Labour promises and registered voters for all workspace polling stations'
   task randomize_figures: :environment do
     WorkSpacePollingStation.all.each do |ps|
-      registered_voters = rand(500..3000)
-      ps.pre_election_registered_voters = registered_voters
+      box_electors = rand(500..3000)
+      ps.box_electors = box_electors
 
-      minimum_promises = registered_voters / 3
-      maximum_promises = registered_voters * 2/3
-      ps.pre_election_labour_promises = rand(minimum_promises..maximum_promises)
+      minimum_promises = box_electors / 3
+      maximum_promises = box_electors * 2/3
+      ps.box_labour_promises = rand(minimum_promises..maximum_promises)
 
       ps.save!
     end

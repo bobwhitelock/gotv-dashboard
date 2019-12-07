@@ -1,22 +1,43 @@
 
+<% is_polling_district_proxy = polling_station.work_space_polling_district_proxy? %>
+
 <td width="20%">
   <%= render 'shared/polling_station_name', polling_station: polling_station %>
 </td>
 
-<td width="20%">
-  <span class="nowrap">
-    <span class="is-size-6">
-      <%= polling_station.pre_election_labour_promises %>
-    </span>
-    promises /
-  </span>
-  <span class="nowrap">
-    <span class="is-size-6">
-      <%= polling_station.pre_election_registered_voters %>
-    </span>
-    voters
-  </span>
-</td>
+<% if is_polling_district_proxy %>
+  <td width="20%" rowspan="<%= rowspan %>">
+    <div>
+      <span class="nowrap">
+        <span class="is-size-6">
+          <%= polling_station.box_labour_promises %>
+        </span>
+        promises /
+      </span>
+      <span class="nowrap">
+        <span class="is-size-6">
+          <%= polling_station.box_electors %>
+        </span>
+        box voters
+      </span>
+    </div>
+
+    <div class="has-text-grey">
+      <span class="nowrap">
+        <span class="is-size-6">
+          <%= polling_station.postal_labour_promises %>
+        </span>
+        promises /
+      </span>
+      <span class="nowrap">
+        <span class="is-size-6">
+          <%= polling_station.postal_electors %>
+        </span>
+        postal voters
+      </span>
+    </div>
+  </td>
+<% end %>
 
 <td width="15%">
   <span class="is-size-6 has-text-weight-bold">
@@ -36,35 +57,39 @@
   </span>
 </td>
 
-<td width="10%">
-  <% if polling_station.pre_election_registered_voters > 0 %>
-    <span class="is-size-6 has-text-weight-bold">
-      <%= number_to_percentage(
-        turnout_observation.turnout_proportion * 100,
-        precision: 1
-      ) %>
-    </span>
-  <% else %>
-    <span class="is-italic">
-      Registered voters unknown
-    </span>
-  <% end %>
-</td>
-
-<td width="15%">
-  <% if turnout_observation.created_at %>
-    <span class="nowrap">
+<% if is_polling_district_proxy %>
+  <td width="10%" rowspan="<%= rowspan %>">
+    <% if polling_station.box_electors > 0 %>
       <span class="is-size-6 has-text-weight-bold">
-        <%= turnout_observation.guesstimated_labour_votes %>
+        <%= number_to_percentage(
+          turnout_observation.turnout_proportion * 100,
+          precision: 1
+        ) %>
       </span>
-      votes
-      /
-    </span>
-    <span class="nowrap">
-      <span class="is-size-6 has-text-weight-bold has-text-primary">
-        <%= turnout_observation.guesstimated_labour_votes_left %>
+    <% else %>
+      <span class="is-italic">
+        Registered voters unknown
       </span>
-      votes left
-    </span>
-  <% end %>
-</td>
+    <% end %>
+  </td>
+<% end %>
+
+<% if is_polling_district_proxy %>
+  <td width="15%" rowspan="<%= rowspan %>">
+    <% if turnout_observation.created_at %>
+      <span class="nowrap">
+        <span class="is-size-6 has-text-weight-bold">
+          <%= turnout_observation.guesstimated_labour_votes %>
+        </span>
+        votes
+        /
+      </span>
+      <span class="nowrap">
+        <span class="is-size-6 has-text-weight-bold has-text-primary">
+          <%= turnout_observation.guesstimated_labour_votes_left %>
+        </span>
+        votes left
+      </span>
+    <% end %>
+  </td>
+<% end %>

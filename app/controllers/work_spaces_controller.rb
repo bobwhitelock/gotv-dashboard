@@ -33,8 +33,8 @@ class WorkSpacesController < ApplicationController
       polling_stations.each do |ps|
         @work_space.work_space_polling_stations.create!(
           polling_station: ps,
-          pre_election_labour_promises: 0,
-          pre_election_registered_voters: 0
+          box_labour_promises: 0,
+          box_electors: 0
         )
       end
     end

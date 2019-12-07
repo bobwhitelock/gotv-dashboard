@@ -25,14 +25,12 @@ class WorkSpace < ApplicationRecord
     end.sort_by do |o|
       polling_station = o.polling_station
 
-      # Order polling stations consistently by ward name, and then by polling
-      # station reference within each ward (if polling stations do not have
-      # references set then the name will be used instead, but this should not
-      # normally happen).
+      # Order polling stations so show within hierarchy order within dashboard
+      # - Ward > Polling District > Polling Station/Ballot Box.
       [
         polling_station.ward.name,
+        polling_station.polling_district,
         polling_station.reference,
-        polling_station.name,
       ]
     end.group_by do |o|
       o.polling_station.committee_room
@@ -56,6 +54,7 @@ class WorkSpace < ApplicationRecord
     self.identifier = self.class.identifier_generator.generate.downcase
   end
 
+  # XXX Make this a method on WorkSpacePollingStation?
   def most_recent_observation_for(work_space_polling_station)
     work_space_polling_station.turnout_observations
       .order(created_at: :desc)
