@@ -16,6 +16,7 @@ class PollingDistrict < ApplicationRecord
 
   # XXX Move to decorator?
   def name
-    reference
+    "#{reference} (#{ward.name})"
+  end
   end
 end
