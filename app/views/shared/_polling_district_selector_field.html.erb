@@ -40,6 +40,8 @@
 
               <% if committee_room %>
                 title="This polling district is already covered by a committee room; selecting it will remove it from the existing committee room."
+              <% else %>
+                title="<%= polling_district.addresses %>"
               <% end %>
             >
 

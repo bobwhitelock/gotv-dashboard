@@ -18,5 +18,9 @@ class PollingDistrict < ApplicationRecord
   def name
     "#{reference} (#{ward.name})"
   end
+
+  # XXX Move to decorator?
+  def addresses
+    polling_stations.map(&:name).uniq.join('; ')
   end
 end
