@@ -27,9 +27,9 @@
       </label>
     </div>
 
-    <%= render 'shared/ward_selector_field',
-      label_text: 'Which wards is this committee room responsible for?',
-      wards: @work_space.wards,
+    <%= render 'shared/polling_district_selector_field',
+      label_text: 'Which polling districts is this committee room responsible for?',
+      polling_districts: @work_space.polling_districts,
       work_space: @work_space
     %>
 

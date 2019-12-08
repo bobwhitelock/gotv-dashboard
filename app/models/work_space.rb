@@ -4,6 +4,7 @@ class WorkSpace < ApplicationRecord
   has_many :turnout_observations, through: :work_space_polling_stations
   has_many :polling_stations, through: :work_space_polling_stations
   has_many :wards, -> { distinct }, through: :polling_stations
+  has_many :polling_districts, -> { distinct }, through: :polling_stations
 
   accepts_nested_attributes_for :work_space_polling_stations
 
