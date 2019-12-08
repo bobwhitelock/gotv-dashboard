@@ -21,7 +21,7 @@
           <div class="control">
             <%= f.number_field(
               :count,
-              in: 1..2000,
+              min: 0,
               step: 1,
               required: true,
               class: "input",
