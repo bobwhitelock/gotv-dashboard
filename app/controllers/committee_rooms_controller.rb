@@ -12,13 +12,13 @@ class CommitteeRoomsController < ApplicationController
   def create
     work_space = find_work_space
 
-    wards = params[:wards]
+    polling_districts = params[:polling_districts]
     work_space_polling_stations = WorkSpacePollingStation.joins(
-      polling_station: [:polling_district]
+      :polling_station
     ).where(
       work_space: work_space,
       polling_stations: {
-        polling_districts: { ward: wards }
+        polling_district: polling_districts
       }
     )
 

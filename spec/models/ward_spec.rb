@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Ward, type: :model do
+  # XXX Duplicate this test for the equivalent PollingDistrict method. Possibly
+  # this Ward-level method can also be removed eventually, only reason it's
+  # still needed is that ward selector field is still used, but used in a
+  # context where this won't (and shouldn't) ever give anything other than nil.
   describe '#committee_room_in_work_space' do
     it 'gives CommitteeRoom for Ward in WorkSpace' do
       ward = create(:ward)

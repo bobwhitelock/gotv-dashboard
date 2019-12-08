@@ -1,0 +1,69 @@
+
+<%# DRY up this and `app/views/shared/_ward_selector_field.html.erb` - almost %>
+<%# identical. %>
+
+<%
+    items_per_row = 3
+%>
+
+<div class="field">
+  <p class="label">
+    <%= label_text %>
+
+    <small class="content is-small">
+      (<a class="is-small" onclick="document.querySelectorAll('[name=\'polling_districts[]\']').forEach(element => element.checked = true)">All</a> /
+      <a class="is-small" onclick="document.querySelectorAll('[name=\'polling_districts[]\']').forEach(element => element.checked = false)">Clear</a>)
+    </small>
+  </p>
+
+  <div class="control">
+    <% polling_districts.each_slice(items_per_row)  do |row| %>
+      <div class="columns is-marginless">
+        <% row.each do |polling_district| %>
+          <%#
+            XXX Below CommitteeRoom-specific behaviour happens wherever this
+            partial is used, but only actually relevant when creating new
+            CommitteeRooms - could cause issues if PollingDistricts will already
+            have CommitteeRooms when this is used in other places in future, e.g.
+            in particular if we later support changing PollingDistricts for a
+            WorkSpace after initial creation.
+
+            XXX Possibly more warning/better indication of PollingDistrict
+            already being covered by CommitteeRoom would be useful - use
+            `confirm`?
+          %>
+          <% committee_room = polling_district.committee_room_in_work_space(work_space)%>
+
+          <div class="column is-paddingless">
+            <label
+              class="checkbox <%= 'has-text-grey' if committee_room %>"
+
+              <% if committee_room %>
+                title="This polling district is already covered by a committee room; selecting it will remove it from the existing committee room."
+              <% else %>
+                title="<%= polling_district.addresses %>"
+              <% end %>
+            >
+
+              <%= check_box_tag "polling_districts[]", polling_district.id, false %>
+              <%= polling_district.name %>
+
+              <% if committee_room %>
+                <span class="is-size-7">
+                  [covered by <span class="is-italic"><%= committee_room.organiser_name %></span>]
+                </span>
+              <% end %>
+            </label>
+          </div>
+        <% end %>
+
+        <%# Ensure still same number of columns on final row, so items line up %>
+        <%# correctly. %>
+        <% (items_per_row - row.length).times do %>
+          <div class="column is-paddingless">
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
