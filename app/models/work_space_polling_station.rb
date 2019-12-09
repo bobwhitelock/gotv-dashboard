@@ -32,8 +32,14 @@ class WorkSpacePollingStation < ApplicationRecord
     end
   end
 
+  # XXX Refactor this to same style as other obsevations - use
+  # `last_observation_for` etc?
   def last_observation
     turnout_observations.max_by(&:created_at)
+  end
+
+  def last_remaining_lifts_observation
+    last_observation_for(remaining_lifts_observations)
   end
 
   # XXX Existence of these 2 methods and all usage is a total hack - we use
