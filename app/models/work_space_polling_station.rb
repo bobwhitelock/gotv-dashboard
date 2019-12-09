@@ -5,6 +5,9 @@ class WorkSpacePollingStation < ApplicationRecord
   has_one :polling_district, through: :polling_station
   has_one :ward, through: :polling_station
   has_many :turnout_observations
+  # XXX This is another PollingDistrict proxy field - refactor to move to
+  # PollingDistrict level?
+  has_many :remaining_lifts_observations
 
   delegate :reference,
     :name,
