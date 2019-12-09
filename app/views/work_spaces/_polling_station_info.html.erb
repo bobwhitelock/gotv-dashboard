@@ -104,8 +104,9 @@
       identifier: "remaining-lifts-#{polling_station.polling_district.id}",
       text: '',
       count: polling_station.last_remaining_lifts_observation.count,
-      # XXX Update below correctly
-      update_count_url: ''
+      update_count_url: work_space_polling_district_lifts_path(
+        polling_station.work_space, polling_station
+      )
     %>
   </td>
 <% end %>

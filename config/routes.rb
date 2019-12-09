@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       post :canvassers
       post :cars
     end
+
+    resources :polling_districts, path: 'polling-district', only: [] do
+      post :lifts
+    end
   end
 
   resources :users, only: :update
