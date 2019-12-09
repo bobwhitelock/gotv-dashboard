@@ -1,4 +1,7 @@
 
+<%# XXX Possibly this and all usage (including JS) should be renamed now - used for %>
+<%# more than just volunteer tracking - maybe call `observation_control_panel`? %>
+
 <div class="field has-addons is-marginless">
   <p class="control">
     <button class="button" onclick="decreaseVolunteersControl('<%= identifier %>', '<%= update_count_url %>')">
@@ -14,7 +17,7 @@
         <span class="fa fa-spinner fa-spin"></span>
       </span>
       &nbsp;
-      <span><%= text %>:
+      <span><%= text %>
         <%# XXX Make count also editable directly, if needed %>
         <span id="<%= identifier %>-value"><%= count %></span>
       </span>
