@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   root 'pages#landing'
 
+  get 'test-sentry' => 'pages#test_sentry'
+
   get 'start' => 'work_spaces#start'
 
   resources :work_spaces, path: 'space', only: [:new, :create, :show] do
