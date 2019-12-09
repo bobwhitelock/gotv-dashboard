@@ -17,7 +17,22 @@ class CleanRedbridgeData < ActiveRecord::Migration[5.2]
     bad_polling_station = redbridge.polling_stations.find_by!(
       reference: 'BR2/5-15')
     correct_district = redbridge.polling_districts.find_by!(reference: 'BR2')
-    bad_polling_station.polling_district.delete
+
+    # Just assign this PollingDistrict to have some junk Ward/Council, and then
+    # replace PollingStation's district below. Would just delete but this saves
+    # having to deal with all the cascade issues in prod when doing this right
+    # now.
+    bad_polling_station.polling_district.ward = Ward.create!(
+      name: 'junk',
+      code: 'junk',
+      council: Council.create!(
+        name: 'junk',
+        code: 'junk',
+        transient: true
+      )
+    )
+    bad_polling_station.polling_district.save!
+
     bad_polling_station.polling_district = correct_district
     bad_polling_station.reference = 'BR2-15'
     bad_polling_station.save!
