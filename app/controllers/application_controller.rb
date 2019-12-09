@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
+  # Order is important here.
   before_action :assign_current_user
+  before_action :set_raven_context
 
   private
 
@@ -18,6 +20,14 @@ class ApplicationController < ActionController::Base
       # manipulated client-side to allow people to pretend to be someone else?
       session[CURRENT_USER_ID_KEY] = @current_user.id
     end
+  end
+
+  def set_raven_context
+    Raven.user_context(
+      id: @current_user.id,
+      name: @current_user.name,
+      phone_number: @current_user.phone_number
+    )
   end
 
   def find_work_space
