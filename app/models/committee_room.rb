@@ -28,10 +28,4 @@ class CommitteeRoom < ApplicationRecord
 
     wsps&.polling_district&.reference
   end
-
-  private
-
-  def last_observation_for(observations)
-    observations.max_by(&:created_at) || UnobservedCommitteeRoomObservation.new
-  end
 end

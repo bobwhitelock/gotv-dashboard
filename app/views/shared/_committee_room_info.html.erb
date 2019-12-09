@@ -1,5 +1,5 @@
 
-<td width="20%" rowspan="<%= rowspan %>" class="committee-room-cell vertical-align-top">
+<td width="15%" rowspan="<%= rowspan %>" class="committee-room-cell vertical-align-top">
   <div class="is-sticky">
     <% if committee_room %>
       <p class="is-marginless is-size-6">
@@ -13,7 +13,7 @@
       <% if render_controls %>
         <%= render 'volunteer_control_panel',
           identifier: "canvassers-#{committee_room.id}",
-          text: 'Canvassers',
+          text: 'Canvassers:',
           count: committee_room.last_canvassers_observation.count,
           update_count_url: work_space_committee_room_canvassers_path(
             committee_room.work_space, committee_room
@@ -22,7 +22,7 @@
 
         <%= render 'volunteer_control_panel',
           identifier: "cars-#{committee_room.id}",
-          text: 'Cars',
+          text: 'Cars:',
           count: committee_room.last_cars_observation.count,
           update_count_url: work_space_committee_room_cars_path(
             committee_room.work_space, committee_room

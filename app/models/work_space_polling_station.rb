@@ -5,6 +5,9 @@ class WorkSpacePollingStation < ApplicationRecord
   has_one :polling_district, through: :polling_station
   has_one :ward, through: :polling_station
   has_many :turnout_observations
+  # XXX This is another PollingDistrict proxy field - refactor to move to
+  # PollingDistrict level?
+  has_many :remaining_lifts_observations
 
   delegate :reference,
     :name,
@@ -29,8 +32,14 @@ class WorkSpacePollingStation < ApplicationRecord
     end
   end
 
+  # XXX Refactor this to same style as other obsevations - use
+  # `last_observation_for` etc?
   def last_observation
     turnout_observations.max_by(&:created_at)
+  end
+
+  def last_remaining_lifts_observation
+    last_observation_for(remaining_lifts_observations)
   end
 
   # XXX Existence of these 2 methods and all usage is a total hack - we use
