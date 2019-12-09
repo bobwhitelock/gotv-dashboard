@@ -94,6 +94,8 @@ GEM
     factory_bot_rails (5.0.2)
       factory_bot (~> 5.0.2)
       railties (>= 4.2.0)
+    faraday (0.15.2)
+      multipart-post (>= 1.2, < 3)
     ffi (1.10.0)
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
@@ -151,6 +153,7 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.9)
     multi_json (1.13.1)
+    multipart-post (2.0.0)
     nio4r (2.3.1)
     nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
@@ -232,6 +235,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sentry-raven (2.7.3)
+      faraday (>= 0.7.6, < 1.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -291,6 +296,7 @@ DEPENDENCIES
   rails-erd
   rspec-rails
   sass-rails (~> 5.0)
+  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
