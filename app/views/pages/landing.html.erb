@@ -1,4 +1,9 @@
 
+<%
+    send_email_id = 'send-us-an-email'
+    features_id = 'features'
+%>
+
 <% content_for :subtitle do %>
   A
   <a href="https://www.campaignlab.london/" target="_blank" class="is-italic">
@@ -8,7 +13,7 @@
 <% end %>
 
 <% content_for :content do %>
-  <div class="columns">
+  <div class="content columns">
     <%= render 'info_column',
       title: 'Better Organise Your GOTV Operation',
       image: 'organiser_dashboard.png' do %>
@@ -37,10 +42,10 @@
     <% end %>
   </div>
 
-  <div class="notification is-warning is-size-5">
+  <div class="content notification is-warning is-size-5">
     <p>Looks interesting?</p>
 
-    <p>
+    <p id="<%= send_email_id %>">
       Just <strong>send us an email</strong> at <a
         href="mailto:gotv.campaignlab@gmail.com">gotv.campaignlab@gmail.com</a>
       with your:
@@ -68,10 +73,249 @@
       constituency for election day.
     </p>
 
+    <hr>
+
     <p class="is-size-4">
       You can also <strong>try it out for yourself</strong> right now &mdash;
       just go <%= link_to 'here', start_path %> and use the <em>Redbridge</em>
       data set.
     </p>
+
+    <hr>
+
+    <p>
+      Still have questions? Read on...
+    </p>
+  </div>
+
+  <div class="content faq-box">
+    <h2 class="is-size-4">Frequently Asked Questions</h2>
+
+    <ol>
+      <%= render 'faq_question',
+        id: features_id,
+        question: 'What features does the dashboard provide?' do
+      %>
+        <p>
+          The dashboard has been built in collaboration with organisers from
+          various CLPs to surface the information they most need to help with
+          GOTV on polling day, where this is not already handled by existing
+          tools.
+        </p>
+
+        <p>
+          It has the following main features:
+        </p>
+
+        <ol class="is-lower-roman">
+          <li>
+            Receive an overview of everything in your constituency on polling
+            day, including every polling station (or ballot box), polling
+            district, and ward.
+          </li>
+
+          <li>
+            Create your own committee rooms in the dashboard for each real
+            committee room your GOTV campaign is operating, along with the
+            polling districts each committee room is responsible for, giving
+            you an overview of each.
+          </li>
+
+          <li>
+            Track how many canvassers and cars are available to each of your
+            committee rooms, allowing you to deploy these where they can be
+            most effective, or transfer them to another committee room where
+            they are needed more.
+          </li>
+
+          <li>
+            Track how many lifts of Labour voters to the polls there are still
+            to do in each polling district, helping you ensure all of these are
+            made by the end of polling day.
+          </li>
+
+          <li>
+            Automatically receive the latest turnout figures for each ballot
+            box in you constituency from your polling agents, which they can
+            collect on their rounds via a mobile interface. This frees up your
+            time receiving and collating these figures and makes them instantly
+            available in the dashboard.
+          </li>
+
+          <li>
+            Access summary statistics on turnout percentage and how many Labour
+            voters are still estimated to be in each area, generated from your
+            polling agent-reported turnout figures; these can help you make
+            decisions about where would be most effective to send canvassers.
+          </li>
+
+          <li>
+            Receive an indication of the polling district for each committee
+            room with most estimated Labour votes left, as an initial
+            suggestion for where may be useful to canvas next (barring other
+            insights or your own local knowledge, this is only a suggestion).
+          </li>
+        </ol>
+      <% end %>
+
+      <%= render 'faq_question',
+        question: 'How does this fit into our existing GOTV workflow using WARP sheets?' do
+      %>
+        <p>
+          The GOTV dashboard is designed to complement rather than replace your
+          existing GOTV strategy, which most likely involves using WARP sheets.
+          You should still continue canvassing with WARP sheets throughout the
+          day, and the dashboard just provides another means of managing your
+          overall campaigning and surfacing information to help you make
+          decisions about where is best to canvas.
+        </p>
+
+        <p>
+          We are also currently adding tracking of confirmed Labour voters, as
+          determined from your WARP sheets, so these confirmed figures will
+          also soon be able to be input into the dashboard, and will then be
+          able to be used instead of the estimated figures for calculating
+          summary statistics for each area. <em>This feature should be added by
+          end of day Tuesday 10th December</em>.
+        </p>
+      <% end %>
+
+      <%= render 'faq_question',
+        question: "Why would I use this rather than the Labour Party's Turnout app?" do
+      %>
+        <p>
+          The Labour Party's Turnout app allows you to have tellers sitting on
+          polling stations to report back live information on who's voted, and
+          who they voted for (if they'll tell you). This data can then be sent to
+          and used by the Labour Party's Doorstep app to allow you to know which
+          doors still need knocking to help get out voters, as well as being
+          useful for voter id in future.
+        </p>
+
+        <p>
+          The Campaign Lab GOTV Dashboard, meanwhile, allows your polling
+          agents to report back live turnout figures from polling stations,
+          which is a less labour-intensive process but does not give you the
+          fine-grained detail of using tellers. It also provides several
+         <%= link_to 'other features', "##{features_id}" %> as described above.
+        </p>
+
+        <p>
+          If you think the GOTV Dashboard features sound useful for your own
+          GOTV strategy, you should
+          <%= link_to 'get in touch', "##{send_email_id}" %> and we can get you set up.
+        </p>
+
+        <p>
+          Alternatively, if you will be using tellers and the Doorstep app, you
+          should <%= link_to 'contact the Labour Party Campaign Technology',
+            'https://labour.org.uk/members/activist-area/tools-for-activists/'
+            %> team about how to use Turnout.
+        </p>
+      <% end %>
+
+      <%= render 'faq_question',
+        question: 'Is a work space on the dashboard secure?' do
+      %>
+        <p>
+          For each dashboard work space, we generate a unique, secure URL using
+          a combination of 4 random words. This allows you to easily access
+          your work space just by visiting this URL, and to share it with
+          anyone else by sending them this URL (or reading it out to them,
+          since it just consists of 4 English words).
+        </p>
+
+        <p>
+          So long as you only share this URL with people you trust, your work
+          space and its data should be secure.
+        </p>
+      <% end %>
+
+      <%= render 'faq_question',
+        question: 'Can I try it out for myself?' do
+      %>
+        Yes! Just go <%= link_to 'here', start_path %> and use the
+        <em>Redbridge</em> data set.
+      <% end %>
+
+      <%= render 'faq_question',
+        question: 'What if I have questions or need help on or before polling day?' do
+      %>
+        <p>
+          <em>Before polling day</em>, you'll be able to ask any questions you
+          might have &mdash; via WhatsApp, email, phone, or video call &mdash;
+          and we'll be as responsive as possible. We'll ensure you know how to
+          use the dashboard and have everything ready to go for election day.
+        </p>
+
+        <p>
+          <em>On polling day</em>, someone from Campaign Lab will be available
+          via WhatsApp or phone the entire time the polls are open
+          (7am&ndash;10pm) to answer any questions that might come up
+          unexpectedly, and to help you out if you run into any issues with the
+          dashboard.
+        </p>
+      <% end %>
+
+      <%= render 'faq_question',
+        question: 'How can I get a dashboard for my own constituency?' do
+      %>
+        Just <%= link_to 'send us an email', "##{send_email_id}" %> with the
+        details requested above and we'll get back to you ASAP about setting up
+        your constituency for election day.
+      <% end %>
+
+      <%= render 'faq_question',
+        question: "What are the next steps once I've got in touch?" do
+      %>
+        <ol class="is-lower-roman">
+          <li>
+            We'll add you to a WhatsApp group, which is the primary place you
+            can ask any other questions you have.
+          </li>
+
+          <li>
+            We'll send you a detailed document describing how to export and
+            send us the Contact Creator data files we need to set up a
+            dashboard work space for your constituency.
+          </li>
+
+          <li>
+            We'll offer you the chance to have a video demo, where we can guide
+            you (and anyone else involved in your campaign) through how to use
+            the dashboard, and you can also ask questions.
+          </li>
+
+          <li>
+            <p>
+              Once we receive your data files, we'll create a testing work
+              space with your real data for you to use, and to allow you to
+              train anyone who will be using the dashboard (such as your
+              polling agents).
+            </p>
+
+            <p>
+              You can experiment with this however you like to ensure you know
+              how you're going to use it on election day.
+            </p>
+          </li>
+
+          <li>
+            <p>
+              On Wednesday 11th December, the day before polling day, if you
+              send us an updated campaign stats data file containing your
+              latest Labour promises data we can use this to generate a new
+              work space containing these up-to-date figures for you to use on
+              polling day.
+            </p>
+
+            <p>
+              Alternatively we can generate your polling day work space using
+              the figures you've already sent us, it's up to you.
+            </p>
+          </li>
+        </ol>
+      <% end %>
+    </ol>
   </div>
 <% end %>
