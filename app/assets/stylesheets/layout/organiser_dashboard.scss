@@ -27,3 +27,8 @@ html {
   }
 }
 
+.suggested-target-district td:not(.committee-room-cell) {
+  // A (hopefully) subtle red-ish white, to indicate this is the district we
+  // would (very tentatively) suggest targeting for this committee room.
+  background-color: #f7d7d7;
+}

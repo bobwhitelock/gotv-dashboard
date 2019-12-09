@@ -15,6 +15,20 @@ class CommitteeRoom < ApplicationRecord
     last_observation_for(cars_observations)
   end
 
+  # XXX This and its usage is kind of hacky, involves duplicate data loading
+  # etc.
+  def suggested_target_district_reference
+    wsps, _ = work_space_polling_stations.map do |wsps|
+      [wsps, wsps.last_observation]
+    end.to_h.reject do |_, o|
+      o.nil?
+    end.max_by do |_, o|
+      o.guesstimated_labour_votes_left
+    end
+
+    wsps&.polling_district&.reference
+  end
+
   private
 
   def last_observation_for(observations)
