@@ -8,6 +8,8 @@ class PollingDistrict < ApplicationRecord
     # XXX Assumption: if one PollingStation is handled by CommitteeRoom then
     # the whole PollingDistrict is. If this ever changes then this method and
     # anywhere using it won't work correctly
+    # XXX This assumption no longer holds, but should be OK in the one place we
+    # use this (which might be removed soon in any case).
     polling_station = polling_stations.first
     WorkSpacePollingStation.find_by(
       work_space: work_space, polling_station: polling_station
