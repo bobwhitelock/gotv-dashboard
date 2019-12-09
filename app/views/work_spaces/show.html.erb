@@ -50,6 +50,9 @@
     <tbody class="is-size-7">
       <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
 
+        suggested_target_district_reference = \
+          committee_room&.suggested_target_district_reference
+
         first_observation = observations.first
         observations.each do |o|
           first_for_committee_room = o == first_observation
@@ -59,9 +62,12 @@
             ws_polling_station.work_space_polling_district_stations
 
           turnout_observation = o.turnout_observation
+
+          is_suggested_target_district = \
+            ws_polling_station.polling_district.reference == suggested_target_district_reference
         %>
 
-          <tr>
+          <tr class="<%= 'suggested-target-district' if is_suggested_target_district %>">
             <% if first_for_committee_room %>
               <%= render 'shared/committee_room_info',
                 committee_room: committee_room,
