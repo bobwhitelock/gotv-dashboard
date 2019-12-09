@@ -77,8 +77,9 @@
 
     <p class="is-size-4">
       You can also <strong>try it out for yourself</strong> right now &mdash;
-      just go <%= link_to 'here', start_path %> and use the <em>Redbridge</em>
-      data set.
+      just click <%= link_to 'here', demo_path, method: :post %>, which will
+      create a demo work space for you using the <em>Ilford North</em>
+      constituency and randomly generated data.
     </p>
 
     <hr>
@@ -234,8 +235,9 @@
       <%= render 'faq_question',
         question: 'Can I try it out for myself?' do
       %>
-        Yes! Just go <%= link_to 'here', start_path %> and use the
-        <em>Redbridge</em> data set.
+        Yes! Just just click <%= link_to 'here', demo_path, method: :post %>,
+        which will create a demo work space for you using the <em>Ilford
+        North</em> constituency and randomly generated data.
       <% end %>
 
       <%= render 'faq_question',
