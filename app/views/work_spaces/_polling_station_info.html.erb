@@ -1,7 +1,7 @@
 
 <% is_polling_district_proxy = polling_station.work_space_polling_district_proxy? %>
 
-<td width="20%">
+<td width="15%">
   <%= render 'shared/polling_station_name', polling_station: polling_station %>
 </td>
 
@@ -9,7 +9,7 @@
 <%# helper for repeated pattern in this file using `is_polling_district_proxy` and %>
 <%# `rowspan`. %>
 <% if is_polling_district_proxy %>
-  <td width="20%" rowspan="<%= rowspan %>">
+  <td width="15%" rowspan="<%= rowspan %>">
     <div>
       <span class="nowrap">
         <span class="is-size-6">
@@ -78,7 +78,7 @@
 <% end %>
 
 <% if is_polling_district_proxy %>
-  <td width="15%" rowspan="<%= rowspan %>">
+  <td width="10%" rowspan="<%= rowspan %>">
     <% if turnout_observation.created_at %>
       <span class="nowrap">
         <span class="is-size-6 has-text-weight-bold">
@@ -97,6 +97,29 @@
   </td>
 <% end %>
 
+<% if is_polling_district_proxy %>
+  <td width="10%" rowspan="<%= rowspan %>">
+    <%# XXX Make this not conditional on turnout observation but on confirmed votes %>
+    <% if turnout_observation.created_at %>
+      <span class="nowrap">
+        <span class="is-size-6 has-text-weight-bold">
+          <%# XXX Put something useful in here and below %>
+          <%# <%= turnout_observation.guesstimated_labour_votes %1> %>
+          0
+        </span>
+        votes
+        /
+      </span>
+      <span class="nowrap">
+        <span class="is-size-6 has-text-weight-bold has-text-primary">
+          <%# <%= turnout_observation.guesstimated_labour_votes_left %1> %>
+          0
+        </span>
+        votes left
+      </span>
+    <% end %>
+  </td>
+<% end %>
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
