@@ -33,6 +33,26 @@ class WarpCountObservationsController < ApplicationController
     )
   end
 
+  def invalidate
+    work_space = find_work_space
+
+    # XXX as above
+    polling_station = WorkSpacePollingStation.find(params[:polling_district_id])
+    # XXX More ad-hoc authorization, should improve.
+    return if polling_station.work_space != work_space
+
+    warp_count = WarpCountObservation.find_by!(
+      work_space_polling_station: polling_station,
+      id: params[:warp_count_observation_id]
+    )
+    warp_count.is_valid = false
+    warp_count.save!
+
+    redirect_to work_space_polling_district_warp_count_observations_path(
+      work_space, polling_station
+    )
+  end
+
   private
 
   def create_params

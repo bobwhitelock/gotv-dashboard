@@ -62,7 +62,8 @@
 
     <% @warp_counts.each do |warp_count| %>
       <tr>
-        <td>
+        <%# XXX DRY all these is_valid bits up %>
+        <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
           <%= render 'shared/observation_time', observation: warp_count %>
         </td>
 
@@ -75,16 +76,40 @@
         <%#   <% end %1> %>
         <%# </td> %>
 
-        <td>
+        <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
           <span class="is-size-6">
             <%= warp_count.count %>
           </span>
         </td>
 
-        <td>
+        <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
           <span class="is-size-6">
             <%= warp_count.notes %>
           </span>
+        </td>
+
+        <td>
+          <%
+              invalidate_path = work_space_polling_district_warp_count_observation_invalidate_path(
+                @work_space, @new_warp_count.work_space_polling_station, warp_count
+              )
+              confirm_message = <<~TEXT.squish
+                This will invalidate this WARP count from
+                #{warp_count.created_at.strftime("%k:%M")}, meaning you will
+                still be able to view it on this page but it will no longer be
+                used in any calculations.
+              TEXT
+          %>
+        <%# XXX `confirm` is happening twice here - why? %>
+        <% if warp_count.is_valid %>
+          <%= button_to 'Invalidate WARP count',
+            invalidate_path,
+            class: 'button is-warning is-small',
+            data: {
+              confirm: confirm_message
+            }
+          %>
+        <% end %>
         </td>
       </tr>
     <% end %>
