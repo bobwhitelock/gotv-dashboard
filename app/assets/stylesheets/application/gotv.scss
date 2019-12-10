@@ -9,6 +9,12 @@ $navbar-breakpoint: 0;
 @import "bulma";
 @import "fake_button";
 
+html {
+  // Ensure horizontal scroll bar shows if needed (small laptops/tablets),
+  // rather than having inaccessible content on right of screen.
+  overflow-x: auto;
+}
+
 // Equivalent to Bulma's label margin but for when input inside label.
 label {
   input {
