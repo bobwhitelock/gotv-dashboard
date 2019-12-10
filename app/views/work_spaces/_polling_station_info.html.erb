@@ -99,25 +99,19 @@
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
-    <%# XXX Make this not conditional on turnout observation but on confirmed votes %>
-    <% if turnout_observation.created_at %>
-      <span class="nowrap">
-        <span class="is-size-6 has-text-weight-bold">
-          <%# XXX Put something useful in here and below %>
-          <%# <%= turnout_observation.guesstimated_labour_votes %1> %>
-          0
-        </span>
-        votes
-        /
+    <span class="nowrap">
+      <span class="is-size-6 has-text-weight-bold">
+        <%= polling_station.confirmed_labour_votes_from_warp %>
       </span>
-      <span class="nowrap">
-        <span class="is-size-6 has-text-weight-bold has-text-primary">
-          <%# <%= turnout_observation.guesstimated_labour_votes_left %1> %>
-          0
-        </span>
-        votes left
+      votes
+      /
+    </span>
+    <span class="nowrap">
+      <span class="is-size-6 has-text-weight-bold has-text-primary">
+        <%= polling_station.remaining_labour_votes_from_warp %>
       </span>
-    <% end %>
+      votes left
+    </span>
 
     <div>
       <%= link_to 'Add WARP count',

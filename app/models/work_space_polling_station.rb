@@ -60,4 +60,12 @@ class WorkSpacePollingStation < ApplicationRecord
       work_space: work_space
     ).order(:reference)
   end
+
+  def confirmed_labour_votes_from_warp
+    warp_count_observations.where(is_valid: true).sum('count')
+  end
+
+  def remaining_labour_votes_from_warp
+    box_labour_promises - confirmed_labour_votes_from_warp
+  end
 end
