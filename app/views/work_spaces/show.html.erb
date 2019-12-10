@@ -7,11 +7,19 @@
   <article class="message is-small">
     <div class="message-body">
       * Note: These figures are only for box voters; postal voters are not
-      included.
+      included. Labour voters who were not included in your Labour promises
+      figure will not be included in the 'Labour votes' figures.
     </div>
   </article>
 
-  <table class="table is-striped is-narrow is-fullwidth">
+  <article class="message is-small">
+    <div class="message-body">
+      † Note: This is only a rough estimate, and assumes Labour voters are
+      turning out at the same rate as other voters.
+    </div>
+  </article>
+
+  <table class="table is-striped is-fullwidth">
     <%#
       XXX Might be nice to make head sticky too (as well as each
       CommitteeRoom's info), but this seems tricky with table markup (maybe
@@ -43,7 +51,13 @@
         </th>
         <th>Turnout&nbsp;*</th>
         <th>Turnout percentage&nbsp;*</th>
-        <th>Guesstimated Labour votes / Labour votes left&nbsp;*</th>
+        <th>
+          Guesstimated Labour votes / Labour votes left&nbsp;*&nbsp;†
+
+          <div class="is-size-7 has-text-grey">
+            Calculated from turnout and your Labour promises
+          </div>
+        </th>
         <th>Remaining lifts</th>
       </tr>
     </thead>
