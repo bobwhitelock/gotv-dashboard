@@ -1,0 +1,93 @@
+
+<% content_for :subtitle do %>
+  <%= @polling_district.fully_specified_name %> &mdash; WARP counts
+<% end %>
+
+<% content_for :content do %>
+  <table class="table is-striped is-narrow">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Count</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="is-size-7">
+
+
+      <tr>
+        <%
+            path = work_space_polling_district_warp_count_observations_path(
+              @work_space, @new_warp_count.work_space_polling_station
+          )
+        %>
+
+        <%= form_with model: @new_warp_count, url: path do |f| %>
+          <%= f.hidden_field(:work_space_polling_station_id) %>
+
+          <td>
+            <em>New WARP Count</em>
+          </td>
+
+          <td>
+            <div class="control">
+              <%= f.number_field(
+                :count,
+                min: 0,
+                step: 1,
+                required: true,
+                class: "input",
+                autofocus: true
+              ) %>
+            </div>
+          </td>
+
+          <td width="50%">
+            <div class="control">
+              <%= f.text_field(
+                :notes,
+                required: false,
+                class: "input",
+                placeholder: 'Anything to help you identify this WARP count (e.g. the road group)'
+              ) %>
+            </div>
+          </td>
+
+          <td>
+            <%= f.submit "Record WARP count", class: 'button is-primary' %>
+          </td>
+        <% end %>
+      </tr>
+
+    <% @warp_counts.each do |warp_count| %>
+      <tr>
+        <td>
+          <%= render 'shared/observation_time', observation: warp_count %>
+        </td>
+
+        <%# XXX Include volunteer, once this is likely to be something useful for %>
+        <%# the main organiser? %>
+        <%# (rather than just 'Volunteer 39' etc.) %>
+        <%# <td> %>
+        <%#   <% if observation.user %1> %>
+        <%#     <%= observation.user.info %1> %>
+        <%#   <% end %1> %>
+        <%# </td> %>
+
+        <td>
+          <span class="is-size-6">
+            <%= warp_count.count %>
+          </span>
+        </td>
+
+        <td>
+          <span class="is-size-6">
+            <%= warp_count.notes %>
+          </span>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

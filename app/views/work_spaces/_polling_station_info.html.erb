@@ -118,6 +118,16 @@
         votes left
       </span>
     <% end %>
+
+    <div>
+      <%= link_to 'Add WARP count',
+        work_space_polling_district_warp_count_observations_path(
+          polling_station.work_space,
+          polling_station
+        ),
+        class: 'button is-small'
+      %>
+    </div>
   </td>
 <% end %>
 

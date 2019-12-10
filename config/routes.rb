@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
     resources :polling_districts, path: 'polling-district', only: [] do
       post :lifts
+
+      resources :warp_count_observations, path: 'warp', only: [:index, :create]
     end
   end
 

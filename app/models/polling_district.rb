@@ -16,6 +16,12 @@ class PollingDistrict < ApplicationRecord
     )&.committee_room
   end
 
+  # XXX move to decorator?
+  # Similar to `PollingStation#fully_specified_name`
+  def fully_specified_name
+    "#{reference}: #{addresses} (#{ward.name})"
+  end
+
   # XXX Move to decorator?
   def name
     "#{reference} (#{ward.name})"
