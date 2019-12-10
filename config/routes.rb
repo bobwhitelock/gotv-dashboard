@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'start' => 'work_spaces#start'
   post 'demo' => 'work_spaces#demo'
 
-  resources :work_spaces, path: 'space', only: [:new, :create, :show] do
+  resources :work_spaces, path: 'space', only: [:new, :create, :show, :update] do
     # All URLs for a workspace should be nested under here, to both indicate
     # the workspace each is for and for security (as the root URL for each
     # workspace is secret).

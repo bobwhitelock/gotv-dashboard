@@ -26,7 +26,7 @@ class WorkSpacesController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      @work_space = WorkSpace.create!(work_space_params)
+      @work_space = WorkSpace.create!(create_work_space_params)
 
       wards = params[:wards]
       polling_stations = PollingStation.where(ward_id: wards)
@@ -80,10 +80,20 @@ class WorkSpacesController < ApplicationController
     redirect_to work_space_path(@work_space)
   end
 
+  def update
+    work_space = WorkSpace.find_by_identifier!(params[:id])
+    work_space.update!(update_work_space_params)
+    redirect_to work_space_path(work_space)
+  end
+
   private
 
-  def work_space_params
+  def create_work_space_params
     params.require(:work_space).permit(:name)
+  end
+
+  def update_work_space_params
+    params.require(:work_space).permit(:suggested_target_district_method)
   end
 
   def ilford_north_wards

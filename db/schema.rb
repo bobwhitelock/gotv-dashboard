@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_143353) do
+ActiveRecord::Schema.define(version: 2019_12_10_230755) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -174,6 +174,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_143353) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.string "identifier", null: false
+    t.text "suggested_target_district_method", default: "estimates", null: false
   end
 
 end

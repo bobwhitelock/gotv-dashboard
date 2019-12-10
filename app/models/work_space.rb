@@ -10,6 +10,11 @@ class WorkSpace < ApplicationRecord
 
   before_validation :create_identifier, on: :create
 
+  validates :suggested_target_district_method, inclusion: {
+    in: ['estimates', 'warp'],
+    present: true
+  }
+
   def to_param
     self.identifier
   end

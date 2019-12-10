@@ -57,6 +57,14 @@
           <div class="is-size-7 has-text-grey">
             Calculated from turnout and your Labour promises
           </div>
+
+          <%# XXX DRY with below button? %>
+          <%= button_to 'Highlight target district by estimates',
+            work_space_path(@work_space),
+            method: 'patch',
+            params: {'work_space[suggested_target_district_method]' => 'estimates'},
+            class: "button is-small #{'is-invisible' if @work_space.suggested_target_district_method == 'estimates'}"
+          %>
         </th>
         <th>
           Confirmed Labour votes / Labour votes left&nbsp;*
@@ -64,6 +72,13 @@
           <div class="is-size-7 has-text-grey">
             From WARP
           </div>
+
+          <%= button_to 'Highlight target district by WARP',
+            work_space_path(@work_space),
+            method: 'patch',
+            params: {'work_space[suggested_target_district_method]' => 'warp'},
+            class: "button is-small #{'is-invisible' if @work_space.suggested_target_district_method == 'warp'}"
+          %>
         </th>
         <th>Remaining lifts</th>
       </tr>
