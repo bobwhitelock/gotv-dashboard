@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_013306) do
+ActiveRecord::Schema.define(version: 2019_12_10_143353) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -139,6 +139,18 @@ ActiveRecord::Schema.define(version: 2019_12_09_013306) do
     t.string "code", null: false
     t.integer "council_id"
     t.index ["council_id"], name: "index_wards_on_council_id"
+  end
+
+  create_table "warp_count_observations", force: :cascade do |t|
+    t.integer "count", null: false
+    t.text "notes"
+    t.boolean "is_valid", default: true, null: false
+    t.integer "work_space_polling_station_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_warp_count_observations_on_user_id"
+    t.index ["work_space_polling_station_id"], name: "index_warp_count_observations_on_work_space_polling_station_id"
   end
 
   create_table "work_space_polling_stations", force: :cascade do |t|
