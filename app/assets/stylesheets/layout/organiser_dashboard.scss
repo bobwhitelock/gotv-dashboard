@@ -5,7 +5,18 @@ html {
   // Ensure rest of page is always at least as big as minimum size main
   // dashboard table will shrink to, so header will still cover full page width
   // in this case.
-  min-width: 1200px;
+  min-width: 1300px;
+}
+
+// Have dashboard take up more space than it would otherwise when on a fairly
+// wide laptop, with smaller margins, to avoid table being as squashed up.
+$extra-wide-dashboard-table-width: 1600px;
+$extra-wide-dashboard-min-width: $extra-wide-dashboard-table-width + 128px;
+@media screen and (min-width: $extra-wide-dashboard-min-width) {
+  .container  {
+    max-width: $extra-wide-dashboard-table-width;
+    width: $extra-wide-dashboard-table-width;
+  }
 }
 
 // Override Bulma style so all cells are vertically centred by default; in

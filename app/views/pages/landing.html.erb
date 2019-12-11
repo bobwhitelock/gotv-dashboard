@@ -151,10 +151,19 @@
           </li>
 
           <li>
+            Input counts from your WARP sheets into the dashboard, which are
+            then summed together for each polling district, and used to display
+            statistics for how many Labour votes have been confirmed/are still
+            to get in each area.
+          </li>
+
+          <li>
             Receive an indication of the polling district for each committee
-            room with most estimated Labour votes left, as an initial
-            suggestion for where may be useful to canvas next (barring other
-            insights or your own local knowledge, this is only a suggestion).
+            room with most Labour votes left, using either estimates from
+            turnout or confirmed Labour votes from WARP; this helps as an
+            initial suggestion for where may be useful to canvas next (barring
+            other insights or your own local knowledge, this is only a
+            suggestion).
           </li>
         </ol>
       <% end %>
@@ -172,12 +181,9 @@
         </p>
 
         <p>
-          We are also currently adding tracking of confirmed Labour voters, as
-          determined from your WARP sheets, so these confirmed figures will
-          also soon be able to be input into the dashboard, and will then be
-          able to be used instead of the estimated figures for calculating
-          summary statistics for each area. <em>This feature should be added by
-          end of day Tuesday 10th December</em>.
+          Counts from your WARP sheets can also be input into and tracked by
+          the dashboard &mdash; see
+          <%= link_to 'features', "##{features_id}" %> above.
         </p>
       <% end %>
 

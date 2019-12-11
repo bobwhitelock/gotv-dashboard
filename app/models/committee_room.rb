@@ -18,12 +18,17 @@ class CommitteeRoom < ApplicationRecord
   # XXX This and its usage is kind of hacky, involves duplicate data loading
   # etc.
   def suggested_target_district_reference
-    wsps, _ = work_space_polling_stations.map do |wsps|
-      [wsps, wsps.last_observation]
-    end.to_h.reject do |_, o|
-      o.nil?
-    end.max_by do |_, o|
-      o.guesstimated_labour_votes_left
+    case work_space.suggested_target_district_method
+    when 'estimates'
+      wsps, _ = work_space_polling_stations.map do |wsps|
+        [wsps, wsps.last_observation]
+      end.to_h.reject do |_, o|
+        o.nil?
+      end.max_by do |_, o|
+        o.guesstimated_labour_votes_left
+      end
+    when 'warp'
+      wsps = work_space_polling_stations.max_by(&:remaining_labour_votes_from_warp)
     end
 
     wsps&.polling_district&.reference

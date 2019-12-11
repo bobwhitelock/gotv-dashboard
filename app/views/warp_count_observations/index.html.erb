@@ -1,0 +1,132 @@
+
+<% content_for :subtitle do %>
+  <%= @polling_district.fully_specified_name %> &mdash; WARP counts
+<% end %>
+
+<% content_for :content do %>
+  <article class="message is-small">
+    <div class="message-body">
+      * Note: All WARP counts for a polling district are added together to get
+      the total count for the district. If you have a new total count for a
+      road group (rather than just the additional count since it was last
+      recorded), you should make sure to invalidate the previous count, so both
+      aren't included in the total count.
+    </div>
+  </article>
+
+  <%
+      path = work_space_polling_district_warp_count_observations_path(
+        @work_space, @new_warp_count.work_space_polling_station
+      )
+      form_id = 'new-warp-count-form'
+      form = nil
+  %>
+  <%= form_with model: @new_warp_count, url: path, id: form_id do |f| %>
+    <% form = f %>
+    <%= f.hidden_field(:work_space_polling_station_id) %>
+  <% end %>
+
+  <table class="table is-striped is-narrow">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Count&nbsp;*</th>
+        <th>Notes</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="is-size-7">
+
+
+      <tr>
+        <td>
+          <em>New WARP Count</em>
+        </td>
+
+        <td>
+          <div class="control">
+            <%= form.number_field(
+              :count,
+              min: 0,
+              step: 1,
+              required: true,
+              class: "input",
+              autofocus: true,
+              form: form_id
+            ) %>
+          </div>
+        </td>
+
+        <td width="50%">
+          <div class="control">
+            <%= form.text_field(
+              :notes,
+              required: false,
+              class: "input",
+              placeholder: 'Anything to help you identify this WARP count (e.g. the road group)',
+              form: form_id
+            ) %>
+          </div>
+        </td>
+
+        <td>
+          <%= form.submit "Record WARP count", class: 'button is-primary', form: form_id %>
+        </td>
+      </tr>
+
+      <% @warp_counts.each do |warp_count| %>
+        <tr>
+          <%# XXX DRY all these is_valid bits up %>
+          <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
+            <%= render 'shared/observation_time', observation: warp_count %>
+          </td>
+
+          <%# XXX Include volunteer, once this is likely to be something useful for %>
+          <%# the main organiser? %>
+          <%# (rather than just 'Volunteer 39' etc.) %>
+          <%# <td> %>
+          <%#   <% if observation.user %1> %>
+          <%#     <%= observation.user.info %1> %>
+          <%#   <% end %1> %>
+          <%# </td> %>
+
+          <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
+            <span class="is-size-6">
+              <%= warp_count.count %>
+            </span>
+          </td>
+
+          <td class="<%= 'is-strikethrough has-text-grey-light' unless warp_count.is_valid %>">
+            <span class="is-size-6">
+              <%= warp_count.notes %>
+            </span>
+          </td>
+
+          <td>
+            <%
+                invalidate_path = work_space_polling_district_warp_count_observation_invalidate_path(
+                  @work_space, @new_warp_count.work_space_polling_station, warp_count
+                )
+                confirm_message = <<~TEXT.squish
+                  This will invalidate this WARP count from
+                  #{warp_count.created_at.strftime("%k:%M")}, meaning you will
+                  still be able to view it on this page but it will no longer be
+                  used in any calculations.
+                TEXT
+            %>
+          <%# XXX `confirm` is happening twice here - why? %>
+          <% if warp_count.is_valid %>
+            <%= button_to 'Invalidate WARP count',
+              invalidate_path,
+              class: 'button is-warning is-small',
+              data: {
+                confirm: confirm_message
+              }
+            %>
+          <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
