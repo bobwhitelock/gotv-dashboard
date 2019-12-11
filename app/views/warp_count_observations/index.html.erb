@@ -14,14 +14,17 @@
     </div>
   </article>
 
-<%
-    path = work_space_polling_district_warp_count_observations_path(
-      @work_space, @new_warp_count.work_space_polling_station
-  )
-%>
-
-<%= form_with model: @new_warp_count, url: path do |f| %>
-  <%= f.hidden_field(:work_space_polling_station_id) %>
+  <%
+      path = work_space_polling_district_warp_count_observations_path(
+        @work_space, @new_warp_count.work_space_polling_station
+      )
+      form_id = 'new-warp-count-form'
+      form = nil
+  %>
+  <%= form_with model: @new_warp_count, url: path, id: form_id do |f| %>
+    <% form = f %>
+    <%= f.hidden_field(:work_space_polling_station_id) %>
+  <% end %>
 
   <table class="table is-striped is-narrow">
     <thead>
@@ -42,30 +45,32 @@
 
         <td>
           <div class="control">
-            <%= f.number_field(
+            <%= form.number_field(
               :count,
               min: 0,
               step: 1,
               required: true,
               class: "input",
-              autofocus: true
+              autofocus: true,
+              form: form_id
             ) %>
           </div>
         </td>
 
         <td width="50%">
           <div class="control">
-            <%= f.text_field(
+            <%= form.text_field(
               :notes,
               required: false,
               class: "input",
-              placeholder: 'Anything to help you identify this WARP count (e.g. the road group)'
+              placeholder: 'Anything to help you identify this WARP count (e.g. the road group)',
+              form: form_id
             ) %>
           </div>
         </td>
 
         <td>
-          <%= f.submit "Record WARP count", class: 'button is-primary' %>
+          <%= form.submit "Record WARP count", class: 'button is-primary', form: form_id %>
         </td>
       </tr>
 
@@ -122,7 +127,6 @@
           </td>
         </tr>
       <% end %>
-      </tbody>
-    </table>
-  <% end %>
+    </tbody>
+  </table>
 <% end %>
