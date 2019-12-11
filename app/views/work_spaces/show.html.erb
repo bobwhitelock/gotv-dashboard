@@ -19,6 +19,22 @@
     </div>
   </article>
 
+  <article class="message is-small" style="background-color: #f7d7d7;">
+    <div class="message-body">
+      Note: currently highlighting suggested target districts using
+
+      <% if @work_space.suggested_target_district_method == 'estimates' %>
+        <strong>turnout estimates</strong> &mdash; this will be the polling
+        district for each committee room we think has the most Labour votes
+        left, using the estimates based on turnout.
+      <% elsif @work_space.suggested_target_district_method == 'warp' %>
+        <strong>WARP counts</strong> &mdash; this will be the polling
+        district for each committee room we think has the most Labour votes
+        left, using the confirmed Labour votes from your input WARP counts.
+      <% end %>
+    </div>
+  </article>
+
   <table class="table is-striped is-fullwidth">
     <%#
       XXX Might be nice to make head sticky too (as well as each

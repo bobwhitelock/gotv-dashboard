@@ -10,6 +10,7 @@ class WorkSpace < ApplicationRecord
 
   before_validation :create_identifier, on: :create
 
+  # XXX Introduce nicer way for testing which of these is being used.
   validates :suggested_target_district_method, inclusion: {
     in: ['estimates', 'warp'],
     present: true
