@@ -11,19 +11,20 @@
   <section class="section">
     <div class="container">
       <div class="field">
-        <%# XXX Why doesn't clicking this label focus the input? %>
+        <%# XXX Do not move input inside this label tag! This breaks the Typeahead %>
+        <%# stuff on mobile Safari... %>
         <label class="label">
           Which polling station are you at?
-
-          <div id="polling-station-search" class="control">
-            <input
-              class="input is-large typeahead"
-              type="text"
-              placeholder="Start typing..."
-              autofocus
-            >
-          </div>
         </label>
+
+        <div id="polling-station-search" class="control">
+          <input
+            class="input is-large typeahead"
+            type="text"
+            placeholder="Start typing..."
+            autofocus
+          >
+        </div>
 
         <%# XXX Move to own script and head, may need defer tag to have load after content %>
         <%# XXX Adapted from and very similar to code in
