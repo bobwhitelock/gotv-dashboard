@@ -20,6 +20,16 @@
         'data-turbolinks-track': 'reload'
     %>
 
+    <script
+      src="https://browser.sentry-cdn.com/5.10.2/bundle.min.js"
+      integrity="sha384-ssBfXiBvlVC7bdA/VX03S88B5MwXQWdnpJRbUYFPgswlOBwETwTp6F3SMUNpo9M9"
+      crossorigin="anonymous">
+    </script>
+    <%# XXX Move this somewhere else? %>
+    <script type="text/javascript">
+      Sentry.init({ dsn: 'https://a039309997f54b72a5db274ba2e63fd4@sentry.io/1850318' });
+    </script>
+
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'typeahead.bundle.min.js' %>
 
