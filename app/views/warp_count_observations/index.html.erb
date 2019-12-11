@@ -4,11 +4,21 @@
 <% end %>
 
 <% content_for :content do %>
+  <article class="message is-small">
+    <div class="message-body">
+      * Note: All WARP counts for a polling district are added together to get
+      the total count for the district. If you have a new total count for a
+      road group (rather than just the additional count since it was last
+      recorded), you should make sure to invalidate the previous count, so both
+      aren't included in the total count.
+    </div>
+  </article>
+
   <table class="table is-striped is-narrow">
     <thead>
       <tr>
         <th>Time</th>
-        <th>Count</th>
+        <th>Count&nbsp;*</th>
         <th>Notes</th>
         <th></th>
       </tr>
