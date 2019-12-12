@@ -2,6 +2,7 @@ class WorkSpace < ApplicationRecord
   has_many :work_space_polling_stations
   has_many :committee_rooms
   has_many :turnout_observations, through: :work_space_polling_stations
+  has_many :warp_count_observations, through: :work_space_polling_stations
   has_many :polling_stations, through: :work_space_polling_stations
   has_many :wards, -> { distinct.order(:name) }, through: :polling_stations
   has_many :polling_districts, -> { distinct.order(:reference) }, through: :polling_stations

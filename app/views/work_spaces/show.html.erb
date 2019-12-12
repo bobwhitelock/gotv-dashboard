@@ -89,6 +89,11 @@
             From WARP
           </div>
 
+          <div class="is-size-7">
+            <%# XXX https://github.com/bobwhitelock/gotv-dashboard/issues/118 %>
+            Total: <%= @work_space.warp_count_observations.where(is_valid: true).sum('count') %>
+          </div>
+
           <%= button_to 'Highlight target district by WARP',
             work_space_path(@work_space),
             method: 'patch',
