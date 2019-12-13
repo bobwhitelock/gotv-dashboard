@@ -2,7 +2,10 @@ class WorkSpace < ApplicationRecord
   has_many :work_space_polling_stations
   has_many :committee_rooms
   has_many :turnout_observations, through: :work_space_polling_stations
+  has_many :remaining_lifts_observations, through: :work_space_polling_stations
   has_many :warp_count_observations, through: :work_space_polling_stations
+  has_many :canvassers_observations, through: :committee_rooms
+  has_many :cars_observations, through: :committee_rooms
   has_many :polling_stations, through: :work_space_polling_stations
   has_many :wards, -> { distinct.order(:name) }, through: :polling_stations
   has_many :polling_districts, -> { distinct.order(:reference) }, through: :polling_stations
@@ -54,6 +57,17 @@ class WorkSpace < ApplicationRecord
 
   def self.identifier_generator
     @identifier_generator ||= XKPassword::Generator.new
+  end
+
+  # TODO Automatically include any new types of observations here?
+  def all_observations
+    [
+      canvassers_observations,
+      cars_observations,
+      remaining_lifts_observations,
+      turnout_observations,
+      warp_count_observations
+    ].flatten.sort_by(&:created_at)
   end
 
   private
