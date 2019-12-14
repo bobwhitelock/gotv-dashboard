@@ -77,4 +77,105 @@ RSpec.describe WorkSpace do
       expect(ward_names).to eq(['Ward 1', 'Ward 2'])
     end
   end
+
+  describe '#all_observations' do
+    it 'sorts all observations by creation time' do
+      work_space = create(:work_space)
+      wsps = create(:work_space_polling_station, work_space: work_space)
+      cr = create(:committee_room, work_space: work_space)
+      turnout_observation = create(
+        :turnout_observation,
+        work_space_polling_station: wsps,
+        created_at: 2.day.ago
+      )
+      warp_count_observation = create(
+        :warp_count_observation,
+        work_space_polling_station: wsps,
+        created_at: 3.days.ago
+      )
+      canvassers_observation = create(
+        :canvassers_observation,
+        committee_room: cr,
+        created_at: 1.days.ago
+      )
+
+      result = work_space.all_observations
+
+      expect(result).to eq([
+        warp_count_observation,
+        turnout_observation,
+        canvassers_observation
+      ])
+    end
+
+    it 'includes turnout observation' do
+      work_space = create(:work_space)
+      wsps = create(:work_space_polling_station, work_space: work_space)
+      turnout_observation = create(
+        :turnout_observation, work_space_polling_station: wsps
+      )
+      _another_turnout_observation = create(:turnout_observation)
+
+      result = work_space.all_observations
+
+      expect(result.length).to eq(1)
+      expect(result).to include(turnout_observation)
+    end
+
+    it 'includes canvassers observation' do
+      work_space = create(:work_space)
+      cr = create(:committee_room, work_space: work_space)
+      canvassers_observation = create(
+        :canvassers_observation, committee_room: cr
+      )
+      _another_canvassers_observation = create(:canvassers_observation)
+
+      result = work_space.all_observations
+
+      expect(result.length).to eq(1)
+      expect(result).to include(canvassers_observation)
+    end
+
+    it 'includes cars observation' do
+      work_space = create(:work_space)
+      cr = create(:committee_room, work_space: work_space)
+      cars_observation = create(
+        :cars_observation, committee_room: cr
+      )
+      _another_cars_observation = create(:cars_observation)
+
+      result = work_space.all_observations
+
+      expect(result.length).to eq(1)
+      expect(result).to include(cars_observation)
+    end
+
+    it 'includes remaining lifts observation' do
+      work_space = create(:work_space)
+      wsps = create(:work_space_polling_station, work_space: work_space)
+      remaining_lifts_observation = create(
+        :remaining_lifts_observation, work_space_polling_station: wsps
+      )
+      _another_remaining_lifts_observation = create(:remaining_lifts_observation)
+
+      result = work_space.all_observations
+
+      expect(result.length).to eq(1)
+      expect(result).to include(remaining_lifts_observation)
+    end
+
+    it 'includes WARP count observation' do
+      work_space = create(:work_space)
+      wsps = create(:work_space_polling_station, work_space: work_space)
+      warp_count_observation = create(
+        :warp_count_observation, work_space_polling_station: wsps
+      )
+      _another_warp_count_observation = create(:warp_count_observation)
+
+      result = work_space.all_observations
+
+      expect(result.length).to eq(1)
+      expect(result).to include(warp_count_observation)
+    end
+  end
 end

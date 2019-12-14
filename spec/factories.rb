@@ -46,4 +46,28 @@ FactoryBot.define do
     work_space_polling_station
     count { 0 }
   end
+
+  factory :warp_count_observation do
+    user
+    work_space_polling_station
+    count { 0 }
+  end
+
+  factory :remaining_lifts_observation do
+    user
+    work_space_polling_station
+    count { 0 }
+  end
+
+  factory :canvassers_observation do
+    user
+    committee_room
+    count { 0 }
+  end
+
+  factory :cars_observation do
+    user
+    committee_room
+    count { 0 }
+  end
 end

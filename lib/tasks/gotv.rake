@@ -18,6 +18,61 @@ def env_param(param_name)
   param
 end
 
+def observation_attributes(observation)
+  notes = nil
+  valid = true
+
+  case observation
+  when TurnoutObservation
+    type = 'Turnout'
+    level = 'Polling Station'
+  when WarpCountObservation
+    type = 'WARP Count'
+    level = 'Polling District'
+    notes = observation.notes
+    valid = observation.is_valid
+  when CanvassersObservation
+    type = 'Canvassers'
+    level = 'Committee Room'
+  when CarsObservation
+    type = 'Cars'
+    level = 'Committee Room'
+  when RemainingLiftsObservation
+    type = 'Remaining Lifts'
+    level = 'Polling District'
+  else
+    abort "ERROR: Unhandled observation type: #{observation.class}"
+  end
+
+  location = observation_location_for_level(
+    observation: observation, level: level
+  )
+
+  OpenStruct.new(
+    type: type,
+    level: level,
+    notes: notes,
+    valid: valid,
+    location: location,
+    time: observation.created_at.iso8601,
+    user: observation.user&.name,
+    count: observation.count
+  )
+end
+
+def observation_location_for_level(observation:, level:)
+  case level
+  when 'Polling Station'
+    observation.work_space_polling_station.fully_specified_name
+  when 'Polling District'
+    observation.work_space_polling_station.polling_district.fully_specified_name
+  when 'Committee Room'
+    observation.committee_room.address
+  else
+    abort "ERROR: Unhandled observation level: #{level}"
+  end
+end
+
 namespace :gotv do
   desc 'Import all councils from wheredoivote.co.uk'
   task import_councils: :environment do
@@ -110,5 +165,41 @@ namespace :gotv do
 
       ps.save!
     end
+  end
+
+  desc 'Export all observations for a WorkSpace as CSV to STDOUT'
+  task export_workspace: :environment do
+    identifier = env_param('identifier')
+    work_space = WorkSpace.find_by!(identifier: identifier)
+
+    headers = [
+      'Observation Type',
+      'Observation Level',
+      'Time',
+      'User',
+      'Location',
+      'Count',
+      'Notes',
+      'Valid'
+    ]
+
+    observations_csv = CSV.generate(headers: headers, write_headers: true) do |csv|
+      work_space.all_observations.each do |o|
+        attrs = observation_attributes(o)
+
+        csv << [
+          attrs.type,
+          attrs.level,
+          attrs.time,
+          attrs.user,
+          attrs.location,
+          attrs.count,
+          attrs.notes,
+          attrs.valid
+        ]
+      end
+    end
+
+    puts observations_csv
   end
 end
