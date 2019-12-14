@@ -111,4 +111,74 @@ namespace :gotv do
       ps.save!
     end
   end
+
+  desc 'Export all observations for a WorkSpace as CSV to STDOUT'
+  task export_workspace: :environment do
+    identifier = env_param('identifier')
+    work_space = WorkSpace.find_by!(identifier: identifier)
+
+    headers = [
+      'Observation Type',
+      'Observation Level',
+      'Time',
+      'User',
+      'Location',
+      'Count',
+      'Notes',
+      'Valid'
+    ]
+
+    observations_csv = CSV.generate(headers: headers, write_headers: true) do |csv|
+      work_space.all_observations.each do |o|
+        notes = nil
+        valid = true
+
+        case o
+        when TurnoutObservation
+          type = 'Turnout'
+          level = 'Polling Station'
+        when WarpCountObservation
+          type = 'WARP Count'
+          level = 'Polling District'
+          notes = o.notes
+          valid = o.is_valid
+        when CanvassersObservation
+          type = 'Canvassers'
+          level = 'Committee Room'
+        when CarsObservation
+          type = 'Cars'
+          level = 'Committee Room'
+        when RemainingLiftsObservation
+          type = 'Remaining Lifts'
+          level = 'Polling District'
+        else
+          abort "ERROR: Unhandled observation type: #{o.class}"
+        end
+
+        location = case level
+                   when 'Polling Station'
+                     o.work_space_polling_station.fully_specified_name
+                   when 'Polling District'
+                     o.work_space_polling_station.polling_district.fully_specified_name
+                   when 'Committee Room'
+                     o.committee_room.address
+                   else
+                     abort "ERROR: Unhandled observation level: #{level}"
+                   end
+
+        csv << [
+          type,
+          level,
+          o.created_at.iso8601,
+          o.user&.name,
+          location,
+          o.count,
+          notes,
+          valid
+        ]
+      end
+    end
+
+    puts observations_csv
+  end
 end
