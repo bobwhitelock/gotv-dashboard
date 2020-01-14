@@ -4,8 +4,6 @@ Rails.application.routes.draw do
 
   root 'pages#landing'
 
-  get 'test-sentry' => 'pages#test_sentry'
-
   get 'start' => 'work_spaces#start'
   post 'demo' => 'work_spaces#demo'
 
