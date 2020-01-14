@@ -1,12 +1,10 @@
 class CommitteeRoomsController < ApplicationController
-  layout 'setup'
+  layout 'organiser_dashboard'
 
   def new
     @committee_room = CommitteeRoom.new
     @work_space = find_work_space
-    @reconfiguring = params['reconfigure']
-    @skip_creation_url = skip_creation_url(@reconfiguring, @work_space)
-    render layout: 'organiser_dashboard' if @reconfiguring
+    @skip_creation_url = work_space_path(@work_space)
   end
 
   def create
@@ -29,8 +27,7 @@ class CommitteeRoomsController < ApplicationController
       work_space_polling_stations.update_all(committee_room_id: committee_room.id)
     end
 
-    reconfiguring = params['reconfigure']
-    redirect_to post_creation_url(reconfiguring, work_space)
+    redirect_to work_space_path(work_space)
   end
 
   def canvassers
@@ -53,23 +50,6 @@ class CommitteeRoomsController < ApplicationController
       count: params[:count],
       user: @current_user
     )
-  end
-
-  def post_creation_url(reconfiguring, work_space)
-    if reconfiguring
-      work_space_path(work_space)
-    else
-      flash.notice = 'Committee room created! You can now create another or continue.'
-      new_work_space_committee_room_path(work_space)
-    end
-  end
-
-  def skip_creation_url(reconfiguring, work_space)
-    if reconfiguring
-      work_space_path(work_space)
-    else
-      work_space_configuration_path(work_space)
-    end
   end
 
   def committee_room_params
