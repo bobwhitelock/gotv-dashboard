@@ -27,7 +27,9 @@
     </script>
     <%# XXX Move this somewhere else? %>
     <script type="text/javascript">
-      Sentry.init({ dsn: 'https://a039309997f54b72a5db274ba2e63fd4@sentry.io/1850318' });
+      <% if Rails.env.production?  %>
+          Sentry.init({ dsn: 'https://a039309997f54b72a5db274ba2e63fd4@sentry.io/1850318' });
+      <% end %>
     </script>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
