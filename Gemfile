@@ -53,6 +53,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'capybara'
+  gem 'launchy'
+  gem 'selenium-webdriver'
 end
 
 group :production do
