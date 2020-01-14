@@ -11,19 +11,6 @@ class WorkSpacesController < ApplicationController
     @work_space = WorkSpace.find_by_identifier!(params[:id])
   end
 
-  def start
-    @councils = Council.all.sort_by(&:name)
-    render layout: 'setup'
-  end
-
-  def new
-    council = Council.find(params[:council_id])
-    @wards = council.wards.sort_by { |w| w.name || 'z' }.compact
-    default_name = "#{council.name} #{Time.current.year} Elections"
-    @work_space = WorkSpace.new(name: default_name)
-    render layout: 'setup'
-  end
-
   def create
     ActiveRecord::Base.transaction do
       @work_space = WorkSpace.create!(create_work_space_params)
