@@ -30,8 +30,7 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     search_for_polling_station_matching '42'
     enter_ballot_count_of '101'
 
-    sleep 0.1
-    expect(body_text).to match(
+    expect(page).to have_text(
       /Your committee room received the count of 101 .* polling station 42/
     )
   end
@@ -49,12 +48,11 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     search_for_polling_station_matching '42'
     enter_ballot_count_of '101'
 
-    sleep 0.1
-    expect(body_text).to include(
+    expect(page).to have_text(
       'We think these ballot boxes are in the same building'
     )
     click_on 'Click here to enter a new count'
-    expect(body_text).to match(
+    expect(page).to have_text(
       /Recording ballot count for .* polling station 43/
     )
   end
@@ -65,7 +63,7 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     search_for_polling_station_matching '42'
     click_on 'Click here to select again'
 
-    expect(body_text).to include('Which polling station are you at?')
+    expect(page).to have_text('Which polling station are you at?')
   end
 
   it 'gives link to re-log observation after logging' do
@@ -75,7 +73,7 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     enter_ballot_count_of '101'
     click_on 'Click here to enter a corrected count'
 
-    expect(body_text).to match(
+    expect(page).to have_text(
       /Recording ballot count for .* polling station 42/
     )
   end
@@ -90,7 +88,7 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     save_details = 'Save your details'
     click_on save_details
 
-    expect(body_text).to include('Your details have been saved. Thanks!')
+    expect(page).to have_text('Your details have been saved. Thanks!')
     expect(page).not_to have_button(save_details)
   end
 end
