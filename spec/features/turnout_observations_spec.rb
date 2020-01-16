@@ -79,4 +79,18 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
       /Recording ballot count for .* polling station 42/
     )
   end
+
+  it 'allows recording volunteer details after initial observation' do
+    create_polling_station(name: 'polling station 42')
+    search_for_polling_station_matching '42'
+    enter_ballot_count_of '101'
+
+    fill_in 'Your name', with: 'Dawn Butler'
+    fill_in 'Your phone number', with: '555 123'
+    save_details = 'Save your details'
+    click_on save_details
+
+    expect(body_text).to include('Your details have been saved. Thanks!')
+    expect(page).not_to have_button(save_details)
+  end
 end
