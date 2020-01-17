@@ -11,7 +11,7 @@ FactoryBot.define do
 
   factory :polling_district do
     ward
-    reference { 'SPS' }
+    reference { 'PD' }
   end
 
   factory :ward do
