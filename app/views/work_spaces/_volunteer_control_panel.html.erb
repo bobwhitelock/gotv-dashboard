@@ -2,11 +2,12 @@
 <%# XXX Possibly this and all usage (including JS) should be renamed now - used for %>
 <%# more than just volunteer tracking - maybe call `observation_control_panel`? %>
 
-<div class="field has-addons is-marginless">
+<div class="field has-addons is-marginless" data-test="<%= identifier %>">
   <p class="control">
     <button
       class="button"
       onclick="decreaseVolunteersControl('<%= identifier %>', '<%= update_count_url %>')"
+      data-test="decrease-button"
     >
       <span class="icon">
         <i class="fa fa-minus"></i>
@@ -31,6 +32,7 @@
     <button
       class="button"
       onclick="increaseVolunteersControl('<%= identifier %>', '<%= update_count_url %>')"
+      data-test="increase-button"
     >
       <span class="icon">
         <i class="fa fa-plus"></i>
