@@ -29,4 +29,22 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     expect(page).to have_text('20 promises / 60 postal voters')
     expect(page).to have_text('0 (not yet observed)')
   end
+
+  it 'allows copying link to log turnout observations', js: true do
+    work_space = create(:work_space)
+    page.driver.browser.execute_cdp('Browser.grantPermissions', origin: page.server_url, permissions: ['clipboardRead', 'clipboardWrite'])
+
+    visit work_space_path(work_space)
+    click_on 'Copy'
+    # find(')
+    # all('a.copy-btn').each do |i|
+    #   p "i [uregvvai]:", i.text
+    # end
+    # a = find('#copy-btn')
+    # p "a [bwzikudc]:", a
+
+    clip_text = page.evaluate_async_script('navigator.clipboard.readText().then(arguments[0])')
+    p "clip_text [hslwhjrs]:", clip_text
+
+  end
 end
