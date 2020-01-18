@@ -1,6 +1,19 @@
 require 'rails_helper'
+require 'shared_examples/volunteer_control_panel'
 
 RSpec.feature 'work space dashboard', type: :feature, js: true do
+  def create_committee_room
+    work_space = create(:work_space)
+    create(
+      :committee_room,
+      work_space: work_space,
+      # Create with a polling station associated so shows up on dashboard.
+      work_space_polling_stations: [
+        create(:work_space_polling_station, work_space: work_space)
+      ]
+    )
+  end
+
   it 'displays all polling stations, with key stats' do
     polling_station = create(
       :work_space_polling_station,
@@ -30,170 +43,40 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
   end
 
   describe 'remaining lifts tracking' do
-    before :each do
-      visit work_space_path(polling_station.work_space)
-    end
+    include_examples 'volunteer_control_panel'
 
-    let :polling_station do
+    subject do
       create(:work_space_polling_station)
     end
 
     let :count_element do
-      find_data_test("remaining-lifts-#{polling_station.polling_district.id}")
+      find_data_test("remaining-lifts-#{subject.polling_district.id}")
     end
 
-    let :increase_button do
-      find_data_test('increase-button', root: count_element)
-    end
-
-    let :decrease_button do
-      find_data_test('decrease-button', root: count_element)
-    end
-
-    it 'initializes count at 0' do
-      expect(count_element).to have_text('0')
-    end
-
-    it 'allows increasing and decreasing count' do
-      increase_button.click
-      expect(count_element).to have_text('1')
-
-      decrease_button.click
-      expect(count_element).to have_text('0')
-    end
-
-    it 'does not allow count to go below 0' do
-      decrease_button.click
-
-      expect(count_element).to have_text('0')
-    end
-
-    it 'persists count to server once unchanged for brief period' do
-      3.times { increase_button.click }
-      sleep 1 # Allow JS time to make AJAX request.
-      visit work_space_path(polling_station.work_space)
-
-      expect(count_element).to have_text('3')
-      remaining_lifts_observations =
-        polling_station.remaining_lifts_observations
-      expect(remaining_lifts_observations.length).to eq 1
-      expect(remaining_lifts_observations.first.count).to eq 3
-    end
+    let(:observations_method) { :remaining_lifts_observations }
   end
 
   describe 'canvassers tracking' do
-    before :each do
-      visit work_space_path(committee_room.work_space)
-    end
+    include_examples 'volunteer_control_panel'
 
-    let :committee_room do
-      work_space = create(:work_space)
-      create(
-        :committee_room,
-        work_space: work_space,
-        work_space_polling_stations: [
-          create(:work_space_polling_station, work_space: work_space)
-        ]
-      )
-    end
+    subject { create_committee_room }
 
     let :count_element do
-      find_data_test("canvassers-#{committee_room.id}")
+      find_data_test("canvassers-#{subject.id}")
     end
 
-    let :increase_button do
-      find_data_test('increase-button', root: count_element)
-    end
-
-    let :decrease_button do
-      find_data_test('decrease-button', root: count_element)
-    end
-
-    it 'initializes count at 0' do
-      expect(count_element).to have_text('0')
-    end
-
-    it 'allows increasing and decreasing count' do
-      increase_button.click
-      expect(count_element).to have_text('1')
-
-      decrease_button.click
-      expect(count_element).to have_text('0')
-    end
-
-    it 'does not allow count to go below 0' do
-      decrease_button.click
-
-      expect(count_element).to have_text('0')
-    end
-
-    it 'persists count to server once unchanged for brief period' do
-      3.times { increase_button.click }
-      sleep 1 # Allow JS time to make AJAX request.
-      visit work_space_path(committee_room.work_space)
-
-      expect(count_element).to have_text('3')
-      canvassers_observations = committee_room.canvassers_observations
-      expect(canvassers_observations.length).to eq 1
-      expect(canvassers_observations.first.count).to eq 3
-    end
+    let(:observations_method) { :canvassers_observations }
   end
 
   describe 'cars tracking' do
-    before :each do
-      visit work_space_path(committee_room.work_space)
-    end
+    include_examples 'volunteer_control_panel'
 
-    let :committee_room do
-      work_space = create(:work_space)
-      create(
-        :committee_room,
-        work_space: work_space,
-        work_space_polling_stations: [
-          create(:work_space_polling_station, work_space: work_space)
-        ]
-      )
-    end
+    subject { create_committee_room }
 
     let :count_element do
-      find_data_test("cars-#{committee_room.id}")
+      find_data_test("cars-#{subject.id}")
     end
 
-    let :increase_button do
-      find_data_test('increase-button', root: count_element)
-    end
-
-    let :decrease_button do
-      find_data_test('decrease-button', root: count_element)
-    end
-
-    it 'initializes count at 0' do
-      expect(count_element).to have_text('0')
-    end
-
-    it 'allows increasing and decreasing count' do
-      increase_button.click
-      expect(count_element).to have_text('1')
-
-      decrease_button.click
-      expect(count_element).to have_text('0')
-    end
-
-    it 'does not allow count to go below 0' do
-      decrease_button.click
-
-      expect(count_element).to have_text('0')
-    end
-
-    it 'persists count to server once unchanged for brief period' do
-      3.times { increase_button.click }
-      sleep 1 # Allow JS time to make AJAX request.
-      visit work_space_path(committee_room.work_space)
-
-      expect(count_element).to have_text('3')
-      cars_observations = committee_room.cars_observations
-      expect(cars_observations.length).to eq 1
-      expect(cars_observations.first.count).to eq 3
-    end
+    let(:observations_method) { :cars_observations }
   end
 end
