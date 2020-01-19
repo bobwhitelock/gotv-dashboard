@@ -42,6 +42,41 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     expect(page).to have_text('0 (not yet observed)')
   end
 
+  it 'shows details/stats for latest turnout observation for each polling station' do
+    polling_station = create(
+      :work_space_polling_station,
+      box_electors: 200,
+      box_labour_promises: 100
+    )
+    create(
+      :turnout_observation,
+      work_space_polling_station: polling_station,
+      count: 120,
+      created_at: DateTime.new(2019, 12, 12, 11, 23)
+    )
+
+    visit work_space_path(polling_station.work_space)
+
+    expect(page).to have_text('120 at 11:23')
+    expect(page).to have_text('60.0%')
+    expect(page).to have_text('60 votes / 40 votes left')
+  end
+
+  it 'shows volunteer that made latest turnout observation, if present' do
+    polling_station = create(:work_space_polling_station)
+    create(
+      :turnout_observation,
+      work_space_polling_station: polling_station,
+      count: 120,
+      created_at: DateTime.new(2019, 12, 12, 11, 23),
+      user: create(:user, name: 'Some Campaigner')
+    )
+
+    visit work_space_path(polling_station.work_space)
+
+    expect(page).to have_text(/120 at 11:23.*\nby Some Campaigner/)
+  end
+
   describe 'remaining lifts tracking' do
     include_examples 'volunteer_control_panel'
 
