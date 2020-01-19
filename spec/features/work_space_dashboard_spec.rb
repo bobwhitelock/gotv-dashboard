@@ -77,6 +77,61 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     expect(page).to have_text(/120 at 11:23.*\nby Some Campaigner/)
   end
 
+  it 'shows sum of valid WARP count observations for each polling station' do
+    polling_station = create(
+      :work_space_polling_station,
+      box_electors: 200,
+      box_labour_promises: 100
+    )
+    create(
+      :warp_count_observation,
+      count: 20,
+      work_space_polling_station: polling_station
+    )
+    create(
+      :warp_count_observation,
+      count: 40,
+      work_space_polling_station: polling_station
+    )
+    create(
+      :warp_count_observation,
+      count: 10,
+      is_valid: false,
+      work_space_polling_station: polling_station
+    )
+
+    visit work_space_path(polling_station.work_space)
+
+    expect(page).to have_text('60 votes / 40 votes left')
+  end
+
+  it 'shows total of all valid WARP counts for work space' do
+    work_space = create(:work_space)
+    3.times do
+      create(
+        :warp_count_observation,
+        count: 20,
+        work_space_polling_station: create(
+          :work_space_polling_station,
+          work_space: work_space
+        )
+      )
+    end
+    create(
+      :warp_count_observation,
+      count: 10,
+      is_valid: false,
+      work_space_polling_station: create(
+        :work_space_polling_station,
+        work_space: work_space
+      )
+    )
+
+    visit work_space_path(work_space)
+
+    expect(page).to have_text('Total: 60')
+  end
+
   describe 'remaining lifts tracking' do
     include_examples 'volunteer_control_panel'
 
