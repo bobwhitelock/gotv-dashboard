@@ -89,6 +89,6 @@ RSpec.feature 'turnout observation logging', type: :feature, js: true do
     click_on save_details
 
     expect(page).to have_text('Your details have been saved. Thanks!')
-    expect(page).not_to have_button(save_details)
+    expect(page).to have_no_button(save_details)
   end
 end
