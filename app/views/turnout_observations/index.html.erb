@@ -37,6 +37,7 @@
             <i class="fas fa-edit"></i>
           <% end %>
           <%# Could also display past count time alongside these, in time column %>
+          <%# XXX Similar but slightly different to invalid WARP count styling %>
           <ul class="past-counts-list">
             <% observation.past_counts.each do |count| %>
               <li><%= count %></li>
