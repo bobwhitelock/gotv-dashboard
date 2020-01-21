@@ -18,7 +18,9 @@
     <% @observations.each do |observation| %>
       <tr>
         <td>
-          <%= render 'shared/polling_station_name', polling_station: observation.work_space_polling_station %>
+          <%= render 'shared/polling_station_name',
+            polling_station: observation.work_space_polling_station
+          %>
         </td>
         <td>
           <%= render 'shared/observation_time', observation: observation %>
@@ -33,7 +35,9 @@
             <%= observation.count %>
           </span>
           &nbsp;
-          <%= link_to edit_work_space_turnout_observation_path(@work_space, observation) do %>
+          <%= link_to edit_work_space_turnout_observation_path(
+            @work_space, observation
+          ) do %>
             <i class="fas fa-edit"></i>
           <% end %>
           <%# Could also display past count time alongside these, in time column %>
