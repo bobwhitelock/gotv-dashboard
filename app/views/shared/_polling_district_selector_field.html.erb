@@ -8,8 +8,8 @@
     <%= label_text %>
 
     <small class="content is-small">
-      (<a class="is-small" onclick="document.querySelectorAll('[name=\'polling_districts[]\']').forEach(element => element.checked = true)">All</a> /
-      <a class="is-small" onclick="document.querySelectorAll('[name=\'polling_districts[]\']').forEach(element => element.checked = false)">Clear</a>)
+      (<a class="is-small" onclick="checkAllWithName('polling_districts[]')">All</a> /
+      <a class="is-small" onclick="uncheckAllWithName('polling_districts[]')">Clear</a>)
     </small>
   </p>
 
