@@ -42,7 +42,11 @@
               <% end %>
             >
 
-              <%= check_box_tag "polling_districts[]", polling_district.id, false %>
+              <%= check_box_tag "polling_districts[]",
+                polling_district.id,
+                false,
+                id: "polling-districts-#{polling_district.id}"
+              %>
               <%= polling_district.name %>
 
               <% if committee_room %>
