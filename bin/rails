@@ -4,7 +4,6 @@ if ENV['RAILS_ENV'] == 'test'
   # Track code coverage with SimpleCov (for Capybara tests, which will hit code
   # running in a different process from the test process).
   require 'simplecov'
-  SimpleCov.start 'rails'
 end
 
 begin
