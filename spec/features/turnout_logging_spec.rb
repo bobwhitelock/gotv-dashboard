@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'turnout observation logging', type: :feature, js: true do
+RSpec.feature 'turnout logging', type: :feature, js: true do
   let!(:work_space) do
     create(:work_space)
   end
