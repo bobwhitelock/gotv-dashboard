@@ -148,8 +148,8 @@ namespace :gotv do
 
     ContactCreatorImporter.import(
       work_space_name: work_space_name,
-      polling_stations_url: polling_stations_url,
-      campaign_stats_url: campaign_stats_url
+      polling_stations_csv: open(polling_stations_url).read,
+      campaign_stats_csv: open(campaign_stats_url).read
     )
   end
 
