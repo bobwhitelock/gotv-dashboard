@@ -153,6 +153,71 @@ namespace :gotv do
     )
   end
 
+  desc 'Sanitize data files exported from Contact Creator, ready to be used by `gotv:import_contact_creator`'
+  task sanitize_contact_creator_data: :environment do
+    polling_stations_file = env_param('polling_stations')
+    campaign_stats_file = env_param('campaign_stats')
+
+    polling_stations = File.read(polling_stations_file)
+    campaign_stats = File.read(campaign_stats_file)
+
+    sanitized_polling_stations = CSV.generate do |new_csv|
+      headers = CSV.parse_line(polling_stations)
+      new_csv << headers
+
+      CSV.parse(polling_stations, headers: true) do |row|
+
+        # Just blank sensitive numerical columns.
+        row['count_of_box_electors'] = 0
+        row['count_of_postal_electors'] = 0
+        row['minimum_polling_number'] = 0
+        row['maximum_polling_number'] = 0
+
+        new_csv << row
+      end
+    end
+
+    sanitized_campaign_stats = CSV.generate do |new_csv|
+      current_csv_lines = campaign_stats.lines
+
+      # First 4 lines have different format, are not useful, therefore append
+      # them unchanged and do not consider them below.
+      current_csv_lines.slice(0, 4).each do |row|
+        new_csv << CSV.parse_line(row)
+      end
+
+      campaign_stats_csv = current_csv_lines.slice(4, current_csv_lines.length).join
+      CSV.parse(campaign_stats_csv) do |row|
+        # Blank all numerical columns by default.
+        (2..row.length).each do |column|
+          row[column] = 0
+        end
+
+        # Create random figures for columns we need (total/postal
+        # electors/promises).
+        total_electors = rand(500..3000)
+        minimum_total_promises = total_electors / 3
+        maximum_total_promises = total_electors * 2/3
+        total_labour_promises = rand(minimum_total_promises..maximum_total_promises)
+
+        postal_electors = rand(50..200)
+        minimum_postal_promises = postal_electors / 3
+        maximum_postal_promises = postal_electors * 2/3
+        postal_labour_promises = rand(minimum_postal_promises..maximum_postal_promises)
+
+        row[2] = total_electors
+        row[9] = postal_electors
+        row[4] = total_labour_promises
+        row[12] = postal_labour_promises
+
+        new_csv << row
+      end
+    end
+
+    File.write(polling_stations_file, sanitized_polling_stations)
+    File.write(campaign_stats_file, sanitized_campaign_stats)
+  end
+
   desc 'Generate plausible random Labour promises and registered voters for all workspace polling stations'
   task randomize_figures: :environment do
     WorkSpacePollingStation.all.each do |ps|
