@@ -89,12 +89,12 @@ ContactCreatorImporter = Struct.new(
     wsps = WorkSpacePollingStation.create!(
       work_space: work_space,
       polling_station: polling_station,
-      box_electors: station_row['count_of_box_electors'],
-      postal_electors: station_row['count_of_postal_electors'],
       # These will be updated below, iff this is the proxy
       # WorkSpacePollingStation for this PollingDistrict. XXX Need to improve
       # the data model related to this at some point - see
       # https://github.com/bobwhitelock/gotv-dashboard/issues/100.
+      box_electors: 0,
+      postal_electors: 0,
       box_labour_promises: 0,
       postal_labour_promises: 0
     )
