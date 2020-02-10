@@ -77,8 +77,9 @@
 
     <p class="is-size-4">
       You can also <strong>try it out for yourself</strong> right now &mdash;
-      just click <%= link_to 'here', demo_path, method: :post %>, which will
-      create a demo work space for you using the <em>Ilford North</em>
+      just click
+      <%= link_to 'here', demo_path, method: :post, 'data-test' => 'demo-button' %>,
+      which will create a demo work space for you using the <em>Vauxhall</em>
       constituency and randomly generated data.
     </p>
 

@@ -29,42 +29,17 @@ class WorkSpacesController < ApplicationController
     redirect_to new_work_space_committee_room_path(@work_space)
   end
 
-  # XXX Adapted from above, with stuff pulled in from `gotv:randomize_figures`
-  # Rake task. Probably don't need this and above, maybe just get rid of most
-  # of above setup process.
   def demo
-    ActiveRecord::Base.transaction do
-      @work_space = WorkSpace.create!(
-        name: 'Ilford North General Election 2019 [demo]'
-      )
+    polling_stations_csv = File.read('example_data/polling_stations.csv')
+    campaign_stats_csv = File.read('example_data/campaign_stats.csv')
 
-      wards = ilford_north_wards
-      polling_stations = PollingStation.where(ward_id: wards)
-      polling_stations.each do |ps|
+    work_space = ContactCreatorImporter.import(
+      work_space_name: "Vauxhall Election #{Time.zone.now.year} [Demo]",
+      polling_stations_csv: polling_stations_csv,
+      campaign_stats_csv: campaign_stats_csv
+    )
 
-        box_electors = rand(500..3000)
-        minimum_box_promises = box_electors / 3
-        maximum_box_promises = box_electors * 2/3
-        box_labour_promises = rand(minimum_box_promises..maximum_box_promises)
-
-        postal_electors = rand(50..300)
-        minimum_postal_promises = postal_electors / 3
-        maximum_postal_promises = postal_electors * 2/3
-        postal_labour_promises = rand(minimum_postal_promises..maximum_postal_promises)
-
-        @work_space.work_space_polling_stations.create!(
-          polling_station: ps,
-
-          box_labour_promises: box_labour_promises,
-          box_electors: box_electors,
-
-          postal_labour_promises: postal_labour_promises,
-          postal_electors: postal_electors
-        )
-      end
-    end
-
-    redirect_to work_space_path(@work_space)
+    redirect_to work_space_path(work_space)
   end
 
   def update
