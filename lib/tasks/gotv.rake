@@ -205,7 +205,21 @@ namespace :gotv do
         maximum_postal_promises = postal_electors * 2/3
         postal_labour_promises = rand(minimum_postal_promises..maximum_postal_promises)
 
-        row[2] = total_electors
+        # Only total electors column is formatted as string for some reason
+        # (like `1717` => `"1,717"`), therefore add back this formatting to new
+        # sanitized value.
+        formatted_total_electors_chars = []
+        digits = total_electors.to_s.chars
+        digits.reverse.each_with_index do |digit, index|
+          formatted_total_electors_chars << digit
+          position = index + 1
+          if (position % 3).zero? && position != digits.length
+            formatted_total_electors_chars << ','
+          end
+        end
+        formatted_total_electors = formatted_total_electors_chars.reverse.join
+
+        row[2] = formatted_total_electors
         row[9] = postal_electors
         row[4] = total_labour_promises
         row[12] = postal_labour_promises
