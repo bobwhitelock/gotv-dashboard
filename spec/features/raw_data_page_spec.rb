@@ -36,7 +36,9 @@ RSpec.feature 'raw data page', type: :feature, js: true do
     expect(page).to have_text('66')
   end
 
-  it 'allows creating new observation with amended count for past observation' do
+  # XXX This test fails without network access due to failure to load
+  # FontAwesome - make this more robust.
+  it 'allows creating new observation with amended count for past observation', unstable: true do
     observation = create(:turnout_observation, count: 42)
 
     visit work_space_turnout_observations_path(observation.work_space)
