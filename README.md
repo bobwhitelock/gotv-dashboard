@@ -27,18 +27,19 @@
    rails server
    ```
 
-3. To import/generate useful data for development:
+3. To create a work space for development, either:
+
+   a. visit `http://localhost:3000` and click the link to generate a demo work
+   space;
+
+   b. or, if you have access to Contact Creator and some real data, and want to
+   try using this, export this data and run:
 
    ```bash
-   rake gotv:import_councils
-   # XXX This will be broken following addition of PollingDistricts.
-   rake gotv:import_redbridge
-
-   # Access the app and create a workspace to use for development (at
-   # `http://localhost:3000`)
-
-   # Set up this workspace with some random figures.
-   rake gotv:randomize_figures
+   rake gotv:import_contact_creator \
+      name=$name_for_your_work_space \
+      polling_stations=$url_for_polling_stations_data \
+      campaign_stats=$url_for_campaign_stats_data
    ```
 
 ### To access admin dashboard

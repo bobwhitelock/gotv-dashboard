@@ -1,14 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-
-require './lib/imports.rb'
 require 'open-uri'
-
-def wheredoivote_data(endpoint)
-  endpoint_url = "https://wheredoivote.co.uk/api/beta/#{endpoint}.json"
-  data = open(endpoint_url).read
-  return JSON.parse(data)
-end
 
 def env_param(param_name)
   param = ENV[param_name]
@@ -74,72 +64,6 @@ def observation_location_for_level(observation:, level:)
 end
 
 namespace :gotv do
-  desc 'Import all councils from wheredoivote.co.uk'
-  task import_councils: :environment do
-    # Some items returned from this URL lack names for some reason; ignore
-    # these.
-    councils = wheredoivote_data('councils')
-      .reject {|c| c['name'].empty?}
-      .map do |council|
-      {
-        code: council['council_id'],
-        name: council['name']
-      }
-    end
-
-    councils.each { |council| Council.create!(council) }
-  end
-
-
-  desc 'Import Redbridge wards and polling stations from local CSV file'
-  task import_redbridge: :environment do
-    require 'csv'
-    redbridge_council_code = 'E09000026'
-
-    stations = []
-    CSV.foreach('lib/assets/redbridge-stations-extract-cleaned.csv', :headers => true) do |row|
-      stations << {
-          # 'name' => row['Polling Place'],
-          'address' => row['Polling Place'],
-          'postcode' => row['Polling Place'][POSTCODE_REGEX],
-          # XXX These are not necessarily accurate; polling place could contain
-          # boxes from different areas
-          'reference' => row['Reference'],
-          'polling_district' => row['Polling Districts'],
-      }
-    end
-
-    council_id = Council.find_by(code: redbridge_council_code).id
-    stations = add_administrative_areas(stations)
-
-    wards = stations
-                .uniq {|station| station[:ward_code]}
-                .select {|w| w[:ward_code] != 'unknown'}
-                .map {|ward| {
-                    :code => ward[:ward_code],
-                    :name => ward[:ward_name],
-                    :council_id => council_id
-                }}
-
-    wards.each {|ward| Ward.create!(ward)}
-
-    stations.each do |station|
-      ward = Ward.find_by(code: station[:ward_code])
-      if ward
-        PollingStation.create!(
-            name: station['address'],
-            postcode: station['postcode'],
-            ward: ward,
-            reference: station['reference'],
-            polling_district: station['polling_district'],
-        )
-      else
-        puts "Couldn't find ward for " + station['address']
-      end
-    end
-
-  end
-
   desc 'Import data exported from Contact Creator and create WorkSpace'
   task import_contact_creator: :environment do
     work_space_name = env_param('name')
@@ -148,25 +72,94 @@ namespace :gotv do
 
     ContactCreatorImporter.import(
       work_space_name: work_space_name,
-      polling_stations_url: polling_stations_url,
-      campaign_stats_url: campaign_stats_url
+      polling_stations_csv: open(polling_stations_url).read,
+      campaign_stats_csv: open(campaign_stats_url).read
     )
   end
 
-  desc 'Generate plausible random Labour promises and registered voters for all workspace polling stations'
-  task randomize_figures: :environment do
-    WorkSpacePollingStation.all.each do |ps|
-      box_electors = rand(500..3000)
-      ps.box_electors = box_electors
+  # XXX Add test coverage for this task (maybe by extracting object for core
+  # behaviour, like ContactCreatorImporter).
+  desc 'Sanitize data files exported from Contact Creator, ready to be used by `gotv:import_contact_creator`'
+  task sanitize_contact_creator_data: :environment do
+    polling_stations_file = env_param('polling_stations')
+    campaign_stats_file = env_param('campaign_stats')
 
-      minimum_promises = box_electors / 3
-      maximum_promises = box_electors * 2/3
-      ps.box_labour_promises = rand(minimum_promises..maximum_promises)
+    polling_stations = File.read(polling_stations_file)
+    campaign_stats = File.read(campaign_stats_file)
 
-      ps.save!
+    sanitized_polling_stations = CSV.generate do |new_csv|
+      headers = CSV.parse_line(polling_stations)
+      new_csv << headers
+
+      CSV.parse(polling_stations, headers: true) do |row|
+
+        # Just blank sensitive numerical columns.
+        row['count_of_box_electors'] = 0
+        row['count_of_postal_electors'] = 0
+        row['minimum_polling_number'] = 0
+        row['maximum_polling_number'] = 0
+
+        new_csv << row
+      end
     end
+
+    sanitized_campaign_stats = CSV.generate do |new_csv|
+      current_csv_lines = campaign_stats.lines
+
+      # First 4 lines have different format, are not useful, therefore append
+      # them unchanged and do not consider them below.
+      current_csv_lines.slice(0, 4).each do |row|
+        new_csv << CSV.parse_line(row)
+      end
+
+      campaign_stats_csv = current_csv_lines.slice(4, current_csv_lines.length).join
+      CSV.parse(campaign_stats_csv) do |row|
+        # Blank all numerical columns by default.
+        (2..row.length).each do |column|
+          row[column] = 0
+        end
+
+        # Create random figures for columns we need (total/postal
+        # electors/promises).
+        total_electors = rand(500..3000)
+        minimum_total_promises = total_electors / 3
+        maximum_total_promises = total_electors * 2/3
+        total_labour_promises = rand(minimum_total_promises..maximum_total_promises)
+
+        postal_electors = rand(50..200)
+        minimum_postal_promises = postal_electors / 3
+        maximum_postal_promises = postal_electors * 2/3
+        postal_labour_promises = rand(minimum_postal_promises..maximum_postal_promises)
+
+        # Only total electors column is formatted as string for some reason
+        # (like `1717` => `"1,717"`), therefore add back this formatting to new
+        # sanitized value.
+        formatted_total_electors_chars = []
+        digits = total_electors.to_s.chars
+        digits.reverse.each_with_index do |digit, index|
+          formatted_total_electors_chars << digit
+          position = index + 1
+          if (position % 3).zero? && position != digits.length
+            formatted_total_electors_chars << ','
+          end
+        end
+        formatted_total_electors = formatted_total_electors_chars.reverse.join
+
+        row[2] = formatted_total_electors
+        row[9] = postal_electors
+        row[4] = total_labour_promises
+        row[12] = postal_labour_promises
+
+        new_csv << row
+      end
+    end
+
+    File.write(polling_stations_file, sanitized_polling_stations)
+    File.write(campaign_stats_file, sanitized_campaign_stats)
   end
 
+  # XXX Add test coverage for this task (maybe by extracting object for core
+  # behaviour, like ContactCreatorImporter).
   desc 'Export all observations for a WorkSpace as CSV to STDOUT'
   task export_workspace: :environment do
     identifier = env_param('identifier')

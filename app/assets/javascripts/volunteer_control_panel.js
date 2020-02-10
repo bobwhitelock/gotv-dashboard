@@ -27,7 +27,7 @@ function volunteersControl(formIdentifier, updateUrl, updateCallback) {
 
         const data = {count: valueElement.innerHTML};
         function onSuccess() {
-          savingElement.classList.add('is-invisible')
+          savingElement.classList.add('is-invisible');
         }
 
         // XXX Add better error handling

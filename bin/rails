@@ -1,4 +1,11 @@
 #!/usr/bin/env ruby
+
+if ENV['RAILS_ENV'] == 'test'
+  # Track code coverage with SimpleCov (for Capybara tests, which will hit code
+  # running in a different process from the test process).
+  require 'simplecov'
+end
+
 begin
   load File.expand_path('../spring', __FILE__)
 rescue LoadError => e

@@ -52,6 +52,13 @@ group :development, :test do
 
   gem 'rspec-rails'
   gem 'factory_bot_rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+end
+
+group :test do
+  gem 'simplecov', require: false
 end
 
 group :production do

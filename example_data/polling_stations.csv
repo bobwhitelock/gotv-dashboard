@@ -1,0 +1,52 @@
+ballot_box_number,polling_place_name,polling_place_address,polling_place_postcode,count_of_box_electors,count_of_postal_electors,wpc,spc,wra,ua_dc,ward,minimum_polling_number,maximum_polling_number,polling_district,polling_district_key
+51,New Cut Housing Co-operative Community Room,106 The Cut,SE1 8LN,0,0,VAUXHALL,,,LAMBETH,BISHOPS,0,0,VAA,113VAA
+52,Johanna Primary School,"Johanna Street,  (Entrance from Lower Marsh only)",SE1 7RH,0,0,VAUXHALL,,,LAMBETH,BISHOPS,0,0,VAB,113VAB
+53,Oasis Hub Waterloo ,1 Kennington Road,SE1 7QP,0,0,VAUXHALL,,,LAMBETH,BISHOPS,0,0,VAC,113VAC
+54,Walnut Tree Walk Primary School,Walnut Tree Walk,SE11 6DS,0,0,VAUXHALL,,,LAMBETH,BISHOPS,0,0,VAD,113VAD
+55,Walnut Tree Walk Primary School,Walnut Tree Walk,SE11 6DS,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBA,113VBA
+56,Walnut Tree Walk Primary School,Walnut Tree Walk,SE11 6DS,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBA,113VBA
+57,Vauxhall Primary School,Vauxhall Street,SE11 5LG,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBB,113VBB
+58,Vauxhall Primary School,Vauxhall Street,SE11 5LG,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBC,113VBC
+59,Archbishop Sumner's CE Primary School,Reedworth Street,SE11 4PH,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBD,113VBD
+60,Archbishop Sumner's CE Primary School,Reedworth Street,SE11 4PH,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBD,113VBD
+61,Durning Library,167 Kennington Lane,SE11 4HF,0,0,VAUXHALL,,,LAMBETH,PRINCES,0,0,VBE,113VBE
+62,Henry Fawcett Primary School,Bowling Green Street,SE11 5BZ,0,0,VAUXHALL,,,LAMBETH,OVAL,0,0,VCA,113VCA
+63,St. Anne's Catholic Settlement Hall,58 Vauxhall Grove,SW8 1TB,0,0,VAUXHALL,,,LAMBETH,OVAL,0,0,VCB,113VCB
+64,Wyvil Primary School,Wyvil Road,SW8 2TJ,0,0,VAUXHALL,,,LAMBETH,OVAL,0,0,VCC,113VCC
+65,Ashmole Primary School,Ashmole Street,SW8 1NT,0,0,VAUXHALL,,,LAMBETH,OVAL,0,0,VCD,113VCD
+66,Ashmole Primary School,Ashmole Street,SW8 1NT,0,0,VAUXHALL,,,LAMBETH,OVAL,0,0,VCE,113VCE
+67,Springfield Methodist Church,200 Wandsworth Road,SW8 2JU,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDA,113VDA
+68,Lansdowne Green Community Hall,Rear of 283-291 Wandsworth Road,SW8 2ND,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDB,113VDB
+69,Bolney Meadow Community Centre,31 Bolney Street,SW8 1EZ,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDC,113VDC
+70,Bolney Meadow Community Centre,31 Bolney Street,SW8 1EZ,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDC,113VDC
+71,Allen Edwards Primary School,Studley Road,SW4 6RP,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDD,113VDD
+72,St. Michael's Church Hall,Stockwell Park Road,SW9 0DA,0,0,VAUXHALL,,,LAMBETH,STOCKWELL,0,0,VDE,113VDE
+73,Reay Primary School Studio,Caldwell Street Entrance,SW9 0EN,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VEA,113VEA
+74,Van Gogh Primary School,Hackford Road,SW9 0RD,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VEB,113VEB
+75,Van Gogh Primary School,Hackford Road,SW9 0RD,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VEB,113VEB
+76,Christchurch (Brixton) CE School,Cancell Road,SW9 6HN,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VEC,113VEC
+77,Christchurch (Brixton) CE School,Cancell Road,SW9 6HN,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VEC,113VEC
+78,Minet Library,52 Knatchbull Road,SE5 9QY,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VED,113VED
+79,Minet Library,52 Knatchbull Road,SE5 9QY,0,0,VAUXHALL,,,LAMBETH,VASSALL,0,0,VED,113VED
+80,Holy Rosary Church Hall,364 Brixton Road (next to St Helen's school),SW9 0TH,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFA,113VFA
+81,Holy Rosary Church Hall,364 Brixton Road (next to St Helen's school),SW9 0TH,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFA,113VFA
+82,Stockwell Primary School,Stockwell Road,SW9 9TG,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFB,113VFB
+83,Brixton Seventh Day Adventist Church Hall,Santley St,SW4 7QG,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFC,113VFC
+84,Brixton Seventh Day Adventist Church Hall,Santley St,SW4 7QG,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFC,113VFC
+85,Brixton Baptist Church,Corrance Road,SW2 5RD,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFD,113VFD
+86,Clapham Library,"Mary Seacole Centre, 89 Clapham High Street",SW4 7BD,0,0,VAUXHALL,,,LAMBETH,FERNDALE,0,0,VFE,113VFE
+87,Fenwick Hall,"99Fenwick Estate, 128 Willington Rd",SW9 9ND,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGA,113VGA
+88,Fenwick Hall,"99Fenwick Estate, 128 Willington Rd",SW9 9ND,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGA,113VGA
+89,Larkhall Primary School,"Lower School Hall, Larkhall Primary School, Smedley St.",SW4 6PH,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGB,113VGB
+90,Larkhall Primary School,"Lower School Hall, Larkhall Primary School, Smedley St.",SW4 6PH,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGB,113VGB
+91,Springfield Community & Medical Centre,"Coronation Hall, Springfield Community & Medical Centre, 110 Union Road",SW8 2SH,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGC,113VGC
+92,Springfield Community & Medical Centre,"Coronation Hall, Springfield Community & Medical Centre, 110 Union Road",SW8 2SH,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGC,113VGC
+93,St. Andrews CE Primary School,"Kay Road, Stockwell",SW4 9DE,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGD,113VGD
+94,St. Andrews CE Primary School,"Kay Road, Stockwell",SW4 9DE,0,0,VAUXHALL,,,LAMBETH,LARKHALL,0,0,VGD,113VGD
+95,Clapham Manor Primary School,Belmont Road,SW4 0BZ,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHA,113VHA
+96,Clapham Manor Primary School,Belmont Road,SW4 0BZ,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHA,113VHA
+97,Heathbrook Primary School,St Rule St,SW8 3EH,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHB,113VHB
+98,Heathbrook Primary School,St Rule St,SW8 3EH,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHB,113VHB
+99,Macauley CE Primary School,Victoria Rise,SW4 0NU,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHC,113VHC
+100,Macauley CE Primary School,Victoria Rise,SW4 0NU,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHC,113VHC
+101,Triangle Nursery School,"25 William Bonney Estate, Clapham Cresent",SW4 7JQ,0,0,VAUXHALL,,,LAMBETH,CLAPHAM TOWN,0,0,VHD,113VHD

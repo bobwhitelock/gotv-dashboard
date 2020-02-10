@@ -1,12 +1,11 @@
-require 'open-uri'
 
 ContactCreatorImporter = Struct.new(
   :work_space_name,
-  :polling_stations_url,
-  :campaign_stats_url
+  :polling_stations_csv,
+  :campaign_stats_csv
 ) do
-  def self.import(work_space_name:, polling_stations_url:, campaign_stats_url:)
-    new(work_space_name, polling_stations_url, campaign_stats_url).import
+  def self.import(work_space_name:, polling_stations_csv:, campaign_stats_csv:)
+    new(work_space_name, polling_stations_csv, campaign_stats_csv).import
   end
 
   def import
@@ -14,12 +13,10 @@ ContactCreatorImporter = Struct.new(
       work_space = WorkSpace.create!(name: work_space_name)
       transient_council = create_council
 
-      polling_stations_csv = open(polling_stations_url).read
-
-      campaign_stats_csv = open(campaign_stats_url).read.lines
       # First 4 lines are not useful, headers do not have useful values,
       # therefore drop these lines.
-      campaign_stats_csv = campaign_stats_csv.slice(4, campaign_stats_csv.length).join
+      csv_lines = campaign_stats_csv.lines
+      campaign_stats_csv = csv_lines.slice(4, csv_lines.length).join
 
       district_to_campaign_stats = CSV.parse(campaign_stats_csv).map do |district_row|
         [district_row[1], district_row]
@@ -36,6 +33,8 @@ ContactCreatorImporter = Struct.new(
 
       work_space_url = url_helpers.work_space_url(work_space.identifier)
       puts "\nURL for new work space: #{work_space_url}"
+
+      work_space
     end
   end
 
@@ -92,12 +91,12 @@ ContactCreatorImporter = Struct.new(
     wsps = WorkSpacePollingStation.create!(
       work_space: work_space,
       polling_station: polling_station,
-      box_electors: station_row['count_of_box_electors'],
-      postal_electors: station_row['count_of_postal_electors'],
       # These will be updated below, iff this is the proxy
       # WorkSpacePollingStation for this PollingDistrict. XXX Need to improve
       # the data model related to this at some point - see
       # https://github.com/bobwhitelock/gotv-dashboard/issues/100.
+      box_electors: 0,
+      postal_electors: 0,
       box_labour_promises: 0,
       postal_labour_promises: 0
     )

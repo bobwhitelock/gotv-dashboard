@@ -125,7 +125,10 @@
             ws_polling_station.polling_district.reference == suggested_target_district_reference
         %>
 
-          <tr class="<%= 'suggested-target-district' if is_suggested_target_district %>">
+          <tr
+            data-test="polling-district-row-<%= ws_polling_station.polling_district.id %>"
+            class="<%= 'suggested-target-district' if is_suggested_target_district %>"
+          >
             <% if first_for_committee_room %>
               <%= render 'shared/committee_room_info',
                 committee_room: committee_room,
