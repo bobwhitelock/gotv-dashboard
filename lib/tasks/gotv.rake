@@ -153,6 +153,8 @@ namespace :gotv do
     )
   end
 
+  # XXX Add test coverage for this task (maybe by extracting object for core
+  # behaviour, like ContactCreatorImporter).
   desc 'Sanitize data files exported from Contact Creator, ready to be used by `gotv:import_contact_creator`'
   task sanitize_contact_creator_data: :environment do
     polling_stations_file = env_param('polling_stations')
@@ -246,6 +248,8 @@ namespace :gotv do
     end
   end
 
+  # XXX Add test coverage for this task (maybe by extracting object for core
+  # behaviour, like ContactCreatorImporter).
   desc 'Export all observations for a WorkSpace as CSV to STDOUT'
   task export_workspace: :environment do
     identifier = env_param('identifier')
