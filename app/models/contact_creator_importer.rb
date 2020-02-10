@@ -33,6 +33,8 @@ ContactCreatorImporter = Struct.new(
 
       work_space_url = url_helpers.work_space_url(work_space.identifier)
       puts "\nURL for new work space: #{work_space_url}"
+
+      work_space
     end
   end
 
