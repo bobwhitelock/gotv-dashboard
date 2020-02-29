@@ -11,7 +11,6 @@ ContactCreatorImporter = Struct.new(
   def import
     ActiveRecord::Base.transaction do
       work_space = WorkSpace.create!(name: work_space_name)
-      transient_council = create_council
 
       # First 4 lines are not useful, headers do not have useful values,
       # therefore drop these lines.
@@ -23,7 +22,7 @@ ContactCreatorImporter = Struct.new(
       end.to_h
 
       CSV.parse(polling_stations_csv, headers: true) do |station_row|
-        ward = maybe_create_ward(transient_council, station_row)
+        ward = maybe_create_ward(station_row)
         polling_district = maybe_create_polling_district(ward, station_row)
         polling_station = create_polling_station(polling_district, station_row)
 
@@ -40,18 +39,8 @@ ContactCreatorImporter = Struct.new(
 
   private
 
-  def create_council
-    council = Council.create!(
-      name: "#{work_space_name} [transient council]",
-      code: 'transient'
-    )
-    debug "Created Council: #{council.name} (id: #{council.id})"
-    council
-  end
-
-  def maybe_create_ward(transient_council, station_row)
+  def maybe_create_ward(station_row)
     Ward.find_or_create_by!(
-      council: transient_council,
       name: station_row.fetch('ward')
     ) do |w|
       w.code = 'transient'

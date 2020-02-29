@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_230755) do
+ActiveRecord::Schema.define(version: 2020_02_10_171501) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -77,12 +77,6 @@ ActiveRecord::Schema.define(version: 2019_12_10_230755) do
     t.index ["work_space_id"], name: "index_committee_rooms_on_work_space_id"
   end
 
-  create_table "councils", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "code", null: false
-    t.boolean "transient", default: false, null: false
-  end
-
   create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
@@ -137,8 +131,6 @@ ActiveRecord::Schema.define(version: 2019_12_10_230755) do
   create_table "wards", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", null: false
-    t.integer "council_id"
-    t.index ["council_id"], name: "index_wards_on_council_id"
   end
 
   create_table "warp_count_observations", force: :cascade do |t|

@@ -15,14 +15,8 @@ FactoryBot.define do
   end
 
   factory :ward do
-    council
     name { 'Some Ward' }
     code { 'E1234' }
-  end
-
-  factory :council do
-    name { 'Some Council' }
-    code { 'S1234' }
   end
 
   factory :work_space do
