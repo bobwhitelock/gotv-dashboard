@@ -16,14 +16,14 @@
 
   <%
       path = work_space_polling_district_warp_count_observations_path(
-        @work_space, @new_warp_count.work_space_polling_station
+        @work_space, @new_warp_count.polling_district
       )
       form_id = 'new-warp-count-form'
       form = nil
   %>
   <%= form_with model: @new_warp_count, url: path, id: form_id do |f| %>
     <% form = f %>
-    <%= f.hidden_field(:work_space_polling_station_id) %>
+    <%= f.hidden_field(:polling_district_id) %>
   <% end %>
 
   <table class="table is-striped is-narrow">
@@ -107,7 +107,7 @@
           <td>
             <%
                 invalidate_path = work_space_polling_district_warp_count_observation_invalidate_path(
-                  @work_space, @new_warp_count.work_space_polling_station, warp_count
+                  @work_space, @new_warp_count.polling_district, warp_count
                 )
                 confirm_message = <<~TEXT.squish
                   This will invalidate this WARP count from

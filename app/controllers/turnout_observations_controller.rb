@@ -4,16 +4,16 @@ class TurnoutObservationsController < ApplicationController
 
   def start
     @work_space = find_work_space
-    @polling_stations = @work_space.work_space_polling_stations.sort_by(&:reference)
+    @polling_stations = @work_space.polling_stations.sort_by(&:reference)
   end
 
   def new
     @work_space = find_work_space
-    polling_station = @work_space.work_space_polling_stations.find(
+    polling_station = @work_space.polling_stations.find(
       params[:polling_station]
     )
     @observation = TurnoutObservation.new(
-      work_space_polling_station: polling_station
+      polling_station: polling_station
     )
   end
 
@@ -58,7 +58,7 @@ class TurnoutObservationsController < ApplicationController
 
   def create_observation_params
     params.require(:turnout_observation).permit(
-      [:count, :work_space_polling_station_id]
+      [:count, :polling_station_id]
     ).merge(
       user: @current_user
     )

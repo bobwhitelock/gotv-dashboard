@@ -8,8 +8,8 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       :committee_room,
       work_space: work_space,
       # Create with a polling station associated so shows up on dashboard.
-      work_space_polling_stations: [
-        create(:work_space_polling_station, work_space: work_space)
+      polling_stations: [
+        create(:polling_station, work_space: work_space)
       ]
     )
   end
@@ -32,16 +32,13 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
 
   it 'displays all polling stations, with key stats' do
     polling_station = create(
-      :work_space_polling_station,
-      polling_station: create(
-        :polling_station,
-        name: 'Some Polling Station',
-        reference: 'SPS-123',
-        polling_district: create(
-          :polling_district,
-          reference: 'PD',
-          ward: create(:ward, name: 'My Ward')
-        )
+      :polling_station,
+      name: 'Some Polling Station',
+      reference: 'SPS-123',
+      polling_district: create(
+        :polling_district,
+        reference: 'PD',
+        ward: create(:ward, name: 'My Ward')
       ),
       box_electors: 200,
       box_labour_promises: 100,
@@ -60,13 +57,13 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
 
   it 'shows details/stats for latest turnout observation for each polling station' do
     polling_station = create(
-      :work_space_polling_station,
+      :polling_station,
       box_electors: 200,
       box_labour_promises: 100
     )
     create(
       :turnout_observation,
-      work_space_polling_station: polling_station,
+      polling_station: polling_station,
       count: 120,
       created_at: DateTime.new(2019, 12, 12, 11, 23)
     )
@@ -79,10 +76,10 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
   end
 
   it 'shows volunteer that made latest turnout observation, if present' do
-    polling_station = create(:work_space_polling_station)
+    polling_station = create(:polling_station)
     create(
       :turnout_observation,
-      work_space_polling_station: polling_station,
+      polling_station: polling_station,
       count: 120,
       created_at: DateTime.new(2019, 12, 12, 11, 23),
       user: create(:user, name: 'Some Campaigner')
@@ -93,30 +90,31 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     expect(page).to have_text(/120 at 11:23.*\nby Some Campaigner/)
   end
 
-  it 'shows sum of valid WARP count observations for each polling station' do
+  it 'shows sum of valid WARP count observations for each polling district' do
     polling_station = create(
-      :work_space_polling_station,
+      :polling_station,
       box_electors: 200,
       box_labour_promises: 100
     )
+    polling_district = polling_station.polling_district
     create(
       :warp_count_observation,
       count: 20,
-      work_space_polling_station: polling_station
+      polling_district: polling_district
     )
     create(
       :warp_count_observation,
       count: 40,
-      work_space_polling_station: polling_station
+      polling_district: polling_district
     )
     create(
       :warp_count_observation,
       count: 10,
       is_valid: false,
-      work_space_polling_station: polling_station
+      polling_district: polling_district
     )
 
-    visit work_space_path(polling_station.work_space)
+    visit work_space_path(polling_district.work_space)
 
     expect(page).to have_text('60 votes / 40 votes left')
   end
@@ -127,9 +125,13 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       create(
         :warp_count_observation,
         count: 20,
-        work_space_polling_station: create(
-          :work_space_polling_station,
-          work_space: work_space
+        polling_district: create(
+          :polling_district,
+          # XXX As elsewhere, only needed while WorkSpaces not related to
+          # Wards, once that's done can simplify (and below too).
+          polling_stations: [
+            create(:polling_station, work_space: work_space)
+          ]
         )
       )
     end
@@ -137,9 +139,11 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       :warp_count_observation,
       count: 10,
       is_valid: false,
-      work_space_polling_station: create(
-        :work_space_polling_station,
-        work_space: work_space
+      polling_district: create(
+        :polling_district,
+        polling_stations: [
+          create(:polling_station, work_space: work_space)
+        ]
       )
     )
 
@@ -151,28 +155,25 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
   it 'highlights highest priority district for committee room, with toggleable method' do
     committee_room = create(:committee_room)
     lowest_warp_count_polling_station = create(
-      :work_space_polling_station,
+      :polling_station,
       committee_room: committee_room,
       work_space: committee_room.work_space,
-      polling_station: create(
-        :polling_station,
-        polling_district: create(:polling_district, reference: 'PD1')
-      ),
+      polling_district: create(:polling_district, reference: 'PD1'),
       box_electors: 100,
       box_labour_promises: 50,
       turnout_observations: [create(:turnout_observation, count: 60)]
     )
     most_estimated_votes_left_polling_station = create(
-      :work_space_polling_station,
+      :polling_station,
       committee_room: committee_room,
       work_space: committee_room.work_space,
-      polling_station: create(
-        :polling_station,
-        polling_district: create(:polling_district, reference: 'PD2')
+      polling_district: create(
+        :polling_district,
+        reference: 'PD2',
+        warp_count_observations: [create(:warp_count_observation, count: 40)]
       ),
       box_electors: 100,
       box_labour_promises: 50,
-      warp_count_observations: [create(:warp_count_observation, count: 40)],
       # Need to have at least 1 turnout observation for turnout estimate
       # highlighting to consider this district.
       turnout_observations: [create(:turnout_observation, count: 0)]
@@ -209,11 +210,11 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     include_examples 'volunteer_control_panel'
 
     subject do
-      create(:work_space_polling_station)
+      create(:polling_district, polling_stations: [create(:polling_station)])
     end
 
     let :count_element do
-      find_data_test("remaining-lifts-#{subject.polling_district.id}")
+      find_data_test("remaining-lifts-#{subject.id}")
     end
 
     let(:observations_method) { :remaining_lifts_observations }

@@ -41,10 +41,10 @@
                 <%= render 'shared/polling_station_name', polling_station: polling_station %>
               </td>
 
-              <%= f.fields_for :work_space_polling_stations, [polling_station] do |wsps_form| %>
+              <%= f.fields_for :polling_stations, [polling_station] do |polling_station_form| %>
 
                 <td>
-                  <%= wsps_form.number_field(
+                  <%= polling_station_form.number_field(
                     :box_labour_promises,
                     min: 0,
                     required: true,
@@ -54,7 +54,7 @@
                 </td>
 
                 <td>
-                  <%= wsps_form.number_field(
+                  <%= polling_station_form.number_field(
                     :box_electors,
                     min: 0,
                     required: true,

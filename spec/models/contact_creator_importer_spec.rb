@@ -20,7 +20,7 @@ RSpec.describe ContactCreatorImporter, type: :model do
     expect(districts.length).to eq(36)
     first_district = districts.first
     expect(first_district.reference).to eq('VAA')
-    stations = work_space.work_space_polling_stations
+    stations = work_space.polling_stations
     expect(stations.length).to eq(51)
     first_station = stations.first
     expect(first_station.reference).to eq('51') # (coincidentally same as above)

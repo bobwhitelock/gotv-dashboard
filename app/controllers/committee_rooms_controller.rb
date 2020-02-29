@@ -11,20 +11,16 @@ class CommitteeRoomsController < ApplicationController
     work_space = find_work_space
 
     polling_districts = params[:polling_districts]
-    work_space_polling_stations = WorkSpacePollingStation.joins(
-      :polling_station
-    ).where(
+    polling_stations = PollingStation.where(
       work_space: work_space,
-      polling_stations: {
-        polling_district: polling_districts
-      }
+      polling_district: polling_districts
     )
 
     ActiveRecord::Base.transaction do
       committee_room = CommitteeRoom.create!(
         committee_room_params.merge(work_space: work_space)
       )
-      work_space_polling_stations.update_all(committee_room_id: committee_room.id)
+      polling_stations.update_all(committee_room_id: committee_room.id)
     end
 
     redirect_to work_space_path(work_space)

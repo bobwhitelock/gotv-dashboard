@@ -8,22 +8,20 @@ RSpec.feature 'raw data page', type: :feature, js: true do
       count: 42,
       work_space: work_space,
       user: create(:user, name: 'Some Campaigner', phone_number: '555 123'),
-      work_space_polling_station: create(
-        :work_space_polling_station,
-        polling_station: create(
-          :polling_station, name: 'First Polling Station'
-        )
+      polling_station: create(
+        :polling_station,
+        work_space: work_space,
+        name: 'First Polling Station'
       )
     )
     create(
       :turnout_observation,
       count: 66,
       work_space: work_space,
-      work_space_polling_station: create(
-        :work_space_polling_station,
-        polling_station: create(
-          :polling_station, name: 'Second Polling Station'
-        )
+      polling_station: create(
+        :polling_station,
+        work_space: work_space,
+        name: 'Second Polling Station'
       )
     )
 

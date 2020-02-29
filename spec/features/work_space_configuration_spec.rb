@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'work space configuration', type: :feature do
   it 'allows setting promises and voters for all work space polling stations' do
     polling_station = create(
-      :work_space_polling_station,
+      :polling_station,
       box_electors: 0,
       box_labour_promises: 0
     )

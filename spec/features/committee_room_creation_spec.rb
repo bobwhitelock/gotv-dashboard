@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.feature 'committee room creation', type: :feature, js: true do
   def polling_district_refs_for(committee_room)
-    committee_room.work_space_polling_stations.flat_map do |wsps|
-      wsps.polling_district.reference
+    committee_room.polling_stations.flat_map do |polling_station|
+      polling_station.polling_district.reference
     end.uniq
   end
 
@@ -16,15 +16,12 @@ RSpec.feature 'committee room creation', type: :feature, js: true do
       { pd: 'GHI', ward: 'Central' }
     ].each do |params|
       create(
-        :work_space_polling_station,
+        :polling_station,
         work_space: work_space,
-        polling_station: create(
-          :polling_station,
-          polling_district: create(
-            :polling_district,
-            reference: params[:pd],
-            ward: create(:ward, name: params[:ward])
-          )
+        polling_district: create(
+          :polling_district,
+          reference: params[:pd],
+          ward: create(:ward, name: params[:ward])
         )
       )
     end
@@ -53,16 +50,13 @@ RSpec.feature 'committee room creation', type: :feature, js: true do
   end
 
   it 'indicates if polling district already covered by another committee room' do
-    abc_polling_station = WorkSpacePollingStation.joins(
-      polling_station: [:polling_district]
-    ).find_by!(
-      work_space: work_space,
-      polling_stations: { polling_districts: { reference: 'ABC' } }
-    )
+    abc_polling_station = PollingDistrict.find_by!(
+       reference: 'ABC'
+    ).polling_stations.first
     create(
       :committee_room,
       work_space: work_space,
-      work_space_polling_stations: [abc_polling_station],
+      polling_stations: [abc_polling_station],
       organiser_name: 'Batman'
     )
 

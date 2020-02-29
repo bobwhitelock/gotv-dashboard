@@ -1,14 +1,11 @@
 class TurnoutObservation < ApplicationRecord
-  belongs_to :work_space_polling_station
-  def self.observed_for ; :work_space_polling_station ; end
+  belongs_to :polling_station
+  def self.observed_for ; :polling_station ; end
   # XXX Make this required?
   belongs_to :user, required: false
-  has_one :work_space, through: :work_space_polling_station
+  has_one :work_space, through: :polling_station
 
-  delegate :box_electors,
-    :box_labour_promises,
-    :work_space_polling_district_stations,
-    to: :work_space_polling_station
+  delegate :box_electors, :box_labour_promises, to: :polling_station
 
   # NOTE: Make sure all methods here also have trivial versions for null object
   # (UnobservedTurnoutObservation), if they will be called from main dashboard
@@ -19,8 +16,8 @@ class TurnoutObservation < ApplicationRecord
   # https://github.com/bobwhitelock/gotv-dashboard/issues/100).
   def turnout_proportion
     total_district_count = \
-      work_space_polling_district_stations.map do |wsps|
-      (wsps.last_observation&.count || 0)
+      polling_station.work_space_polling_district_stations.map do |polling_station|
+      (polling_station.last_observation&.count || 0)
     end.sum
 
     if box_electors > 0

@@ -24,10 +24,9 @@ ContactCreatorImporter = Struct.new(
       CSV.parse(polling_stations_csv, headers: true) do |station_row|
         ward = maybe_create_ward(station_row)
         polling_district = maybe_create_polling_district(ward, station_row)
-        polling_station = create_polling_station(polling_district, station_row)
 
         district_row = district_to_campaign_stats[polling_district.reference]
-        create_work_space_polling_station(work_space, polling_station, station_row, district_row)
+        create_polling_station(work_space, polling_district, station_row, district_row)
       end
 
       work_space_url = url_helpers.work_space_url(work_space.identifier)
@@ -57,7 +56,7 @@ ContactCreatorImporter = Struct.new(
     polling_district
   end
 
-  def create_polling_station(polling_district, station_row)
+  def create_polling_station(work_space, polling_district, station_row, district_row)
     postcode = station_row.fetch('polling_place_postcode')
 
     polling_station_name = [
@@ -67,30 +66,22 @@ ContactCreatorImporter = Struct.new(
     ].join(', ')
 
     polling_station = PollingStation.create!(
+      work_space: work_space,
       name: polling_station_name,
       postcode: postcode,
       reference: station_row.fetch('ballot_box_number'),
-      polling_district: polling_district
-    )
-    debug "Created PollingStation: #{polling_station.name} - box: #{polling_station.reference}"
-    polling_station
-  end
-
-  def create_work_space_polling_station(work_space, polling_station, station_row, district_row)
-    wsps = WorkSpacePollingStation.create!(
-      work_space: work_space,
-      polling_station: polling_station,
-      # These will be updated below, iff this is the proxy
-      # WorkSpacePollingStation for this PollingDistrict. XXX Need to improve
-      # the data model related to this at some point - see
-      # https://github.com/bobwhitelock/gotv-dashboard/issues/100.
+      polling_district: polling_district,
+      # These will be updated below, iff this is the proxy PollingStation for
+      # this PollingDistrict. XXX Need to improve the data model related to
+      # this at some point - see
+      # https://github.com/bobwhitelock/gotv-dashboard/issues/120.
       box_electors: 0,
       postal_electors: 0,
       box_labour_promises: 0,
       postal_labour_promises: 0
     )
 
-    if wsps.work_space_polling_district_proxy?
+    if polling_station.work_space_polling_district_proxy?
       # XXX Possibly should import and use other campaign stats fields?
 
       total_electors = parse_campaign_stats_int(district_row[2])
@@ -101,7 +92,7 @@ ContactCreatorImporter = Struct.new(
       postal_labour_promises = parse_campaign_stats_int(district_row[12])
       box_labour_promises = total_labour_promises - postal_labour_promises
 
-      wsps.update!(
+      polling_station.update!(
         box_electors: box_electors,
         postal_electors: postal_electors,
         box_labour_promises: box_labour_promises,
@@ -109,7 +100,7 @@ ContactCreatorImporter = Struct.new(
       )
     end
 
-    debug "Created WorkSpacePollingStation: #{wsps.name} - box: #{wsps.reference}"
+    debug "Created PollingStation: #{polling_station.name} - box: #{polling_station.reference}"
   end
 
   def parse_campaign_stats_int(value)

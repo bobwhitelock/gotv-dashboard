@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_171501) do
+ActiveRecord::Schema.define(version: 2020_02_29_140945) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -97,18 +97,26 @@ ActiveRecord::Schema.define(version: 2020_02_10_171501) do
     t.string "reference", null: false
     t.string "polling_district"
     t.integer "polling_district_id", null: false
+    t.integer "box_electors", null: false
+    t.integer "box_labour_promises", null: false
+    t.integer "postal_labour_promises", null: false
+    t.integer "postal_electors", null: false
+    t.integer "work_space_id", null: false
+    t.integer "committee_room_id"
+    t.index ["committee_room_id"], name: "index_polling_stations_on_committee_room_id"
     t.index ["polling_district_id"], name: "index_polling_stations_on_polling_district_id"
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
+    t.index ["work_space_id"], name: "index_polling_stations_on_work_space_id"
   end
 
   create_table "remaining_lifts_observations", force: :cascade do |t|
     t.integer "count", null: false
-    t.integer "work_space_polling_station_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "polling_district_id", null: false
+    t.index ["polling_district_id"], name: "index_remaining_lifts_observations_on_polling_district_id"
     t.index ["user_id"], name: "index_remaining_lifts_observations_on_user_id"
-    t.index ["work_space_polling_station_id"], name: "index_rlo_on_work_space_polling_station_id"
   end
 
   create_table "turnout_observations", force: :cascade do |t|
@@ -116,9 +124,9 @@ ActiveRecord::Schema.define(version: 2020_02_10_171501) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.integer "work_space_polling_station_id", default: 0, null: false
+    t.integer "polling_station_id", null: false
+    t.index ["polling_station_id"], name: "index_turnout_observations_on_polling_station_id"
     t.index ["user_id"], name: "index_turnout_observations_on_user_id"
-    t.index ["work_space_polling_station_id"], name: "index_turnout_observations_on_work_space_polling_station_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -137,27 +145,12 @@ ActiveRecord::Schema.define(version: 2020_02_10_171501) do
     t.integer "count", null: false
     t.text "notes"
     t.boolean "is_valid", default: true, null: false
-    t.integer "work_space_polling_station_id", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "polling_district_id", null: false
+    t.index ["polling_district_id"], name: "index_warp_count_observations_on_polling_district_id"
     t.index ["user_id"], name: "index_warp_count_observations_on_user_id"
-    t.index ["work_space_polling_station_id"], name: "index_warp_count_observations_on_work_space_polling_station_id"
-  end
-
-  create_table "work_space_polling_stations", force: :cascade do |t|
-    t.integer "polling_station_id", null: false
-    t.integer "work_space_id", null: false
-    t.integer "box_electors", null: false
-    t.integer "box_labour_promises", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "committee_room_id"
-    t.integer "postal_labour_promises", default: 0, null: false
-    t.integer "postal_electors", default: 0, null: false
-    t.index ["committee_room_id"], name: "index_work_space_polling_stations_on_committee_room_id"
-    t.index ["polling_station_id"], name: "index_work_space_polling_stations_on_polling_station_id"
-    t.index ["work_space_id"], name: "index_work_space_polling_stations_on_work_space_id"
   end
 
   create_table "work_spaces", force: :cascade do |t|

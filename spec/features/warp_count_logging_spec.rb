@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.feature 'warp count logging', type: :feature do
-  def log_warp_count(for_polling_station:, with_count:, with_notes: '')
+  def log_warp_count(for_polling_district:, with_count:, with_notes: '')
     visit work_space_polling_district_warp_count_observations_path(
-      for_polling_station.work_space,
-      for_polling_station
+      for_polling_district.work_space,
+      for_polling_district
     )
     find_data_test('new-warp-count-input').fill_in(with: with_count)
     find_data_test(
@@ -14,17 +14,20 @@ RSpec.feature 'warp count logging', type: :feature do
   end
 
   it 'allows logging WARP count for polling district' do
-    polling_station = create(:work_space_polling_station)
+    # XXX Here and below - `polling_station` is only needed as a slight hack,
+    # if we move WorkSpaces to be related to Wards rather than PollingStations
+    # will allow simplifying things.
+    polling_district = create(:polling_district, polling_stations: [create(:polling_station)])
 
     log_warp_count(
-      for_polling_station: polling_station,
+      for_polling_district: polling_district,
       with_count: 50,
       with_notes: 'Abbey Road road group'
     )
 
     expect(page).to have_text(50)
     expect(page).to have_text('Abbey Road road group')
-    warp_count_observations = polling_station.warp_count_observations
+    warp_count_observations = polling_district.warp_count_observations
     expect(warp_count_observations.length).to eq(1)
     new_observation = warp_count_observations.first
     expect(new_observation.count).to eq(50)
@@ -33,12 +36,12 @@ RSpec.feature 'warp count logging', type: :feature do
   end
 
   it 'allows invalidating logged WARP counts' do
-    polling_station = create(:work_space_polling_station)
+    polling_district = create(:polling_district, polling_stations: [create(:polling_station)])
 
-    log_warp_count(for_polling_station: polling_station, with_count: 3)
+    log_warp_count(for_polling_district: polling_district, with_count: 3)
     click_on 'Invalidate WARP count'
 
-    new_observation = polling_station.warp_count_observations.first
+    new_observation = polling_district.warp_count_observations.first
     expect(new_observation.is_valid).to be false
   end
 end

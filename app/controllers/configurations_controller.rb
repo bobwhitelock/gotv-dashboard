@@ -16,7 +16,7 @@ class ConfigurationsController < ApplicationController
 
   def update_work_space_params
     params.require(:work_space).permit(
-      work_space_polling_stations_attributes: [
+      polling_stations_attributes: [
         :id,
         :box_labour_promises,
         :box_electors

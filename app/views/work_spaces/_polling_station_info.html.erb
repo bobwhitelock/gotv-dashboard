@@ -127,12 +127,13 @@
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
+    <% polling_district = polling_station.polling_district %>
     <%= render 'volunteer_control_panel',
-      identifier: "remaining-lifts-#{polling_station.polling_district.id}",
+      identifier: "remaining-lifts-#{polling_district.id}",
       text: '',
-      count: polling_station.last_remaining_lifts_observation.count,
+      count: polling_district.last_remaining_lifts_observation.count,
       update_count_url: work_space_polling_district_lifts_path(
-        polling_station.work_space, polling_station
+        polling_district.work_space, polling_district
       )
     %>
   </td>

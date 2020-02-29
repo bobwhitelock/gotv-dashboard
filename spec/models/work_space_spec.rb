@@ -6,13 +6,13 @@ RSpec.describe WorkSpace do
     subject do
       create(
         :work_space,
-        work_space_polling_stations: [polling_station]
+        polling_stations: [polling_station]
       )
     end
 
     let :polling_station do
       create(
-        :work_space_polling_station,
+        :polling_station,
         committee_room: create(:committee_room)
       )
     end
@@ -20,13 +20,13 @@ RSpec.describe WorkSpace do
     it 'gives most recent turnout observation for each polling station' do
       _another_observation = create(
         :turnout_observation,
-        work_space_polling_station: polling_station,
+        polling_station: polling_station,
         count: 11,
         created_at: 2.hours.ago
       )
       most_recent_observation = create(
         :turnout_observation,
-        work_space_polling_station: polling_station,
+        polling_station: polling_station,
         count: 22,
         created_at: 1.hour.ago
       )
@@ -66,9 +66,8 @@ RSpec.describe WorkSpace do
       all_polling_stations = [ward_1_polling_station, *ward_2_polling_stations]
       work_space = create(
         :work_space,
-        work_space_polling_stations: all_polling_stations.map do |ps|
-        create(:work_space_polling_station, polling_station: ps)
-      end)
+        polling_stations: all_polling_stations
+      )
 
       wards = work_space.wards
       ward_names = wards.map(&:name)
@@ -81,16 +80,16 @@ RSpec.describe WorkSpace do
   describe '#all_observations' do
     it 'sorts all observations by creation time' do
       work_space = create(:work_space)
-      wsps = create(:work_space_polling_station, work_space: work_space)
+      polling_station = create(:polling_station, work_space: work_space)
       cr = create(:committee_room, work_space: work_space)
       turnout_observation = create(
         :turnout_observation,
-        work_space_polling_station: wsps,
+        polling_station: polling_station,
         created_at: 2.day.ago
       )
       warp_count_observation = create(
         :warp_count_observation,
-        work_space_polling_station: wsps,
+        polling_district: polling_station.polling_district,
         created_at: 3.days.ago
       )
       canvassers_observation = create(
@@ -110,9 +109,9 @@ RSpec.describe WorkSpace do
 
     it 'includes turnout observation' do
       work_space = create(:work_space)
-      wsps = create(:work_space_polling_station, work_space: work_space)
+      polling_station = create(:polling_station, work_space: work_space)
       turnout_observation = create(
-        :turnout_observation, work_space_polling_station: wsps
+        :turnout_observation, polling_station: polling_station
       )
       _another_turnout_observation = create(:turnout_observation)
 
@@ -152,9 +151,9 @@ RSpec.describe WorkSpace do
 
     it 'includes remaining lifts observation' do
       work_space = create(:work_space)
-      wsps = create(:work_space_polling_station, work_space: work_space)
+      polling_station = create(:polling_station, work_space: work_space)
       remaining_lifts_observation = create(
-        :remaining_lifts_observation, work_space_polling_station: wsps
+        :remaining_lifts_observation, polling_district: polling_station.polling_district
       )
       _another_remaining_lifts_observation = create(:remaining_lifts_observation)
 
@@ -166,9 +165,9 @@ RSpec.describe WorkSpace do
 
     it 'includes WARP count observation' do
       work_space = create(:work_space)
-      wsps = create(:work_space_polling_station, work_space: work_space)
+      polling_station = create(:polling_station, work_space: work_space)
       warp_count_observation = create(
-        :warp_count_observation, work_space_polling_station: wsps
+        :warp_count_observation, polling_district: polling_station.polling_district
       )
       _another_warp_count_observation = create(:warp_count_observation)
 
