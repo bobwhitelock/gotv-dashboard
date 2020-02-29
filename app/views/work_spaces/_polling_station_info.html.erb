@@ -1,5 +1,8 @@
 
-<% is_polling_district_proxy = polling_station.work_space_polling_district_proxy? %>
+<%
+    is_polling_district_proxy = polling_station.work_space_polling_district_proxy?
+    polling_district = polling_station.polling_district
+%>
 
 <td width="15%">
   <%= render 'shared/polling_station_name', polling_station: polling_station %>
@@ -116,8 +119,8 @@
     <div>
       <%= link_to 'Add WARP count',
         work_space_polling_district_warp_count_observations_path(
-          polling_station.work_space,
-          polling_station
+          polling_district.work_space,
+          polling_district
         ),
         class: 'button is-small'
       %>
@@ -127,7 +130,6 @@
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
-    <% polling_district = polling_station.polling_district %>
     <%= render 'volunteer_control_panel',
       identifier: "remaining-lifts-#{polling_district.id}",
       text: '',
