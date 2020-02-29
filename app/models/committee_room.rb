@@ -1,6 +1,7 @@
 class CommitteeRoom < ApplicationRecord
   belongs_to :work_space
   has_many :polling_stations
+  has_many :polling_districts, -> { distinct.order(:reference) }, through: :polling_stations
   has_many :canvassers_observations
   has_many :cars_observations
 
@@ -18,19 +19,14 @@ class CommitteeRoom < ApplicationRecord
   # XXX This and its usage is kind of hacky, involves duplicate data loading
   # etc.
   def suggested_target_district_reference
-    case work_space.suggested_target_district_method
-    when 'estimates'
-      polling_station, _ = polling_stations.map do |polling_station|
-        [polling_station, polling_station.last_observation]
-      end.to_h.reject do |_, o|
-        o.nil?
-      end.max_by do |_, o|
-        o.guesstimated_labour_votes_left
+    polling_district = \
+      case work_space.suggested_target_district_method
+      when 'estimates'
+        polling_districts.max_by(&:guesstimated_labour_votes_left)
+      when 'warp'
+        polling_stations.max_by(&:remaining_labour_votes_from_warp)&.polling_district
       end
-    when 'warp'
-      polling_station = polling_stations.max_by(&:remaining_labour_votes_from_warp)
-    end
 
-    polling_station&.polling_district&.reference
+    polling_district&.reference
   end
 end

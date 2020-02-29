@@ -16,13 +16,13 @@
     <div>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.box_labour_promises %>
+          <%= polling_district.box_labour_promises %>
         </span>
         promises /
       </span>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.box_electors %>
+          <%= polling_district.box_electors %>
         </span>
         box voters
       </span>
@@ -31,13 +31,13 @@
     <div class="has-text-grey">
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.postal_labour_promises %>
+          <%= polling_district.postal_labour_promises %>
         </span>
         promises /
       </span>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.postal_electors %>
+          <%= polling_district.postal_electors %>
         </span>
         postal voters
       </span>
@@ -65,10 +65,10 @@
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
-    <% if polling_station.box_electors > 0 %>
+    <% if polling_district.box_electors > 0 %>
       <span class="is-size-6 has-text-weight-bold">
         <%= number_to_percentage(
-          turnout_observation.turnout_proportion * 100,
+          polling_district.turnout_proportion * 100,
           precision: 1
         ) %>
       </span>
@@ -85,14 +85,14 @@
     <% if turnout_observation.created_at %>
       <span class="nowrap">
         <span class="is-size-6 has-text-weight-bold">
-          <%= turnout_observation.guesstimated_labour_votes %>
+          <%= polling_district.guesstimated_labour_votes %>
         </span>
         votes
         /
       </span>
       <span class="nowrap">
         <span class="is-size-6 has-text-weight-bold has-text-primary">
-          <%= turnout_observation.guesstimated_labour_votes_left %>
+          <%= polling_district.guesstimated_labour_votes_left %>
         </span>
         votes left
       </span>

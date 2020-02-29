@@ -36,4 +36,59 @@ class PollingDistrict < ApplicationRecord
   def last_remaining_lifts_observation
     last_observation_for(remaining_lifts_observations)
   end
+
+  def turnout_proportion
+    total_district_count = \
+      polling_stations.map do |polling_station|
+      (polling_station.last_observation&.count || 0)
+    end.sum
+
+    if box_electors > 0
+      total_district_count.to_f / box_electors
+    else
+      # Return 0 when `box_electors` is the default, i.e. unknown, to avoid
+      # dividing by 0 and returning Infinity - XXX may be better to have this
+      # column be nullable (less confusing), then check and return 1 here so
+      # these observations will appear last?
+      0
+    end
+  end
+
+  # I'm not sure if this is at all accurate enough to be useful (and not
+  # misleading and counterproductive), but best I can think of at the moment:
+  # guesstimate Labour votes so far as the observed turnout * number of
+  # pre-election Labour promises.
+  #
+  # Assumes Labour voters vote at same rate as average voter, that pre-election
+  # figures are roughly accurate, that Labour promises are roughly equal to
+  # number who will actually vote Labour (else this is likely to be very
+  # inaccurate, though I guess it should be inaccurate by same proportion for
+  # every polling station) etc.
+  def guesstimated_labour_votes
+    (turnout_proportion * box_labour_promises).to_i
+  end
+
+  # Same caveats as above, this is just the inverse to get a guesstimate of how
+  # many Labour promises haven't voted yet.
+  def guesstimated_labour_votes_left
+    box_labour_promises - guesstimated_labour_votes
+  end
+
+  # XXX can remove all these methods when make these fields natively on
+  # PollingDistrict.
+  def box_electors
+    polling_stations.map(&:box_electors).sum
+  end
+
+  def box_labour_promises
+    polling_stations.map(&:box_labour_promises).sum
+  end
+
+  def postal_electors
+    polling_stations.map(&:postal_electors).sum
+  end
+
+  def postal_labour_promises
+    polling_stations.map(&:postal_labour_promises).sum
+  end
 end

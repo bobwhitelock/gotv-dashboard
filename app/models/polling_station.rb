@@ -56,6 +56,7 @@ class PollingStation < ApplicationRecord
   # 'WorkSpacePollingDistrict', to work around this not existing and being
   # involved to add. Should fix at some point post-election -
   # https://github.com/bobwhitelock/gotv-dashboard/issues/120.
+  # XXX delete these
   def work_space_polling_district_proxy?
     work_space_polling_district_stations.first == self
   end
@@ -71,6 +72,7 @@ class PollingStation < ApplicationRecord
     polling_district.warp_count_observations.where(is_valid: true).sum('count')
   end
 
+  # XXX move to PD
   def remaining_labour_votes_from_warp
     box_labour_promises - confirmed_labour_votes_from_warp
   end
