@@ -34,7 +34,6 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem "bulma-rails", "~> 0.7.4"
 gem 'lodash-rails'
-gem 'postcodes_io'
 gem 'jquery-rails'
 gem 'xkpassword', git: 'https://github.com/bobwhitelock/xkpassword'
 gem "audited", "~> 4.7"
