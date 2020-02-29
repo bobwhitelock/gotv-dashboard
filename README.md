@@ -15,7 +15,11 @@
    - on Windows you can use
      [RubyInstaller](https://rubyinstaller.org/downloads/).
 
-2. Clone and set up the repo:
+2. Install [Mozilla Geckodriver](https://github.com/mozilla/geckodriver) via
+   some means (e.g. Brew or any Linux package manager), in order to run feature
+   tests which use Selenium.
+
+3. Clone and set up the repo:
 
    ```bash
    git clone git@github.com:CampaignLab/gotv-dashboard.git
@@ -27,7 +31,7 @@
    rails server
    ```
 
-3. To create a work space for development, either:
+4. To create a work space for development, either:
 
    a. visit `http://localhost:3000` and click the link to generate a demo work
    space;
@@ -41,6 +45,18 @@
       polling_stations=$url_for_polling_stations_data \
       campaign_stats=$url_for_campaign_stats_data
    ```
+
+### To run tests
+
+The dashboard has fairly complete test coverage, and this should ideally be
+maintained as new features are added. Most of the test coverage is via
+[Capybara](https://github.com/teamcapybara/capybara) feature tests, and so will
+require Mozilla Geckodriver to run as described
+[above](#setup-for-local-development).
+
+To run tests, use `rspec`.
+
+Once all tests have been run, `coverage/index.html` can be viewed in a browser to see all test coverage.
 
 ### To access admin dashboard
 
