@@ -42,7 +42,6 @@ ContactCreatorImporter = Struct.new(
     Ward.find_or_create_by!(
       name: station_row.fetch('ward')
     ) do |w|
-      w.code = 'transient'
       debug "Created Ward: #{w.name}"
     end
   end

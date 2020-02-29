@@ -21,7 +21,6 @@ FactoryBot.define do
 
   factory :ward do
     name { 'Some Ward' }
-    code { 'E1234' }
   end
 
   factory :work_space do
