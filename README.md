@@ -56,7 +56,21 @@ require Mozilla Geckodriver to run as described
 
 To run tests, use `rspec`.
 
-Once all tests have been run, `coverage/index.html` can be viewed in a browser to see all test coverage.
+Once all tests have been run, `coverage/index.html` can be viewed in a browser
+to see all test coverage.
+
+### Development tips
+
+- The app mostly follows standard Rails conventions, so [getting familiar with
+  these](https://guides.rubyonrails.org/) will help.
+
+- An ERD diagram of all app models is available at
+  [`docs/erd.pdf`](docs/erd.pdf). This should be automatically regenerated as
+  the database is migrated, but you can ensure it's up-to-date by running `rake
+  erd`.
+
+- Running `rspec` and then checking `coverage/index.html` can help you ensure
+  you have full test coverage of your changes.
 
 ### To access admin dashboard
 
