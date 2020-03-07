@@ -42,14 +42,8 @@ class CommitteeRoomsController < ApplicationController
 
   def volunteers_observation_action(observation_class)
     committee_room = CommitteeRoom.find(params[:committee_room_id])
-    # XXX More ad-hoc authorization, should improve.
-    return if committee_room.work_space != find_work_space
-
-    observation_class.create!(
-      committee_room: committee_room,
-      count: params[:count],
-      user: @current_user
-    )
+    
+    observation_action_base(observation_class, committee_room)
   end
 
   def committee_room_params

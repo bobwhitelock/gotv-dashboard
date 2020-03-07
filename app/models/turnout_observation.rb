@@ -1,5 +1,6 @@
 class TurnoutObservation < ApplicationRecord
   belongs_to :work_space_polling_station
+  def self.observed_for ; :work_space_polling_station ; end
   # XXX Make this required?
   belongs_to :user, required: false
   has_one :work_space, through: :work_space_polling_station

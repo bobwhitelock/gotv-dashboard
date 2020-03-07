@@ -3,6 +3,7 @@ class WarpCountObservation < ApplicationRecord
 
   # XXX But really a WorkSpacePollingDistrict
   belongs_to :work_space_polling_station
+  def self.observed_for ; :work_space_polling_station ; end
   belongs_to :user
 
   # Note: Unlike other observations, WARP counts are additive rather than a

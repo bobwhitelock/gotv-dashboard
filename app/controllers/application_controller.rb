@@ -32,4 +32,16 @@ class ApplicationController < ActionController::Base
   def find_work_space
     WorkSpace.find_by_identifier!(params[:work_space_id])
   end
+
+  def observation_action_base(observation_class, observed_on)
+    # XXX More ad-hoc authorization, should improve.
+    return if observed_on.work_space != find_work_space
+
+    observation_class.create!(
+      observation_class.observed_for => observed_on,
+      count: params[:count],
+      user: @current_user
+    )
+  end
+
 end

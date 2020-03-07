@@ -1,7 +1,11 @@
 
 require 'rails_helper'
+require 'shared_examples/observation'
 
 RSpec.describe TurnoutObservation do
+
+  it_behaves_like 'observation'
+
   describe '#turnout_proportion' do
     it 'gives proportion of box electors turned out at time of observation' do
       polling_station = create(:work_space_polling_station, box_electors: 100)
