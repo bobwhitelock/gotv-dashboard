@@ -19,10 +19,6 @@ class PollingStation < ApplicationRecord
 
   # XXX Possibly more polling station fields should be non-nullable?
   validates_presence_of :reference
-  validates_presence_of :box_labour_promises
-  validates_presence_of :box_electors
-  validates_presence_of :postal_labour_promises
-  validates_presence_of :postal_electors
 
   # XXX move to decorator?
   def fully_specified_name
@@ -45,35 +41,5 @@ class PollingStation < ApplicationRecord
   # `last_observation_for` etc?
   def last_observation
     turnout_observations.max_by(&:created_at)
-  end
-
-  def last_remaining_lifts_observation
-    last_observation_for(polling_district.remaining_lifts_observations)
-  end
-
-  # XXX Existence of these 2 methods and all usage is a total hack - we use
-  # first PollingStation for PollingDistrict as a proxy for a
-  # 'WorkSpacePollingDistrict', to work around this not existing and being
-  # involved to add. Should fix at some point post-election -
-  # https://github.com/bobwhitelock/gotv-dashboard/issues/120.
-  # XXX delete these
-  def work_space_polling_district_proxy?
-    work_space_polling_district_stations.first == self
-  end
-
-  def work_space_polling_district_stations
-    PollingStation.where(
-      polling_district: polling_district,
-      work_space: work_space
-    ).order(:reference)
-  end
-
-  def confirmed_labour_votes_from_warp
-    polling_district.warp_count_observations.where(is_valid: true).sum('count')
-  end
-
-  # XXX move to PD
-  def remaining_labour_votes_from_warp
-    box_labour_promises - confirmed_labour_votes_from_warp
   end
 end

@@ -1,6 +1,6 @@
 class PollingDistrict < ApplicationRecord
   belongs_to :ward
-  has_many :polling_stations
+  has_many :polling_stations, -> { distinct.order(:reference) }
   has_many :warp_count_observations
   has_many :remaining_lifts_observations
 
@@ -15,6 +15,11 @@ class PollingDistrict < ApplicationRecord
   def work_space
     # XXX As above - better way to do this?
     polling_stations.first&.work_space
+  end
+
+  def work_space_id
+    # XXX As above
+    work_space.id
   end
 
   # XXX move to decorator?
@@ -74,21 +79,11 @@ class PollingDistrict < ApplicationRecord
     box_labour_promises - guesstimated_labour_votes
   end
 
-  # XXX can remove all these methods when make these fields natively on
-  # PollingDistrict.
-  def box_electors
-    polling_stations.map(&:box_electors).sum
+  def confirmed_labour_votes_from_warp
+    warp_count_observations.where(is_valid: true).sum('count')
   end
 
-  def box_labour_promises
-    polling_stations.map(&:box_labour_promises).sum
-  end
-
-  def postal_electors
-    polling_stations.map(&:postal_electors).sum
-  end
-
-  def postal_labour_promises
-    polling_stations.map(&:postal_labour_promises).sum
+  def remaining_labour_votes_from_warp
+    box_labour_promises - confirmed_labour_votes_from_warp
   end
 end

@@ -9,7 +9,7 @@ class WorkSpace < ApplicationRecord
   has_many :cars_observations, through: :committee_rooms
   has_many :wards, -> { distinct.order(:name) }, through: :polling_stations
 
-  accepts_nested_attributes_for :polling_stations
+  accepts_nested_attributes_for :polling_districts
 
   before_validation :create_identifier, on: :create
 
@@ -45,6 +45,19 @@ class WorkSpace < ApplicationRecord
     end.group_by do |o|
       o.polling_station.committee_room
     end.sort_by do |committee_room, _|
+      if committee_room
+        committee_room.organiser_name
+      else
+        # Ensure 'No committee room' section always last.
+        'zzz'
+      end
+    end
+  end
+
+  def polling_districts_by_committee_room
+    # XXX add tests for this method. And de-dupe with above? Or can just delete
+    # above eventually?
+    polling_districts.group_by(&:committee_room).sort_by do |committee_room, _|
       if committee_room
         committee_room.organiser_name
       else

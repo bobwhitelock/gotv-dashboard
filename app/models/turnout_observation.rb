@@ -5,8 +5,6 @@ class TurnoutObservation < ApplicationRecord
   belongs_to :user, required: false
   has_one :work_space, through: :polling_station
 
-  delegate :box_electors, :box_labour_promises, to: :polling_station
-
   # NOTE: Make sure all methods here also have trivial versions for null object
   # (UnobservedTurnoutObservation), if they will be called from main dashboard
   # page (`app/views/work_spaces/show.html.erb`).

@@ -18,13 +18,14 @@ class CommitteeRoom < ApplicationRecord
 
   # XXX This and its usage is kind of hacky, involves duplicate data loading
   # etc.
+  # XXX Stop highlighting things when no observations yet
   def suggested_target_district_reference
     polling_district = \
       case work_space.suggested_target_district_method
       when 'estimates'
         polling_districts.max_by(&:guesstimated_labour_votes_left)
       when 'warp'
-        polling_stations.max_by(&:remaining_labour_votes_from_warp)&.polling_district
+        polling_districts.max_by(&:remaining_labour_votes_from_warp)
       end
 
     polling_district&.reference

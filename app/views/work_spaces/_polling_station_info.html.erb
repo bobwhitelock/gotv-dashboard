@@ -1,6 +1,6 @@
 
 <%
-    is_polling_district_proxy = polling_station.work_space_polling_district_proxy?
+    is_polling_district_proxy = first_for_polling_district
     polling_district = polling_station.polling_district
 %>
 
@@ -104,14 +104,14 @@
   <td width="10%" rowspan="<%= rowspan %>">
     <span class="nowrap">
       <span class="is-size-6 has-text-weight-bold">
-        <%= polling_station.confirmed_labour_votes_from_warp %>
+        <%= polling_district.confirmed_labour_votes_from_warp %>
       </span>
       votes
       /
     </span>
     <span class="nowrap">
       <span class="is-size-6 has-text-weight-bold has-text-primary">
-        <%= polling_station.remaining_labour_votes_from_warp %>
+        <%= polling_district.remaining_labour_votes_from_warp %>
       </span>
       votes left
     </span>

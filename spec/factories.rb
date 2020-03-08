@@ -8,15 +8,15 @@ FactoryBot.define do
     polling_district
     name { 'Some Polling Station' }
     reference { 'SPS-1' }
-    box_electors { 0 }
-    box_labour_promises { 0 }
-    postal_electors { 0 }
-    postal_labour_promises { 0 }
   end
 
   factory :polling_district do
     ward
     reference { 'PD' }
+    box_electors { 0 }
+    box_labour_promises { 0 }
+    postal_electors { 0 }
+    postal_labour_promises { 0 }
   end
 
   factory :ward do

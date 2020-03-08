@@ -106,6 +106,8 @@
     </thead>
 
     <tbody class="is-size-7">
+      <%# XXX Update to do polling district parts properly, rather than hackily %>
+      <%# XXX and similarly for committee rooms parts? %>
       <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
 
         suggested_target_district_reference = \
@@ -115,18 +117,18 @@
         observations.each do |o|
           first_for_committee_room = o == first_observation
 
-          ws_polling_station = o.polling_station
-          polling_district_stations = \
-            ws_polling_station.work_space_polling_district_stations
-
-          turnout_observation = o.turnout_observation
+          polling_station = o.polling_station
+          polling_district = polling_station.polling_district
+          polling_district_stations = polling_district.polling_stations
+          first_for_polling_district = \
+            polling_station == polling_district_stations.first
 
           is_suggested_target_district = \
-            ws_polling_station.polling_district.reference == suggested_target_district_reference
+            polling_district.reference == suggested_target_district_reference
         %>
 
           <tr
-            data-test="polling-district-row-<%= ws_polling_station.polling_district.id %>"
+            data-test="polling-district-row-<%= polling_district.id %>"
             class="<%= 'suggested-target-district' if is_suggested_target_district %>"
           >
             <% if first_for_committee_room %>
@@ -138,8 +140,9 @@
             <% end %>
 
             <%= render 'polling_station_info',
-              polling_station: ws_polling_station,
-              turnout_observation: turnout_observation,
+              polling_station: polling_station,
+              first_for_polling_district: first_for_polling_district,
+              turnout_observation: o.turnout_observation,
               rowspan: polling_district_stations.length
             %>
           </tr>
