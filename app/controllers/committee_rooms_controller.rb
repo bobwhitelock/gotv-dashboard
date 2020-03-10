@@ -11,8 +11,7 @@ class CommitteeRoomsController < ApplicationController
     work_space = find_work_space
 
     polling_districts = params[:polling_districts]
-    polling_stations = PollingStation.where(
-      work_space: work_space,
+    polling_stations = work_space.polling_stations.where(
       polling_district: polling_districts
     )
 

@@ -14,10 +14,7 @@ RSpec.feature 'warp count logging', type: :feature do
   end
 
   it 'allows logging WARP count for polling district' do
-    # XXX Here and below - `polling_station` is only needed as a slight hack,
-    # if we move WorkSpaces to be related to Wards rather than PollingStations
-    # will allow simplifying things.
-    polling_district = create(:polling_district, polling_stations: [create(:polling_station)])
+    polling_district = create(:polling_district)
 
     log_warp_count(
       for_polling_district: polling_district,
@@ -36,7 +33,7 @@ RSpec.feature 'warp count logging', type: :feature do
   end
 
   it 'allows invalidating logged WARP counts' do
-    polling_district = create(:polling_district, polling_stations: [create(:polling_station)])
+    polling_district = create(:polling_district)
 
     log_warp_count(for_polling_district: polling_district, with_count: 3)
     click_on 'Invalidate WARP count'

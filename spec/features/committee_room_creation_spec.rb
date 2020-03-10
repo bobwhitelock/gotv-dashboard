@@ -17,11 +17,10 @@ RSpec.feature 'committee room creation', type: :feature, js: true do
     ].each do |params|
       create(
         :polling_station,
-        work_space: work_space,
         polling_district: create(
           :polling_district,
           reference: params[:pd],
-          ward: create(:ward, name: params[:ward])
+          ward: create(:ward, name: params[:ward], work_space: work_space)
         )
       )
     end

@@ -34,8 +34,9 @@ RSpec.describe ContactCreatorImporter, type: :model do
     expect(first_district.postal_labour_promises).to eq(expected_postal_promises)
     stations = work_space.polling_stations
     expect(stations.length).to eq(51)
-    first_station = stations.first
-    expect(first_station.reference).to eq('51') # (coincidentally same as above)
+    first_station = stations.select do |ps|
+      ps.reference == '51' # (coincidentally same as above)
+    end.first
     expect(first_station.name).to eq(
       'New Cut Housing Co-operative Community Room, 106 The Cut, SE1 8LN'
     )

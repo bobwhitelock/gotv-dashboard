@@ -11,10 +11,10 @@ class PollingStation < ApplicationRecord
   # interpretations - can be considered to mean 'polling place' (most common)
   # or 'ballot box' (our usage, and technically correct).
 
-  belongs_to :work_space
   belongs_to :committee_room, required: false
   belongs_to :polling_district
   has_one :ward, through: :polling_district
+  has_one :work_space, through: :ward
   has_many :turnout_observations
 
   # XXX Possibly more polling station fields should be non-nullable?

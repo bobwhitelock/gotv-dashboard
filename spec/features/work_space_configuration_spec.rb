@@ -7,8 +7,6 @@ RSpec.feature 'work space configuration', type: :feature do
       box_electors: 0,
       box_labour_promises: 0
     )
-    # XXX Only needed as WorkSpace related directly to PollingStations
-    create(:polling_station, polling_district: polling_district)
 
     visit work_space_configuration_path(polling_district.work_space)
     find_data_test('registered-voters-field').fill_in(with: 50)

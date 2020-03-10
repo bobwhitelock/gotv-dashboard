@@ -6,22 +6,28 @@ RSpec.feature 'raw data page', type: :feature, js: true do
     create(
       :turnout_observation,
       count: 42,
-      work_space: work_space,
       user: create(:user, name: 'Some Campaigner', phone_number: '555 123'),
       polling_station: create(
         :polling_station,
-        work_space: work_space,
-        name: 'First Polling Station'
+        name: 'First Polling Station',
+        polling_district: create(
+          :polling_district, ward: create(
+            :ward, work_space: work_space
+          )
+        )
       )
     )
     create(
       :turnout_observation,
       count: 66,
-      work_space: work_space,
       polling_station: create(
         :polling_station,
-        work_space: work_space,
-        name: 'Second Polling Station'
+        name: 'Second Polling Station',
+        polling_district: create(
+          :polling_district, ward: create(
+            :ward, work_space: work_space
+          )
+        )
       )
     )
 

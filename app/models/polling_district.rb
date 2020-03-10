@@ -1,5 +1,6 @@
 class PollingDistrict < ApplicationRecord
   belongs_to :ward
+  has_one :work_space, through: :ward
   has_many :polling_stations, -> { distinct.order(:reference) }
   has_many :warp_count_observations
   has_many :remaining_lifts_observations
@@ -10,16 +11,6 @@ class PollingDistrict < ApplicationRecord
     # XXX Better way to do this? Moving CommitteeRoom reference to district
     # level might help?
     polling_stations.first&.committee_room
-  end
-
-  def work_space
-    # XXX As above - better way to do this?
-    polling_stations.first&.work_space
-  end
-
-  def work_space_id
-    # XXX As above
-    work_space.id
   end
 
   # XXX move to decorator?

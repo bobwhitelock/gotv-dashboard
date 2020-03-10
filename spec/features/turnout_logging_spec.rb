@@ -8,7 +8,11 @@ RSpec.feature 'turnout logging', type: :feature, js: true do
   def create_polling_station(**kwargs)
     create(
       :polling_station,
-      work_space: work_space,
+      polling_district: create(
+        :polling_district, ward: create(
+          :ward, work_space: work_space
+        )
+      ),
       **kwargs
     )
   end

@@ -4,10 +4,7 @@ require 'rails_helper'
 RSpec.describe WorkSpace do
   describe '#polling_stations_by_committee_room' do
     subject do
-      create(
-        :work_space,
-        polling_stations: [polling_station]
-      )
+      polling_station.work_space
     end
 
     let :polling_station do
@@ -57,30 +54,10 @@ RSpec.describe WorkSpace do
     end
   end
 
-  describe '#wards' do
-    it "returns all wards for given workspace's polling stations" do
-      ward_1 = create(:ward, name: 'Ward 1')
-      ward_1_polling_station = create(:polling_station, ward: ward_1)
-      ward_2 = create(:ward, name: 'Ward 2')
-      ward_2_polling_stations = create_list(:polling_station, 2, ward: ward_2)
-      all_polling_stations = [ward_1_polling_station, *ward_2_polling_stations]
-      work_space = create(
-        :work_space,
-        polling_stations: all_polling_stations
-      )
-
-      wards = work_space.wards
-      ward_names = wards.map(&:name)
-
-      # Note each ward with any number of polling stations appears only once.
-      expect(ward_names).to eq(['Ward 1', 'Ward 2'])
-    end
-  end
-
   describe '#all_observations' do
     it 'sorts all observations by creation time' do
-      work_space = create(:work_space)
-      polling_station = create(:polling_station, work_space: work_space)
+      polling_station = create(:polling_station)
+      work_space = polling_station.work_space
       cr = create(:committee_room, work_space: work_space)
       turnout_observation = create(
         :turnout_observation,
@@ -108,8 +85,8 @@ RSpec.describe WorkSpace do
     end
 
     it 'includes turnout observation' do
-      work_space = create(:work_space)
-      polling_station = create(:polling_station, work_space: work_space)
+      polling_station = create(:polling_station)
+      work_space = polling_station.work_space
       turnout_observation = create(
         :turnout_observation, polling_station: polling_station
       )
@@ -150,8 +127,8 @@ RSpec.describe WorkSpace do
     end
 
     it 'includes remaining lifts observation' do
-      work_space = create(:work_space)
-      polling_station = create(:polling_station, work_space: work_space)
+      polling_station = create(:polling_station)
+      work_space = polling_station.work_space
       remaining_lifts_observation = create(
         :remaining_lifts_observation, polling_district: polling_station.polling_district
       )
@@ -164,8 +141,8 @@ RSpec.describe WorkSpace do
     end
 
     it 'includes WARP count observation' do
-      work_space = create(:work_space)
-      polling_station = create(:polling_station, work_space: work_space)
+      polling_station = create(:polling_station)
+      work_space = polling_station.work_space
       warp_count_observation = create(
         :warp_count_observation, polling_district: polling_station.polling_district
       )

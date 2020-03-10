@@ -9,7 +9,13 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       work_space: work_space,
       # Create with a polling station associated so shows up on dashboard.
       polling_stations: [
-        create(:polling_station, work_space: work_space)
+        create(
+          :polling_station,
+          polling_district: create(
+            :polling_district,
+            ward: create(:ward, work_space: work_space)
+          )
+        )
       ]
     )
   end
@@ -99,8 +105,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       box_electors: 200,
       box_labour_promises: 100
     )
-    # XXX can maybe remove once replace WorkSpace -> PollingStation
-    # relationships
+    # Needed so shows up on dashboard.
     create(
       :polling_station,
       polling_district: polling_district
@@ -135,11 +140,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
         count: 20,
         polling_district: create(
           :polling_district,
-          # XXX As elsewhere, only needed while WorkSpaces not related to
-          # Wards, once that's done can simplify (and below too).
-          polling_stations: [
-            create(:polling_station, work_space: work_space)
-          ]
+          ward: create(:ward, work_space: work_space)
         )
       )
     end
@@ -149,9 +150,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       is_valid: false,
       polling_district: create(
         :polling_district,
-        polling_stations: [
-          create(:polling_station, work_space: work_space)
-        ]
+        ward: create(:ward, work_space: work_space)
       )
     )
 
@@ -162,28 +161,29 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
 
   it 'highlights highest priority district for committee room, with toggleable method' do
     committee_room = create(:committee_room)
+    work_space = committee_room.work_space
     lowest_warp_count_polling_station = create(
       :polling_station,
       committee_room: committee_room,
-      work_space: committee_room.work_space,
       polling_district: create(
         :polling_district,
         reference: 'PD1',
         box_electors: 100,
         box_labour_promises: 50,
+        ward: create(:ward, work_space: work_space)
       ),
       turnout_observations: [create(:turnout_observation, count: 60)]
     )
     most_estimated_votes_left_polling_station = create(
       :polling_station,
       committee_room: committee_room,
-      work_space: committee_room.work_space,
       polling_district: create(
         :polling_district,
         reference: 'PD2',
         box_electors: 100,
         box_labour_promises: 50,
-        warp_count_observations: [create(:warp_count_observation, count: 40)]
+        warp_count_observations: [create(:warp_count_observation, count: 40)],
+        ward: create(:ward, work_space: work_space)
       ),
       # Need to have at least 1 turnout observation for turnout estimate
       # highlighting to consider this district.
@@ -194,7 +194,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     lowest_warp_count_district_id = \
       lowest_warp_count_polling_station.polling_district.id
 
-    visit work_space_path(committee_room.work_space)
+    visit work_space_path(work_space)
 
     highlight_by_warp = 'Highlight target district by WARP'
     click_on highlight_by_warp

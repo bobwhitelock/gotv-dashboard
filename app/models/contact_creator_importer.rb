@@ -22,13 +22,13 @@ ContactCreatorImporter = Struct.new(
       end.to_h
 
       CSV.parse(polling_stations_csv, headers: true) do |station_row|
-        ward = maybe_create_ward(station_row)
+        ward = maybe_create_ward(work_space, station_row)
 
         polling_district = maybe_create_polling_district(
           ward, station_row, district_to_campaign_stats
         )
 
-        create_polling_station(work_space, polling_district, station_row)
+        create_polling_station(polling_district, station_row)
       end
 
       work_space_url = url_helpers.work_space_url(work_space.identifier)
@@ -40,8 +40,9 @@ ContactCreatorImporter = Struct.new(
 
   private
 
-  def maybe_create_ward(station_row)
+  def maybe_create_ward(work_space, station_row)
     Ward.find_or_create_by!(
+      work_space: work_space,
       name: station_row.fetch('ward')
     ) do |w|
       debug "Created Ward: #{w.name}"
@@ -73,7 +74,7 @@ ContactCreatorImporter = Struct.new(
     polling_district
   end
 
-  def create_polling_station(work_space, polling_district, station_row)
+  def create_polling_station(polling_district, station_row)
     postcode = station_row.fetch('polling_place_postcode')
 
     polling_station_name = [
@@ -83,7 +84,6 @@ ContactCreatorImporter = Struct.new(
     ].join(', ')
 
     polling_station = PollingStation.create!(
-      work_space: work_space,
       name: polling_station_name,
       postcode: postcode,
       reference: station_row.fetch('ballot_box_number'),
