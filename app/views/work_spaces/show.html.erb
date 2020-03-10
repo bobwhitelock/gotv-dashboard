@@ -108,16 +108,15 @@
     <tbody class="is-size-7">
       <%# XXX Update to do polling district parts properly, rather than hackily %>
       <%# XXX and similarly for committee rooms parts? %>
-      <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
+      <% @work_space.polling_stations_by_committee_room.each do |committee_room, polling_stations|
 
         suggested_target_district_reference = \
           committee_room&.suggested_target_district_reference
 
-        first_observation = observations.first
-        observations.each do |o|
-          first_for_committee_room = o == first_observation
+        first_polling_station = polling_stations.first
+        polling_stations.each do |polling_station|
+          first_for_committee_room = polling_station == first_polling_station
 
-          polling_station = o.polling_station
           polling_district = polling_station.polling_district
           polling_district_stations = polling_district.polling_stations
           first_for_polling_district = \
@@ -134,7 +133,7 @@
             <% if first_for_committee_room %>
               <%= render 'shared/committee_room_info',
                 committee_room: committee_room,
-                rowspan: observations.length,
+                rowspan: polling_stations.length,
                 render_controls: true
               %>
             <% end %>
@@ -142,7 +141,6 @@
             <%= render 'polling_station_info',
               polling_station: polling_station,
               first_for_polling_district: first_for_polling_district,
-              turnout_observation: o.turnout_observation,
               rowspan: polling_district_stations.length
             %>
           </tr>

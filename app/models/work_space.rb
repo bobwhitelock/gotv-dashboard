@@ -23,17 +23,8 @@ class WorkSpace < ApplicationRecord
     self.identifier
   end
 
-  def latest_observations_by_committee_room
-    polling_stations.map do |ps|
-      # XXX Could probably simplify to not need to pass around OpenStruct, just
-      # use PollingStation now.
-      OpenStruct.new(
-        polling_station: ps,
-        turnout_observation: ps.last_turnout_observation
-      )
-    end.sort_by do |o|
-      polling_station = o.polling_station
-
+  def polling_stations_by_committee_room
+    polling_stations.sort_by do |polling_station|
       # Order polling stations so show within hierarchy order within dashboard
       # - Ward > Polling District > Polling Station/Ballot Box.
       [
@@ -41,8 +32,8 @@ class WorkSpace < ApplicationRecord
         polling_station.polling_district,
         polling_station.reference,
       ]
-    end.group_by do |o|
-      o.polling_station.committee_room
+    end.group_by do |polling_station|
+      polling_station.committee_room
     end.sort_by do |committee_room, _|
       if committee_room
         committee_room.organiser_name
