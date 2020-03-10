@@ -26,7 +26,7 @@ class WorkSpace < ApplicationRecord
   def latest_observations_by_committee_room
     polling_stations.map do |ps|
       most_recent_observation = \
-        most_recent_observation_for(ps) || UnobservedTurnoutObservation.new
+        ps.last_observation || UnobservedTurnoutObservation.new
 
       OpenStruct.new(
         polling_station: ps,
@@ -86,12 +86,5 @@ class WorkSpace < ApplicationRecord
 
   def create_identifier
     self.identifier = self.class.identifier_generator.generate.downcase
-  end
-
-  # XXX Make this a method on PollingStation?
-  def most_recent_observation_for(polling_station)
-    polling_station.turnout_observations
-      .order(created_at: :desc)
-      .limit(1).first
   end
 end
