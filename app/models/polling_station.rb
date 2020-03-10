@@ -37,9 +37,7 @@ class PollingStation < ApplicationRecord
     end
   end
 
-  # XXX Refactor this to same style as other obsevations - use
-  # `last_observation_for` etc?
-  def last_observation
-    turnout_observations.max_by(&:created_at)
+  def last_turnout_observation
+    last_observation_for(turnout_observations)
   end
 end

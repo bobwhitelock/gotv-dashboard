@@ -36,12 +36,12 @@
               <li>
                 <em><%= colocated_station.fully_specified_name %></em>
 
-                <% if colocated_station.last_observation %>
+                <% if colocated_station.last_turnout_observation.created_at %>
                   <strong>
-                    <% if colocated_station.last_observation.user.name %>
-                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %> by <%= colocated_station.last_observation.user.name %>]
+                    <% if colocated_station.last_turnout_observation.user.name %>
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_turnout_observation %> by <%= colocated_station.last_turnout_observation.user.name %>]
                     <% else %>
-                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %>]
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_turnout_observation %>]
                     <% end %>
                   </strong>
                 <% end %>

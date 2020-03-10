@@ -25,12 +25,11 @@ class WorkSpace < ApplicationRecord
 
   def latest_observations_by_committee_room
     polling_stations.map do |ps|
-      most_recent_observation = \
-        ps.last_observation || UnobservedTurnoutObservation.new
-
+      # XXX Could probably simplify to not need to pass around OpenStruct, just
+      # use PollingStation now.
       OpenStruct.new(
         polling_station: ps,
-        turnout_observation: most_recent_observation
+        turnout_observation: ps.last_turnout_observation
       )
     end.sort_by do |o|
       polling_station = o.polling_station

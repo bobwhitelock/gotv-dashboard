@@ -43,9 +43,8 @@ class PollingDistrict < ApplicationRecord
   end
 
   def turnout_proportion
-    total_district_count = \
-      polling_stations.map do |polling_station|
-      (polling_station.last_observation&.count || 0)
+    total_district_count = polling_stations.map do |polling_station|
+      polling_station.last_turnout_observation.count
     end.sum
 
     if box_electors > 0
