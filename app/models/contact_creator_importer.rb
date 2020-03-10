@@ -24,12 +24,8 @@ ContactCreatorImporter = Struct.new(
       CSV.parse(polling_stations_csv, headers: true) do |station_row|
         ward = maybe_create_ward(station_row)
 
-        # XXX this is being obtained twice now - here and in
-        # `maybe_create_polling_district`
-        district_reference = station_row.fetch('polling_district')
-        district_row = district_to_campaign_stats[district_reference]
         polling_district = maybe_create_polling_district(
-          ward, station_row, district_row
+          ward, station_row, district_to_campaign_stats
         )
 
         create_polling_station(work_space, polling_district, station_row)
@@ -52,7 +48,10 @@ ContactCreatorImporter = Struct.new(
     end
   end
 
-  def maybe_create_polling_district(ward, station_row, district_row)
+  def maybe_create_polling_district(ward, station_row, district_to_campaign_stats)
+    district_reference = station_row.fetch('polling_district')
+    district_row = district_to_campaign_stats[district_reference]
+
     total_electors = parse_campaign_stats_int(district_row[2])
     postal_electors = parse_campaign_stats_int(district_row[9])
     box_electors = total_electors - postal_electors
@@ -68,7 +67,7 @@ ContactCreatorImporter = Struct.new(
       postal_labour_promises: postal_labour_promises
     ).find_or_create_by!(
       ward: ward,
-      reference: station_row.fetch('polling_district'),
+      reference: district_reference
     )
     debug "Created PollingDistrict: #{polling_district.reference}"
     polling_district
