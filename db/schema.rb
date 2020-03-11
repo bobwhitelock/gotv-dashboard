@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_223801) do
+ActiveRecord::Schema.define(version: 2020_03_10_235507) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -89,6 +89,8 @@ ActiveRecord::Schema.define(version: 2020_03_10_223801) do
     t.integer "box_labour_promises", null: false
     t.integer "postal_electors", null: false
     t.integer "postal_labour_promises", null: false
+    t.integer "committee_room_id"
+    t.index ["committee_room_id"], name: "index_polling_districts_on_committee_room_id"
     t.index ["ward_id"], name: "index_polling_districts_on_ward_id"
   end
 
@@ -101,8 +103,6 @@ ActiveRecord::Schema.define(version: 2020_03_10_223801) do
     t.string "reference", null: false
     t.string "polling_district"
     t.integer "polling_district_id", null: false
-    t.integer "committee_room_id"
-    t.index ["committee_room_id"], name: "index_polling_stations_on_committee_room_id"
     t.index ["polling_district_id"], name: "index_polling_stations_on_polling_district_id"
     t.index ["ward_id"], name: "index_polling_stations_on_ward_id"
   end

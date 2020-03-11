@@ -49,13 +49,13 @@ RSpec.feature 'committee room creation', type: :feature, js: true do
   end
 
   it 'indicates if polling district already covered by another committee room' do
-    abc_polling_station = PollingDistrict.find_by!(
+    abc_polling_district = PollingDistrict.find_by!(
        reference: 'ABC'
-    ).polling_stations.first
+    )
     create(
       :committee_room,
       work_space: work_space,
-      polling_stations: [abc_polling_station],
+      polling_districts: [abc_polling_district],
       organiser_name: 'Batman'
     )
 

@@ -1,5 +1,6 @@
 class PollingDistrict < ApplicationRecord
   belongs_to :ward
+  belongs_to :committee_room, required: false
   has_one :work_space, through: :ward
   has_many :polling_stations, -> { distinct.order(:reference) }
   has_many :warp_count_observations

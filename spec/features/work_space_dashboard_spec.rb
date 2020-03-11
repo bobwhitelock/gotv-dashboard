@@ -7,14 +7,12 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     create(
       :committee_room,
       work_space: work_space,
-      # Create with a polling station associated so shows up on dashboard.
-      polling_stations: [
+      polling_districts: [
         create(
-          :polling_station,
-          polling_district: create(
-            :polling_district,
-            ward: create(:ward, work_space: work_space)
-          )
+          :polling_district,
+          ward: create(:ward, work_space: work_space),
+          # Create with a polling station associated so shows up on dashboard.
+          polling_stations: [create(:polling_station)]
         )
       ]
     )

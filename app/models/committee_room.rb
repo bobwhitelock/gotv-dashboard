@@ -1,7 +1,7 @@
 class CommitteeRoom < ApplicationRecord
   belongs_to :work_space
-  has_many :polling_stations
-  has_many :polling_districts, -> { distinct.order(:reference) }, through: :polling_stations
+  has_many :polling_districts
+  has_many :polling_stations, through: :polling_districts
   has_many :canvassers_observations
   has_many :cars_observations
 
