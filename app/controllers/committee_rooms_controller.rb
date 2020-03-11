@@ -37,7 +37,7 @@ class CommitteeRoomsController < ApplicationController
 
   def volunteers_observation_action(observation_class)
     committee_room = CommitteeRoom.find(params[:committee_room_id])
-    
+
     observation_action_base(observation_class, committee_room)
   end
 
