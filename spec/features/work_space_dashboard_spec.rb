@@ -21,19 +21,19 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     )
   end
 
-  def expect_suggested_target_district_to_be(district_id)
-    row = find_district_row(district_id)
+  def expect_suggested_target_district_to_be(district_reference)
+    row = find_district_row(district_reference)
     expect(row[:class]).to include('suggested-target-district')
   end
 
-  def expect_suggested_target_district_not_to_be(district_id)
-    row = find_district_row(district_id)
+  def expect_suggested_target_district_not_to_be(district_reference)
+    row = find_district_row(district_reference)
     expect(row[:class]).not_to include('suggested-target-district')
   end
 
-  def find_district_row(district_id)
+  def find_district_row(district_reference)
     find_data_test(
-      "polling-district-row-#{district_id}"
+      "polling-district-row-#{district_reference}"
     )
   end
 
@@ -163,7 +163,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
   it 'highlights highest priority district for committee room, with toggleable method' do
     committee_room = create(:committee_room)
     work_space = committee_room.work_space
-    lowest_warp_count_polling_station = create(
+    _lowest_warp_count_polling_station = create(
       :polling_station,
       polling_district: create(
         :polling_district,
@@ -176,7 +176,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       ),
       turnout_observations: [create(:turnout_observation, count: 60)]
     )
-    most_estimated_votes_left_polling_station = create(
+    _most_estimated_votes_left_polling_station = create(
       :polling_station,
       polling_district: create(
         :polling_district,
@@ -191,29 +191,17 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       # highlighting to consider this district.
       turnout_observations: [create(:turnout_observation, count: 30)]
     )
-    most_estimated_votes_left_district_id = \
-      most_estimated_votes_left_polling_station.polling_district.id
-    lowest_warp_count_district_id = \
-      lowest_warp_count_polling_station.polling_district.id
 
     visit work_space_path(work_space)
 
     click_on highlight_by_warp
-    expect_suggested_target_district_to_be(
-      lowest_warp_count_district_id
-    )
-    expect_suggested_target_district_not_to_be(
-      most_estimated_votes_left_district_id
-    )
+    expect_suggested_target_district_to_be('PD1')
+    expect_suggested_target_district_not_to_be('PD2')
     expect(page).to have_no_button(highlight_by_warp)
 
     click_on highlight_by_estimates
-    expect_suggested_target_district_to_be(
-      most_estimated_votes_left_district_id
-    )
-    expect_suggested_target_district_not_to_be(
-      lowest_warp_count_district_id
-    )
+    expect_suggested_target_district_to_be('PD2')
+    expect_suggested_target_district_not_to_be('PD1')
     expect(page).to have_no_button(highlight_by_estimates)
   end
 
@@ -230,16 +218,16 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     create(
       :polling_station,
       polling_district: polling_district,
-      committee_room: committee_room,
+      committee_room: committee_room
     )
 
     visit work_space_path(work_space)
     click_on highlight_by_warp
-    expect_suggested_target_district_not_to_be(polling_district.id)
+    expect_suggested_target_district_not_to_be('PD')
 
     visit work_space_path(work_space)
     click_on highlight_by_estimates
-    expect_suggested_target_district_not_to_be(polling_district.id)
+    expect_suggested_target_district_not_to_be('PD')
   end
 
   describe 'remaining lifts tracking' do
