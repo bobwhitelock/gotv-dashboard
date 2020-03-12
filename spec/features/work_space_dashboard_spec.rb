@@ -2,6 +2,9 @@ require 'rails_helper'
 require 'shared_examples/volunteer_control_panel'
 
 RSpec.feature 'work space dashboard', type: :feature, js: true do
+  highlight_by_warp = 'Highlight target district by WARP'
+  highlight_by_estimates = 'Highlight target district by estimates'
+
   def create_visible_committee_room
     work_space = create(:work_space)
     create(
@@ -167,6 +170,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
         reference: 'PD1',
         box_electors: 100,
         box_labour_promises: 50,
+        warp_count_observations: [create(:warp_count_observation, count: 20)],
         ward: create(:ward, work_space: work_space),
         committee_room: committee_room
       ),
@@ -185,7 +189,7 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       ),
       # Need to have at least 1 turnout observation for turnout estimate
       # highlighting to consider this district.
-      turnout_observations: [create(:turnout_observation, count: 0)]
+      turnout_observations: [create(:turnout_observation, count: 30)]
     )
     most_estimated_votes_left_district_id = \
       most_estimated_votes_left_polling_station.polling_district.id
@@ -194,7 +198,6 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
 
     visit work_space_path(work_space)
 
-    highlight_by_warp = 'Highlight target district by WARP'
     click_on highlight_by_warp
     expect_suggested_target_district_to_be(
       lowest_warp_count_district_id
@@ -204,7 +207,6 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     )
     expect(page).to have_no_button(highlight_by_warp)
 
-    highlight_by_estimates = 'Highlight target district by estimates'
     click_on highlight_by_estimates
     expect_suggested_target_district_to_be(
       most_estimated_votes_left_district_id
@@ -213,6 +215,31 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
       lowest_warp_count_district_id
     )
     expect(page).to have_no_button(highlight_by_estimates)
+  end
+
+  it 'highlights nothing when no observations yet' do
+    committee_room = create(:committee_room)
+    work_space = committee_room.work_space
+    polling_district = create(
+      :polling_district,
+      reference: 'PD',
+      box_electors: 100,
+      box_labour_promises: 50,
+      ward: create(:ward, work_space: work_space)
+    )
+    create(
+      :polling_station,
+      polling_district: polling_district,
+      committee_room: committee_room,
+    )
+
+    visit work_space_path(work_space)
+    click_on highlight_by_warp
+    expect_suggested_target_district_not_to_be(polling_district.id)
+
+    visit work_space_path(work_space)
+    click_on highlight_by_estimates
+    expect_suggested_target_district_not_to_be(polling_district.id)
   end
 
   describe 'remaining lifts tracking' do

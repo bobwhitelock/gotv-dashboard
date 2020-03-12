@@ -18,16 +18,27 @@ class CommitteeRoom < ApplicationRecord
 
   # XXX This and its usage is kind of hacky, involves duplicate data loading
   # etc.
-  # XXX Stop highlighting things when no observations yet
   def suggested_target_district_reference
     polling_district = \
       case work_space.suggested_target_district_method
       when 'estimates'
-        polling_districts.max_by(&:guesstimated_labour_votes_left)
+        target_district_from(:guesstimated_labour_votes_left)
       when 'warp'
-        polling_districts.max_by(&:remaining_labour_votes_from_warp)
+        target_district_from(:remaining_labour_votes_from_warp)
       end
 
     polling_district&.reference
+  end
+
+  private
+
+  def target_district_from(estimated_votes_left_method)
+    polling_districts.reject do |pd|
+      # Ignore polling districts where estimate by this method is that all
+      # Labour promises are still outstanding, implies we have no useful data
+      # on these yet and therefore no point highlighting.
+      estimated_votes_left = pd.send(estimated_votes_left_method)
+      estimated_votes_left == pd.box_labour_promises
+    end.max_by(&estimated_votes_left_method)
   end
 end
