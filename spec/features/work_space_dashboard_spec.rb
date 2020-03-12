@@ -162,26 +162,26 @@ RSpec.feature 'work space dashboard', type: :feature, js: true do
     work_space = committee_room.work_space
     lowest_warp_count_polling_station = create(
       :polling_station,
-      committee_room: committee_room,
       polling_district: create(
         :polling_district,
         reference: 'PD1',
         box_electors: 100,
         box_labour_promises: 50,
-        ward: create(:ward, work_space: work_space)
+        ward: create(:ward, work_space: work_space),
+        committee_room: committee_room
       ),
       turnout_observations: [create(:turnout_observation, count: 60)]
     )
     most_estimated_votes_left_polling_station = create(
       :polling_station,
-      committee_room: committee_room,
       polling_district: create(
         :polling_district,
         reference: 'PD2',
         box_electors: 100,
         box_labour_promises: 50,
         warp_count_observations: [create(:warp_count_observation, count: 40)],
-        ward: create(:ward, work_space: work_space)
+        ward: create(:ward, work_space: work_space),
+        committee_room: committee_room
       ),
       # Need to have at least 1 turnout observation for turnout estimate
       # highlighting to consider this district.

@@ -8,12 +8,6 @@ class PollingDistrict < ApplicationRecord
 
   validates_presence_of :reference
 
-  def committee_room
-    # XXX Better way to do this? Moving CommitteeRoom reference to district
-    # level might help?
-    polling_stations.first&.committee_room
-  end
-
   # XXX move to decorator?
   # Similar to `PollingStation#fully_specified_name`
   def fully_specified_name
