@@ -6,7 +6,7 @@
 <% content_for :subtitle do %>
   Your committee room received the count of
   <em><%= @observation.count %></em>
-  for <em><%= @observation.work_space_polling_station.fully_specified_name %></em>.
+  for <em><%= @observation.polling_station.fully_specified_name %></em>.
 
       <p>
         <span class="has-text-grey-lighter is-size-7">
@@ -15,7 +15,7 @@
             'Click here to enter a corrected count',
             new_work_space_turnout_observation_path(
               @work_space,
-              polling_station: @observation.work_space_polling_station
+              polling_station: @observation.polling_station
             ),
             class: 'has-text-white-ter'
           ) %>.
@@ -25,23 +25,23 @@
 
 <% content_for :content do %>
   <section class="section" style="padding-bottom: 1.5rem;">
-    <% if @observation.work_space_polling_station.colocated_polling_stations.any? %>
+    <% if @observation.polling_station.colocated_polling_stations.any? %>
       <div class="container">
         <p>
           We think these ballot boxes are in the same building, make sure to
           record these as well:
 
           <ul class="has-bullet">
-            <% @observation.work_space_polling_station.colocated_polling_stations.each do |colocated_station| %>
+            <% @observation.polling_station.colocated_polling_stations.each do |colocated_station| %>
               <li>
                 <em><%= colocated_station.fully_specified_name %></em>
 
-                <% if colocated_station.last_observation %>
+                <% if colocated_station.last_turnout_observation.created_at %>
                   <strong>
-                    <% if colocated_station.last_observation.user.name %>
-                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %> by <%= colocated_station.last_observation.user.name %>]
+                    <% if colocated_station.last_turnout_observation.user.name %>
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_turnout_observation %> by <%= colocated_station.last_turnout_observation.user.name %>]
                     <% else %>
-                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_observation %>]
+                      [last updated at <%= render 'shared/observation_time', observation: colocated_station.last_turnout_observation %>]
                     <% end %>
                   </strong>
                 <% end %>

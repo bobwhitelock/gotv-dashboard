@@ -1,16 +1,15 @@
 class WorkSpace < ApplicationRecord
-  has_many :work_space_polling_stations
+  has_many :wards
+  has_many :polling_districts, through: :wards
+  has_many :polling_stations, through: :polling_districts
   has_many :committee_rooms
-  has_many :turnout_observations, through: :work_space_polling_stations
-  has_many :remaining_lifts_observations, through: :work_space_polling_stations
-  has_many :warp_count_observations, through: :work_space_polling_stations
+  has_many :turnout_observations, through: :polling_stations
+  has_many :remaining_lifts_observations, through: :polling_districts
+  has_many :warp_count_observations, through: :polling_districts
   has_many :canvassers_observations, through: :committee_rooms
   has_many :cars_observations, through: :committee_rooms
-  has_many :polling_stations, through: :work_space_polling_stations
-  has_many :wards, -> { distinct.order(:name) }, through: :polling_stations
-  has_many :polling_districts, -> { distinct.order(:reference) }, through: :polling_stations
 
-  accepts_nested_attributes_for :work_space_polling_stations
+  accepts_nested_attributes_for :polling_districts
 
   before_validation :create_identifier, on: :create
 
@@ -24,18 +23,8 @@ class WorkSpace < ApplicationRecord
     self.identifier
   end
 
-  def latest_observations_by_committee_room
-    work_space_polling_stations.map do |ps|
-      most_recent_observation = \
-        most_recent_observation_for(ps) || UnobservedTurnoutObservation.new
-
-      OpenStruct.new(
-        polling_station: ps,
-        turnout_observation: most_recent_observation
-      )
-    end.sort_by do |o|
-      polling_station = o.polling_station
-
+  def polling_stations_by_committee_room
+    polling_stations.sort_by do |polling_station|
       # Order polling stations so show within hierarchy order within dashboard
       # - Ward > Polling District > Polling Station/Ballot Box.
       [
@@ -43,9 +32,22 @@ class WorkSpace < ApplicationRecord
         polling_station.polling_district,
         polling_station.reference,
       ]
-    end.group_by do |o|
-      o.polling_station.committee_room
+    end.group_by do |polling_station|
+      polling_station.committee_room
     end.sort_by do |committee_room, _|
+      if committee_room
+        committee_room.organiser_name
+      else
+        # Ensure 'No committee room' section always last.
+        'zzz'
+      end
+    end
+  end
+
+  def polling_districts_by_committee_room
+    # XXX add tests for this method. And de-dupe with above? Or can just delete
+    # above eventually?
+    polling_districts.group_by(&:committee_room).sort_by do |committee_room, _|
       if committee_room
         committee_room.organiser_name
       else
@@ -74,12 +76,5 @@ class WorkSpace < ApplicationRecord
 
   def create_identifier
     self.identifier = self.class.identifier_generator.generate.downcase
-  end
-
-  # XXX Make this a method on WorkSpacePollingStation?
-  def most_recent_observation_for(work_space_polling_station)
-    work_space_polling_station.turnout_observations
-      .order(created_at: :desc)
-      .limit(1).first
   end
 end

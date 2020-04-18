@@ -1,6 +1,7 @@
 class CommitteeRoom < ApplicationRecord
   belongs_to :work_space
-  has_many :work_space_polling_stations
+  has_many :polling_districts
+  has_many :polling_stations, through: :polling_districts
   has_many :canvassers_observations
   has_many :cars_observations
 
@@ -18,19 +19,26 @@ class CommitteeRoom < ApplicationRecord
   # XXX This and its usage is kind of hacky, involves duplicate data loading
   # etc.
   def suggested_target_district_reference
-    case work_space.suggested_target_district_method
-    when 'estimates'
-      wsps, _ = work_space_polling_stations.map do |wsps|
-        [wsps, wsps.last_observation]
-      end.to_h.reject do |_, o|
-        o.nil?
-      end.max_by do |_, o|
-        o.guesstimated_labour_votes_left
+    polling_district = \
+      case work_space.suggested_target_district_method
+      when 'estimates'
+        target_district_from(:guesstimated_labour_votes_left)
+      when 'warp'
+        target_district_from(:remaining_labour_votes_from_warp)
       end
-    when 'warp'
-      wsps = work_space_polling_stations.max_by(&:remaining_labour_votes_from_warp)
-    end
 
-    wsps&.polling_district&.reference
+    polling_district&.reference
+  end
+
+  private
+
+  def target_district_from(estimated_votes_left_method)
+    polling_districts.reject do |pd|
+      # Ignore polling districts where estimate by this method is that all
+      # Labour promises are still outstanding, implies we have no useful data
+      # on these yet and therefore no point highlighting.
+      estimated_votes_left = pd.send(estimated_votes_left_method)
+      estimated_votes_left == pd.box_labour_promises
+    end.max_by(&estimated_votes_left_method)
   end
 end

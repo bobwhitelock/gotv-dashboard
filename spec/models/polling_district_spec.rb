@@ -1,31 +1,71 @@
 require 'rails_helper'
 
 RSpec.describe PollingDistrict, type: :model do
-  describe '#committee_room_in_work_space' do
-    it 'gives CommitteeRoom for PollingDistrict in WorkSpace' do
-      polling_district = create(:polling_district)
-      polling_station = create(:polling_station, polling_district: polling_district)
-      work_space = create(:work_space)
-      committee_room = create(:committee_room)
-      ws_polling_station = create(
-        :work_space_polling_station,
-        polling_station: polling_station,
-        work_space: work_space,
-        committee_room: committee_room
+  describe '#turnout_proportion' do
+    it 'gives latest known proportion of box electors turned out' do
+      polling_district = create(:polling_district, box_electors: 100)
+      polling_station = create(
+        :polling_station,
+        polling_district: polling_district
       )
+      create(:turnout_observation, count: 10, polling_station: polling_station)
 
-      expect(
-        polling_district.committee_room_in_work_space(work_space)
-      ).to eq(committee_room)
+      expect(polling_district.turnout_proportion).to eq(0.1)
     end
 
-    it 'gives nil for PollingDistrict with no committee room' do
-      polling_district = create(:polling_district)
-      work_space = create(:work_space)
+    it 'gives 0 when box_electors set to the default (0)' do
+      polling_district = create(:polling_district, box_electors: 0)
+      polling_station = create(
+        :polling_station,
+        polling_district: polling_district
+      )
+      create(:turnout_observation, count: 10, polling_station: polling_station)
 
-      expect(
-        polling_district.committee_room_in_work_space(work_space)
-      ).to be nil
+      expect(polling_district.turnout_proportion).to eq(0)
+    end
+
+    # XXX Add test that works correctly with multiple figures set.
+  end
+
+  describe '#guesstimated_labour_votes' do
+    it 'returns turnout * number of Labour voters' do
+      polling_district = create(
+        :polling_district,
+        box_electors: 100,
+        box_labour_promises: 50
+      )
+      polling_station = create(
+        :polling_station,
+        polling_district: polling_district
+      )
+      create(
+        :turnout_observation,
+        count: 10,
+        polling_station: polling_station
+      )
+
+      expect(polling_district.guesstimated_labour_votes).to eq(5)
+    end
+  end
+
+  describe '#guesstimated_labour_votes_left' do
+    it 'returns Labour promises - guesstimated number of Labour votes' do
+      polling_district = create(
+        :polling_district,
+        box_electors: 100,
+        box_labour_promises: 50
+      )
+      polling_station = create(
+        :polling_station,
+        polling_district: polling_district
+      )
+      create(
+        :turnout_observation,
+        count: 10,
+        polling_station: polling_station
+      )
+
+      expect(polling_district.guesstimated_labour_votes_left).to equal(45)
     end
   end
 end

@@ -10,21 +10,15 @@ class CommitteeRoomsController < ApplicationController
   def create
     work_space = find_work_space
 
-    polling_districts = params[:polling_districts]
-    work_space_polling_stations = WorkSpacePollingStation.joins(
-      :polling_station
-    ).where(
-      work_space: work_space,
-      polling_stations: {
-        polling_district: polling_districts
-      }
+    polling_districts = work_space.polling_districts.where(
+      id: params[:polling_districts]
     )
 
     ActiveRecord::Base.transaction do
       committee_room = CommitteeRoom.create!(
         committee_room_params.merge(work_space: work_space)
       )
-      work_space_polling_stations.update_all(committee_room_id: committee_room.id)
+      polling_districts.update_all(committee_room_id: committee_room.id)
     end
 
     redirect_to work_space_path(work_space)
@@ -42,7 +36,7 @@ class CommitteeRoomsController < ApplicationController
 
   def volunteers_observation_action(observation_class)
     committee_room = CommitteeRoom.find(params[:committee_room_id])
-    
+
     observation_action_base(observation_class, committee_room)
   end
 

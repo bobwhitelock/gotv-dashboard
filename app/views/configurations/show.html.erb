@@ -13,38 +13,35 @@
       <thead>
         <tr>
           <th>Committee Room</th>
-          <th>Polling Station</th>
+          <th>Polling District</th>
           <th>Labour promises</th>
           <th>Registered voters</th>
         </tr>
       </thead>
 
       <tbody class="is-size-7">
-        <% @work_space.latest_observations_by_committee_room.each do |committee_room, observations|
-          first_observation = observations.first %>
-
-          <% observations.each do |o|
-             first_for_committee_room = o == first_observation
-             polling_station = o.polling_station
-          %>
+        <% @work_space.polling_districts_by_committee_room.each do |committee_room, polling_districts| %>
+        <% first_district = polling_districts.first  %>
+        <% polling_districts.each do |polling_district| %>
+          <% first_for_committee_room = polling_district == first_district %>
 
             <tr>
               <% if first_for_committee_room %>
                 <%= render 'shared/committee_room_info',
                   committee_room: committee_room,
-                  rowspan: observations.length,
+                  rowspan: polling_districts.length,
                   render_controls: false
                 %>
               <% end %>
 
               <td>
-                <%= render 'shared/polling_station_name', polling_station: polling_station %>
+                <%= render 'shared/polling_district_name', polling_district: polling_district %>
               </td>
 
-              <%= f.fields_for :work_space_polling_stations, [polling_station] do |wsps_form| %>
+              <%= f.fields_for :polling_districts, [polling_district] do |polling_district_form| %>
 
                 <td>
-                  <%= wsps_form.number_field(
+                  <%= polling_district_form.number_field(
                     :box_labour_promises,
                     min: 0,
                     required: true,
@@ -54,7 +51,7 @@
                 </td>
 
                 <td>
-                  <%= wsps_form.number_field(
+                  <%= polling_district_form.number_field(
                     :box_electors,
                     min: 0,
                     required: true,

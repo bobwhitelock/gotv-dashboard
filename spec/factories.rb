@@ -12,17 +12,15 @@ FactoryBot.define do
   factory :polling_district do
     ward
     reference { 'PD' }
+    box_electors { 0 }
+    box_labour_promises { 0 }
+    postal_electors { 0 }
+    postal_labour_promises { 0 }
   end
 
   factory :ward do
-    council
+    work_space
     name { 'Some Ward' }
-    code { 'E1234' }
-  end
-
-  factory :council do
-    name { 'Some Council' }
-    code { 'S1234' }
   end
 
   factory :work_space do
@@ -35,27 +33,20 @@ FactoryBot.define do
     organiser_name { 'Some Organiser' }
   end
 
-  factory :work_space_polling_station do
-    polling_station
-    work_space
-    box_electors { 0 }
-    box_labour_promises { 0 }
-  end
-
   factory :turnout_observation do
-    work_space_polling_station
+    polling_station
     count { 0 }
   end
 
   factory :warp_count_observation do
     user
-    work_space_polling_station
+    polling_district
     count { 0 }
   end
 
   factory :remaining_lifts_observation do
     user
-    work_space_polling_station
+    polling_district
     count { 0 }
   end
 

@@ -20,26 +20,27 @@ RSpec.describe ContactCreatorImporter, type: :model do
     expect(districts.length).to eq(36)
     first_district = districts.first
     expect(first_district.reference).to eq('VAA')
-    stations = work_space.work_space_polling_stations
+    expected_total_electors = 1717
+    expected_postal_electors = 74
+    expected_total_promises = 710
+    expected_postal_promises = 40
+    expect(first_district.box_electors).to eq(
+      expected_total_electors - expected_postal_electors
+    )
+    expect(first_district.postal_electors).to eq(expected_postal_electors)
+    expect(first_district.box_labour_promises).to eq(
+      expected_total_promises - expected_postal_promises
+    )
+    expect(first_district.postal_labour_promises).to eq(expected_postal_promises)
+    stations = work_space.polling_stations
     expect(stations.length).to eq(51)
-    first_station = stations.first
-    expect(first_station.reference).to eq('51') # (coincidentally same as above)
+    first_station = stations.select do |ps|
+      ps.reference == '51' # (coincidentally same as above)
+    end.first
     expect(first_station.name).to eq(
       'New Cut Housing Co-operative Community Room, 106 The Cut, SE1 8LN'
     )
     expect(first_station.postcode).to eq('SE1 8LN')
     expect(first_station.polling_district).to eq(first_district)
-    expected_total_electors = 1717
-    expected_postal_electors = 74
-    expected_total_promises = 710
-    expected_postal_promises = 40
-    expect(first_station.box_electors).to eq(
-      expected_total_electors - expected_postal_electors
-    )
-    expect(first_station.postal_electors).to eq(expected_postal_electors)
-    expect(first_station.box_labour_promises).to eq(
-      expected_total_promises - expected_postal_promises
-    )
-    expect(first_station.postal_labour_promises).to eq(expected_postal_promises)
   end
 end

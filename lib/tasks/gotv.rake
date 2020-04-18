@@ -53,9 +53,9 @@ end
 def observation_location_for_level(observation:, level:)
   case level
   when 'Polling Station'
-    observation.work_space_polling_station.fully_specified_name
+    observation.polling_station.fully_specified_name
   when 'Polling District'
-    observation.work_space_polling_station.polling_district.fully_specified_name
+    observation.polling_station.polling_district.fully_specified_name
   when 'Committee Room'
     observation.committee_room.address
   else

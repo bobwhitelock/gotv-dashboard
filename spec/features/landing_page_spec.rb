@@ -13,6 +13,6 @@ RSpec.feature 'landing page', type: :feature do
     # Should use example data from `example_data` directory, this is just a
     # minimal smoke test that this is working (main behaviour of importing
     # covered by ContactCreatorImporter tests).
-    expect(new_work_space.work_space_polling_stations.length).to eq(51)
+    expect(new_work_space.polling_stations.length).to eq(51)
   end
 end

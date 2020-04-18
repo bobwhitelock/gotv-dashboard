@@ -7,9 +7,13 @@ RSpec.feature 'turnout logging', type: :feature, js: true do
 
   def create_polling_station(**kwargs)
     create(
-      :work_space_polling_station,
-      work_space: work_space,
-      polling_station: create(:polling_station, **kwargs)
+      :polling_station,
+      polling_district: create(
+        :polling_district, ward: create(
+          :ward, work_space: work_space
+        )
+      ),
+      **kwargs
     )
   end
 
@@ -36,13 +40,13 @@ RSpec.feature 'turnout logging', type: :feature, js: true do
   end
 
   it 'gives list of ballot boxes at same location, with link to log these' do
-    wsps = create_polling_station(
+    polling_station = create_polling_station(
       name: 'polling station 42',
       postcode: 'SPS 1AA'
     )
     create_polling_station(
       name: 'polling station 43',
-      postcode: wsps.postcode
+      postcode: polling_station.postcode
     )
 
     search_for_polling_station_matching '42'

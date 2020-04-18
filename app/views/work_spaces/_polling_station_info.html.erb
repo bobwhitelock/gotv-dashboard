@@ -1,5 +1,9 @@
 
-<% is_polling_district_proxy = polling_station.work_space_polling_district_proxy? %>
+<%
+    is_polling_district_proxy = first_for_polling_district
+    polling_district = polling_station.polling_district
+    turnout_observation = polling_station.last_turnout_observation
+%>
 
 <td width="15%">
   <%= render 'shared/polling_station_name', polling_station: polling_station %>
@@ -13,13 +17,13 @@
     <div>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.box_labour_promises %>
+          <%= polling_district.box_labour_promises %>
         </span>
         promises /
       </span>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.box_electors %>
+          <%= polling_district.box_electors %>
         </span>
         box voters
       </span>
@@ -28,13 +32,13 @@
     <div class="has-text-grey">
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.postal_labour_promises %>
+          <%= polling_district.postal_labour_promises %>
         </span>
         promises /
       </span>
       <span class="nowrap">
         <span class="is-size-6">
-          <%= polling_station.postal_electors %>
+          <%= polling_district.postal_electors %>
         </span>
         postal voters
       </span>
@@ -62,10 +66,10 @@
 
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
-    <% if polling_station.box_electors > 0 %>
+    <% if polling_district.box_electors > 0 %>
       <span class="is-size-6 has-text-weight-bold">
         <%= number_to_percentage(
-          turnout_observation.turnout_proportion * 100,
+          polling_district.turnout_proportion * 100,
           precision: 1
         ) %>
       </span>
@@ -82,14 +86,14 @@
     <% if turnout_observation.created_at %>
       <span class="nowrap">
         <span class="is-size-6 has-text-weight-bold">
-          <%= turnout_observation.guesstimated_labour_votes %>
+          <%= polling_district.guesstimated_labour_votes %>
         </span>
         votes
         /
       </span>
       <span class="nowrap">
         <span class="is-size-6 has-text-weight-bold has-text-primary">
-          <%= turnout_observation.guesstimated_labour_votes_left %>
+          <%= polling_district.guesstimated_labour_votes_left %>
         </span>
         votes left
       </span>
@@ -101,14 +105,14 @@
   <td width="10%" rowspan="<%= rowspan %>">
     <span class="nowrap">
       <span class="is-size-6 has-text-weight-bold">
-        <%= polling_station.confirmed_labour_votes_from_warp %>
+        <%= polling_district.confirmed_labour_votes_from_warp %>
       </span>
       votes
       /
     </span>
     <span class="nowrap">
       <span class="is-size-6 has-text-weight-bold has-text-primary">
-        <%= polling_station.remaining_labour_votes_from_warp %>
+        <%= polling_district.remaining_labour_votes_from_warp %>
       </span>
       votes left
     </span>
@@ -116,8 +120,8 @@
     <div>
       <%= link_to 'Add WARP count',
         work_space_polling_district_warp_count_observations_path(
-          polling_station.work_space,
-          polling_station
+          polling_district.work_space,
+          polling_district
         ),
         class: 'button is-small'
       %>
@@ -128,11 +132,11 @@
 <% if is_polling_district_proxy %>
   <td width="10%" rowspan="<%= rowspan %>">
     <%= render 'volunteer_control_panel',
-      identifier: "remaining-lifts-#{polling_station.polling_district.id}",
+      identifier: "remaining-lifts-#{polling_district.id}",
       text: '',
-      count: polling_station.last_remaining_lifts_observation.count,
+      count: polling_district.last_remaining_lifts_observation.count,
       update_count_url: work_space_polling_district_lifts_path(
-        polling_station.work_space, polling_station
+        polling_district.work_space, polling_district
       )
     %>
   </td>

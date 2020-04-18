@@ -13,7 +13,9 @@ class PollingStation < ApplicationRecord
 
   belongs_to :polling_district
   has_one :ward, through: :polling_district
-  has_many :work_space_polling_stations
+  has_one :committee_room, through: :polling_district
+  has_one :work_space, through: :ward
+  has_many :turnout_observations
 
   # XXX Possibly more polling station fields should be non-nullable?
   validates_presence_of :reference
@@ -21,5 +23,21 @@ class PollingStation < ApplicationRecord
   # XXX move to decorator?
   def fully_specified_name
     "#{polling_district.reference} #{reference}: #{name} (#{ward.name})"
+  end
+
+  def as_json(options = {})
+    super(options).merge(fully_specified_name: fully_specified_name)
+  end
+
+  def colocated_polling_stations
+    # Try to merge equivalent postcodes, and reject the polling station we are
+    # looking at.
+    work_space.polling_stations.select do |ps|
+      ps.id != id && ps.postcode.upcase.gsub(/\s+/, "") == postcode.upcase.gsub(/\s+/, "")
+    end
+  end
+
+  def last_turnout_observation
+    last_observation_for(turnout_observations)
   end
 end
