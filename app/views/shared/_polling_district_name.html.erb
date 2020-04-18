@@ -2,9 +2,8 @@
 <%# XXX Can this be de-duped with `polling_station_name` partial? %>
 
 <p class="is-marginless">
-  <%# XXX import and use name for polling district (maybe just migrate name from polling_station here?) %>
-  <%# <%= polling_district.name %1> %>
-  XXX placeholder
+  <%# XXX Switch to just use name if/when migrate name to polling district %>
+  <%= polling_district.addresses %>
 </p>
 <p class="is-uppercase has-text-primary">
   <span title="Ward">
