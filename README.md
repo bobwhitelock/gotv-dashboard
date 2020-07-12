@@ -22,7 +22,7 @@
 3. Clone and set up the repo:
 
    ```bash
-   git clone git@github.com:CampaignLab/gotv-dashboard.git
+   git clone git@github.com:bobwhitelock/gotv-dashboard.git
    cd gotv-dashboard
    gem install bundler
    gem update --system
